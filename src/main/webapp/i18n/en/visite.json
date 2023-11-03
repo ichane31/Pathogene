@@ -1,0 +1,27 @@
+{
+  "pathogeneApp": {
+    "visite": {
+      "home": {
+        "title": "Visites",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Visite",
+        "createOrEditLabel": "Create or edit a Visite",
+        "notFound": "No Visites found"
+      },
+      "created": "A new Visite is created with identifier {{ param }}",
+      "updated": "A Visite is updated with identifier {{ param }}",
+      "deleted": "A Visite is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Visite {{ id }}?"
+      },
+      "detail": {
+        "title": "Visite"
+      },
+      "id": "ID",
+      "code": "Code",
+      "date": "Date",
+      "rendezVous": "Rendez Vous",
+      "detection": "Detection"
+    }
+  }
+}
