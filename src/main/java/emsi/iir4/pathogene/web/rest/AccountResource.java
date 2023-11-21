@@ -167,7 +167,6 @@ public class AccountResource {
                 userDTO.setMedecin(medecinRepository.findByUserId(userDTO.getId()).get());
             }
         }
-
         if (
             userDTO.getAuthorities().contains(AuthoritiesConstants.SECRETAIRE) &&
             secretaireRepository.findByUserId(userDTO.getId()).isPresent()
@@ -176,7 +175,6 @@ public class AccountResource {
                 userDTO.setSecretaire(secretaireRepository.findByUserId(userDTO.getId()).get());
             }
         }
-
         if (
             userDTO.getAuthorities().contains(AuthoritiesConstants.PATIENT) && patientRepository.findByUserId(userDTO.getId()).isPresent()
         ) {

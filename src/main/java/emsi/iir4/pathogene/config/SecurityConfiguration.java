@@ -97,7 +97,7 @@ public class SecurityConfiguration {
             .antMatchers("/management/health/**").permitAll()
             .antMatchers("/management/info").permitAll()
             .antMatchers("/management/prometheus").permitAll()
-            .antMatchers("/management/**").hasAnyAuthority(AuthoritiesConstants.ADMIN ,AuthoritiesConstants.MEDECIN)
+            .antMatchers("/management/**").hasAnyAuthority(AuthoritiesConstants.ADMIN ,AuthoritiesConstants.MEDECIN , AuthoritiesConstants.SECRETAIRE)
             .and()
             .httpBasic()
             .and()

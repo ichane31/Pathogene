@@ -49,7 +49,7 @@ export default class AccountService {
           resolve(res);
         })
         .catch(err => {
-          reject(err);
+          resolve(false);
         });
     });
   }
@@ -150,4 +150,7 @@ export default class AccountService {
     }
     return Promise.resolve(false);
   }
+}
+function reject(err: any) {
+  throw new Error('Function not implemented.');
 }

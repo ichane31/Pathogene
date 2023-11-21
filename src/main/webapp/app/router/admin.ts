@@ -59,7 +59,7 @@ export default [
     path: '/admin/docs',
     name: 'JhiDocsComponent',
     component: JhiDocsComponent,
-    meta: { authorities: [Authority.ADMIN, Authority.MEDECIN] },
+    meta: { authorities: [Authority.ADMIN, Authority.MEDECIN, Authority.SECRETAIRE] },
   },
   {
     path: '/admin/health',
