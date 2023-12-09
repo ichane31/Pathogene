@@ -4,7 +4,7 @@ import { IUser } from '@/shared/model/user.model';
 
 export default class UserManagementService {
   public get(userId: number): Promise<any> {
-    return axios.get(`api/admin/users/${userId}`);
+    return axios.get(`api/admin/users/id/${userId}`);
   }
 
   public create(user: IUser): Promise<any> {

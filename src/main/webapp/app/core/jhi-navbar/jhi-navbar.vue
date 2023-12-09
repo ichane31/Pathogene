@@ -44,7 +44,11 @@
         <b-nav-item to="/detection" v-if="(hasAnyAuthority('MEDECIN') || hasAnyAuthority('PATIENT')) && authenticated"
           >Detections</b-nav-item
         >
-        <b-nav-item to="/maladie" v-if="(hasAnyAuthority('MEDECIN') || hasAnyAuthority('PATIENT')) && authenticated">Maladies</b-nav-item>
+        <b-nav-item
+          to="/maladie"
+          v-if="(hasAnyAuthority('MEDECIN') || hasAnyAuthority('PATIENT') || hasAnyAuthority('ROLE_ADMIN')) && authenticated"
+          >Maladies</b-nav-item
+        >
         <b-nav-item v-on:click="openLogin()" v-if="!authenticated">Sign in</b-nav-item>
         <b-nav-item to="/register" v-if="!authenticated">Register</b-nav-item>
         <b-nav-item

@@ -32,6 +32,15 @@ public class Maladie implements Serializable {
     @Column(name = "nom", unique = true)
     private String nom;
 
+    @Column(name = "modele_content_type")
+    private String modeleContentType;
+
+    @Column(name = "model_file_name")
+    private String modeleFileName;
+
+    @Column(name = "image_size")
+    private Long imageSize;
+
     @OneToMany(mappedBy = "maladie")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "visite", "maladie", "patient" }, allowSetters = true)
@@ -87,6 +96,30 @@ public class Maladie implements Serializable {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public String getModeleContentType() {
+        return modeleContentType;
+    }
+
+    public void setModeleContentType(String modeleContentType) {
+        this.modeleContentType = modeleContentType;
+    }
+
+    public String getModeleFileName() {
+        return modeleFileName;
+    }
+
+    public void setModeleFileName(String modeleFileName) {
+        this.modeleFileName = modeleFileName;
+    }
+
+    public Long getImageSize() {
+        return imageSize;
+    }
+
+    public void setImageSize(Long imageSize) {
+        this.imageSize = imageSize;
     }
 
     public Set<Detection> getDetections() {

@@ -400,6 +400,11 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
+    public Optional<User> getUserWithAuthoritiesById(Long id) {
+        return userRepository.findOneWithAuthoritiesById(id);
+    }
+
+    @Transactional(readOnly = true)
     public Optional<User> getUserWithAuthorities() {
         return SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneWithAuthoritiesByLogin);
     }

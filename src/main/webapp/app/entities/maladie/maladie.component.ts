@@ -44,8 +44,12 @@ export default class Maladie extends Vue {
 
   public searchQuery = '';
 
+  private importId: number = null;
+
+  public tailleImage: number = null;
+
   public mounted(): void {
-    if (this.isMedecin()) this.retrieveAllMaladies();
+    if (this.isMedecin() || this.isAdmin()) this.retrieveAllMaladies();
     else this.retrieveAllMaladiesForPatient();
   }
 
@@ -110,6 +114,14 @@ export default class Maladie extends Vue {
     this.maladie = instance;
   }
 
+  public prepareImportModele(instance: IMaladie): void {
+    this.maladie = instance;
+    this.importId = instance.id;
+    if (<any>this.$refs.importEntity) {
+      (<any>this.$refs.importEntity).show();
+    }
+  }
+
   public async saveStade() {
     this.stade.maladie = this.maladie;
     try {
@@ -123,6 +135,27 @@ export default class Maladie extends Vue {
       });
       this.closeDialog();
       this.stade = new Stade();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  public async saveModel() {
+    const formData = new FormData();
+    formData.append('tailleImage', this.tailleImage.toString());
+    formData.append('modelFile', (this.$refs.modelInput as HTMLInputElement).files[0]);
+    console.log(formData);
+
+    try {
+      await this.maladieService().uploadModel(this.importId, formData);
+      this.$bvToast.toast('A model is imported', {
+        toaster: 'b-toaster-top-center',
+        title: 'Sucess',
+        variant: 'success',
+        solid: true,
+        autoHideDelay: 5000,
+      });
+      this.closeDialog();
     } catch (e) {
       console.log(e);
     }
@@ -183,8 +216,15 @@ export default class Maladie extends Vue {
   public isMedecin(): boolean {
     return this.accountService().userAuthorities.includes('MEDECIN');
   }
+
+  public isAdmin(): boolean {
+    return this.accountService().userAuthorities.includes('ROLE_ADMIN');
+  }
+
   public closeDialog(): void {
     (<any>this.$refs.removeEntity).hide();
+    (<any>this.$refs.affecteEntity).hide();
+    (<any>this.$refs.importModel).hide();
   }
 
   @Watch('searchQuery')

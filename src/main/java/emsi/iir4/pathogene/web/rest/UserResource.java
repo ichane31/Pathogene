@@ -280,6 +280,13 @@ public class UserResource {
         return ResponseUtil.wrapOrNotFound(userService.getUserWithAuthoritiesByLogin(login).map(AdminUserDTO::new));
     }
 
+    @GetMapping("/users/id/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
+    public ResponseEntity<AdminUserDTO> getUserById(@PathVariable Long id) {
+        log.debug("REST request to get User : {}", id);
+        return ResponseUtil.wrapOrNotFound(userService.getUserWithAuthoritiesById(id).map(AdminUserDTO::new));
+    }
+
     /**
      * {@code DELETE /admin/users/:login} : delete the "login" User.
      *

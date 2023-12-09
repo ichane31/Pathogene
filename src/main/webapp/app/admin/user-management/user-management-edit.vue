@@ -88,30 +88,6 @@
                   </small>
                 </div>
               </div>
-
-              <div class="form-group" :hidden="userAccount.id">
-                <label class="form-control-label" for="password">Password</label>
-                <input
-                  type="password"
-                  class="form-control"
-                  id="password"
-                  name="password"
-                  :class="{ valid: !$v.userAccount.password.$invalid, invalid: $v.userAccount.password.$invalid }"
-                  v-model="$v.userAccount.password.$model"
-                  data-cy="password"
-                  required
-                />
-                <div v-if="$v.userAccount.password.$anyDirty && $v.userAccount.password.$invalid">
-                  <small class="form-text text-danger" v-if="!$v.userAccount.password.required"> Your password is required. </small>
-                  <small class="form-text text-danger" v-if="!$v.userAccount.password.minLength">
-                    Your password is required to be at least 8 characters.
-                  </small>
-                  <small class="form-text text-danger" v-if="!$v.userAccount.password.maxLength">
-                    Your password cannot be longer than 50 characters.
-                  </small>
-                </div>
-              </div>
-
               <div class="form-check">
                 <label class="form-check-label" for="activated">
                   <input

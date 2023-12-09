@@ -2,6 +2,7 @@ package emsi.iir4.pathogene.web.rest;
 
 import emsi.iir4.pathogene.domain.Maladie;
 import emsi.iir4.pathogene.repository.MaladieRepository;
+import emsi.iir4.pathogene.service.FileStorageService;
 import emsi.iir4.pathogene.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -17,10 +18,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
@@ -41,9 +42,12 @@ public class MaladieResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
+    private final FileStorageService fileStorageService;
+
     private final MaladieRepository maladieRepository;
 
-    public MaladieResource(MaladieRepository maladieRepository) {
+    public MaladieResource(FileStorageService fileStorageService, MaladieRepository maladieRepository) {
+        this.fileStorageService = fileStorageService;
         this.maladieRepository = maladieRepository;
     }
 
@@ -67,6 +71,42 @@ public class MaladieResource {
             .created(new URI("/api/maladies/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
+    }
+
+    @PostMapping("/maladies/uploadModel/{id}")
+    public ResponseEntity<String> uploadModel(
+        @PathVariable Long id,
+        @RequestParam("tailleImage") Long tailleImage,
+        @RequestParam("modelFile") MultipartFile modelFile
+    ) {
+        try {
+            Maladie maladie_result = maladieRepository.findById(id).orElse(null);
+
+            if (maladie_result != null) {
+                // Récupérer le nom de l'ancien fichier
+                String oldFileName = maladie_result.getModeleFileName();
+
+                // Supprimer l'ancien fichier s'il existe
+                if (oldFileName != null && !oldFileName.isEmpty()) {
+                    this.fileStorageService.deleteModelFile(oldFileName);
+                }
+
+                // Logic to save the new model and size
+                String newFileName = this.fileStorageService.uploadModelFile(modelFile, maladie_result.getNom().toLowerCase(), tailleImage);
+
+                maladie_result.setImageSize(tailleImage);
+                maladie_result.setModeleFileName(newFileName);
+                maladie_result.setModeleContentType(modelFile.getContentType());
+
+                // Save the updated Maladie object
+                maladieRepository.save(maladie_result);
+            }
+
+            return ResponseEntity.ok("Model uploaded successfully");
+        } catch (Exception e) {
+            // Handle exceptions, log errors, and return an appropriate response
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
     }
 
     /**

@@ -16,7 +16,7 @@
                 <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon>
                 <span v-text="$t('pathogeneApp.maladie.home.refreshListLabel')">Refresh List</span>
               </button>
-              <router-link :to="{ name: 'MaladieCreate' }" custom v-slot="{ navigate }" v-if="isMedecin()">
+              <router-link :to="{ name: 'MaladieCreate' }" custom v-slot="{ navigate }" v-if="isAdmin()">
                 <button
                   @click="navigate"
                   id="jh-create-entity"
@@ -56,7 +56,7 @@
                 <td class="text-right">
                   <div class="btn-group">
                     <router-link :to="{ name: 'MaladieView', params: { maladieId: maladie.id } }" custom v-slot="{ navigate }">
-                      <button @click="navigate" class="btn btn-info btn-sm details" data-cy="entityDetailsButton">
+                      <button @click="navigate" class="btn btn-info btn-sm details mr-1" data-cy="entityDetailsButton">
                         <font-awesome-icon icon="eye"></font-awesome-icon>
                         <span class="d-none d-md-inline" v-text="$t('entity.action.view')">View</span>
                       </button>
@@ -65,18 +65,29 @@
                       :to="{ name: 'MaladieEdit', params: { maladieId: maladie.id } }"
                       custom
                       v-slot="{ navigate }"
-                      v-if="isMedecin()"
+                      v-if="isAdmin()"
                     >
-                      <button @click="navigate" class="btn btn-primary btn-sm edit" data-cy="entityEditButton">
+                      <button @click="navigate" class="btn btn-primary btn-sm edit mr-1" data-cy="entityEditButton">
                         <font-awesome-icon icon="pencil-alt"></font-awesome-icon>
                         <span class="d-none d-md-inline" v-text="$t('entity.action.edit')">Edit</span>
                       </button>
                     </router-link>
                     <b-button
-                      v-if="isMedecin()"
+                      v-if="isAdmin()"
+                      v-on:click="prepareImportModele(maladie)"
+                      variant="warning"
+                      class="btn btn-sm mr-1"
+                      data-cy="entityImportButton"
+                      v-b-modal.importEntity
+                    >
+                      <font-awesome-icon :icon="['fas', 'file-upload']"></font-awesome-icon>
+                      <span class="d-none d-md-inline">Import Model</span>
+                    </b-button>
+                    <b-button
+                      v-if="isAdmin()"
                       v-on:click="prepareRemove(maladie)"
                       variant="danger"
-                      class="btn btn-sm"
+                      class="btn btn-sm mr-1"
                       data-cy="entityDeleteButton"
                       v-b-modal.removeEntity
                     >
@@ -84,7 +95,7 @@
                       <span class="d-none d-md-inline" v-text="$t('entity.action.delete')">Delete</span>
                     </b-button>
                     <b-button
-                      v-if="isMedecin()"
+                      v-if="isAdmin() || isMedecin()"
                       v-on:click="prepareAffecte(maladie)"
                       variant="success"
                       class="btn btn-sm"
@@ -178,7 +189,57 @@
             <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Annuler</button>
           </div>
         </b-modal>
+        <b-modal ref="importEntity" id="importEntity">
+          <span slot="modal-title">
+            <span id="pathogeneApp.maladie.import.question" data-cy="maladieImportDialogHeading">Importer le modele</span></span
+          >
+          <div class="modal-body">
+            <form name="editForm" role="form" enctype="multipart/form-data" novalidate v-on:submit.prevent="saveModel()">
+              <div>
+                <div class="form-group">
+                  <label class="form-control-label" for="taille-image">Taille Image </label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    name="taille-image"
+                    id="taille-image"
+                    data-cy="taille-image"
+                    v-model="tailleImage"
+                  />
+                </div>
 
+                <div class="form-group">
+                  <label class="form-control-label" for="stade-description">Model File</label>
+                  <input
+                    type="file"
+                    class="form-control"
+                    name="import-model"
+                    id="stade-description"
+                    data-cy="import-model"
+                    ref="modelInput"
+                  />
+                </div>
+              </div>
+              <div>
+                <button
+                  type="button"
+                  id="cancel-save"
+                  data-cy="entityCreateCancelButton"
+                  class="btn btn-secondary"
+                  v-on:click="closeDialog()"
+                >
+                  <font-awesome-icon icon="ban"></font-awesome-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" data-cy="entityCreateSaveButton" class="btn btn-primary">
+                  <font-awesome-icon icon="save"></font-awesome-icon>&nbsp;<span>Save</span>
+                </button>
+              </div>
+            </form>
+          </div>
+          <div slot="modal-footer">
+            <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Annuler</button>
+          </div>
+        </b-modal>
         <div v-show="maladies && maladies.length > 0">
           <div class="row justify-content-center">
             <jhi-item-count :page="page" :total="queryCount" :itemsPerPage="itemsPerPage"></jhi-item-count>

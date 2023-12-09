@@ -72,6 +72,21 @@ export default class MaladieService {
     });
   }
 
+  public uploadModel(maladieId: number, formData: FormData): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+      axios
+        .post(`${baseApiUrl}/uploadModel/${maladieId}`, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        })
+        .then(res => {
+          resolve(res.data);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
   public update(entity: IMaladie): Promise<IMaladie> {
     return new Promise<IMaladie>((resolve, reject) => {
       axios

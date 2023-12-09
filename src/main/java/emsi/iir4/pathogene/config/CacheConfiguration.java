@@ -1,5 +1,6 @@
 package emsi.iir4.pathogene.config;
 
+import emsi.iir4.pathogene.repository.UserRepository;
 import java.time.Duration;
 import org.ehcache.config.builders.*;
 import org.ehcache.jsr107.Eh107Configuration;
@@ -45,6 +46,7 @@ public class CacheConfiguration {
         return cm -> {
             createCache(cm, emsi.iir4.pathogene.repository.UserRepository.USERS_BY_LOGIN_CACHE);
             createCache(cm, emsi.iir4.pathogene.repository.UserRepository.USERS_BY_EMAIL_CACHE);
+            createCache(cm, emsi.iir4.pathogene.repository.UserRepository.USERS_BY_ID_CACHE);
             createCache(cm, emsi.iir4.pathogene.domain.User.class.getName());
             createCache(cm, emsi.iir4.pathogene.domain.Authority.class.getName());
             createCache(cm, emsi.iir4.pathogene.domain.User.class.getName() + ".authorities");

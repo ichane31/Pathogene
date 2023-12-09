@@ -96,6 +96,15 @@ spring:
       discovery:
         enabled: true
 
+  servlet:
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 200MB
+      enabled: true
+
+  locale:
+    language: en
+
 server:
   port: 8080
 

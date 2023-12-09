@@ -71,7 +71,7 @@
                 <a v-if="secretaire.photo" v-on:click="openFile(secretaire.photoContentType, secretaire.photo)">
                   <img
                     v-bind:src="'data:' + secretaire.photoContentType + ';base64,' + secretaire.photo"
-                    style="max-height: 70px"
+                    style="width: 90px; max-height: 70px"
                     alt="secretaire image"
                   />
                 </a>
@@ -79,13 +79,13 @@
               <td class="text-right">
                 <div class="btn-group">
                   <router-link :to="{ name: 'SecretaireView', params: { secretaireId: secretaire.id } }" custom v-slot="{ navigate }">
-                    <button @click="navigate" class="btn btn-info btn-sm details" data-cy="entityDetailsButton">
+                    <button @click="navigate" class="btn btn-info btn-sm details mr-1" data-cy="entityDetailsButton">
                       <font-awesome-icon icon="eye"></font-awesome-icon>
                       <span class="d-none d-md-inline" v-text="$t('entity.action.view')">View</span>
                     </button>
                   </router-link>
                   <router-link :to="{ name: 'SecretaireEdit', params: { secretaireId: secretaire.id } }" custom v-slot="{ navigate }">
-                    <button @click="navigate" class="btn btn-primary btn-sm edit" data-cy="entityEditButton">
+                    <button @click="navigate" class="btn btn-primary btn-sm edit mr-1" data-cy="entityEditButton">
                       <font-awesome-icon icon="pencil-alt"></font-awesome-icon>
                       <span class="d-none d-md-inline" v-text="$t('entity.action.edit')">Edit</span>
                     </button>
