@@ -20,8 +20,8 @@
       "id": "ID",
       "code": "Code",
       "score": "Score",
-      "medecin": "Medecin",
-      "stade": "Stade",
+      "medecin": "Doctor",
+      "stade": "Stage",
       "unclassified": "Unclassified"
     }
   }

@@ -36,7 +36,7 @@
                   <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'validation'"></jhi-sort-indicator>
                 </th>
                 <th scope="row" v-on:click="changeOrder('stade')">
-                  <span v-text="$t('pathogeneApp.detection.stade')">Stade</span>
+                  <span v-text="$t('pathogeneApp.detection.stade')">Stage</span>
                   <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'stade'"></jhi-sort-indicator>
                 </th>
                 <th scope="row" v-on:click="changeOrder('description')">
@@ -44,7 +44,7 @@
                   <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'description'"></jhi-sort-indicator>
                 </th>
                 <th scope="row" v-on:click="changeOrder('maladie.id')">
-                  <span v-text="$t('pathogeneApp.detection.maladie')">Maladie</span>
+                  <span v-text="$t('pathogeneApp.detection.maladie')">Disease </span>
                   <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'maladie.id'"></jhi-sort-indicator>
                 </th>
                 <th scope="row" v-if="isMedecin()" v-on:click="changeOrder('patient.id')">
@@ -60,7 +60,7 @@
                   <a v-if="detection.photo" v-on:click="openFile(detection.photoContentType, detection.photo)">
                     <img
                       v-bind:src="'data:' + detection.photoContentType + ';base64,' + detection.photo"
-                      style="max-height: 70px"
+                      style="width: 70px; max-height: 70px"
                       alt="detection image"
                     />
                   </a>

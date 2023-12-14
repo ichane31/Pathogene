@@ -2,8 +2,8 @@
   "pathogeneApp": {
     "Genre": {
       "null": "",
-      "Homme": "Homme",
-      "Femme": "Femme"
+      "Homme": "Male",
+      "Femme": "Female"
     }
   }
 }

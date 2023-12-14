@@ -77,7 +77,7 @@
                 />
               </div>
               <div class="form-group">
-                <label class="form-control-label" v-text="$t('pathogeneApp.detection.maladie')" for="detection-maladie">Maladie</label>
+                <label class="form-control-label" v-text="$t('pathogeneApp.detection.maladie')" for="detection-maladie">Disease </label>
                 <select class="form-control" id="detection-maladie" data-cy="maladie" name="maladie" v-model="detection.maladie">
                   <option v-bind:value="null"></option>
                   <option

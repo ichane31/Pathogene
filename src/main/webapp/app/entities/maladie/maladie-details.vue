@@ -5,7 +5,7 @@
         <div class="col-8">
           <div v-if="maladie">
             <h2 class="jh-entity-heading" data-cy="maladieDetailsHeading">
-              <span v-text="$t('pathogeneApp.maladie.detail.title')">Maladie</span>
+              <span v-text="$t('pathogeneApp.maladie.detail.title')">Disease </span>
             </h2>
             <dl class="row jh-entity-details">
               <dt>
@@ -15,7 +15,7 @@
                 <span>{{ maladie.code }}</span>
               </dd>
               <dt>
-                <span v-text="$t('pathogeneApp.maladie.nom')">Nom</span>
+                <span v-text="$t('pathogeneApp.maladie.nom')">Name</span>
               </dt>
               <dd>
                 <span>{{ maladie.nom }}</span>
@@ -37,7 +37,7 @@
             <br />
             <div v-if="stades && stades.length > 0">
               <h2 id="page-heading" data-cy="StadeHeading">
-                <span id="stade-heading">Stades</span>
+                <span id="stade-heading">Stages</span>
               </h2>
               <hr />
               <div class="table-responsive">

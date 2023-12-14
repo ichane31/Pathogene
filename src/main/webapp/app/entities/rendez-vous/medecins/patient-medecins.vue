@@ -3,7 +3,7 @@
     <div class="card jh-card">
       <div>
         <h2 id="page-heading" data-cy="MedecinHeading">
-          <span v-text="$t('pathogeneApp.medecin.home.title')" id="medecin-heading">Medecins</span>
+          <span v-text="$t('pathogeneApp.medecin.home.title')" id="medecin-heading">Doctors</span>
           <div class="d-flex justify-content-between align-items-center">
             <div class="input-group col-4">
               <div class="input-group-prepend">
@@ -27,18 +27,18 @@
         </h2>
         <br />
         <div class="alert alert-warning" v-if="!isFetching && medecins && medecins.length === 0">
-          <span v-text="$t('pathogeneApp.medecin.home.notFound')">No medecins found</span>
+          <span v-text="$t('pathogeneApp.medecin.home.notFound')">No Doctors found</span>
         </div>
         <div class="table-responsive" v-if="medecins && medecins.length > 0">
           <table class="table table-striped" aria-describedby="medecins">
             <thead>
               <tr>
                 <th scope="row" v-on:click="changeOrder('nom')">
-                  <span v-text="$t('pathogeneApp.medecin.nom')">Nom</span>
+                  <span v-text="$t('pathogeneApp.medecin.nom')">LastName</span>
                   <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'nom'"></jhi-sort-indicator>
                 </th>
                 <th scope="row" v-on:click="changeOrder('prenom')">
-                  <span v-text="$t('pathogeneApp.medecin.prenom')">Prenom</span>
+                  <span v-text="$t('pathogeneApp.medecin.prenom')">FirstName</span>
                   <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'prenom'"></jhi-sort-indicator>
                 </th>
                 <th scope="row" v-on:click="changeOrder('photo')">
@@ -59,7 +59,7 @@
                   <a v-if="medecin.photo" v-on:click="openFile(medecin.photoContentType, medecin.photo)">
                     <img
                       v-bind:src="'data:' + medecin.photoContentType + ';base64,' + medecin.photo"
-                      style="max-height: 70px"
+                      style="width: 90px; max-height: 70px"
                       alt="medecin image"
                     />
                   </a>

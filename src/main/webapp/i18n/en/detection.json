@@ -21,11 +21,11 @@
       "photo": "Photo",
       "code": "Code",
       "validation": "Validation",
-      "stade": "Stade",
+      "stade": "Stage",
       "date": "Date",
       "description": "Description",
-      "visite": "Visite",
-      "maladie": "Maladie",
+      "visite": "Visit",
+      "maladie": "Disease",
       "patient": "Patient"
     }
   }

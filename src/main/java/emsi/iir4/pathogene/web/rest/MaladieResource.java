@@ -76,7 +76,8 @@ public class MaladieResource {
     @PostMapping("/maladies/uploadModel/{id}")
     public ResponseEntity<String> uploadModel(
         @PathVariable Long id,
-        @RequestParam("tailleImage") Long tailleImage,
+        @RequestParam("imageWidth") Long imageWidth,
+        @RequestParam("imageHeight") Long imageHeight,
         @RequestParam("modelFile") MultipartFile modelFile
     ) {
         try {
@@ -92,9 +93,10 @@ public class MaladieResource {
                 }
 
                 // Logic to save the new model and size
-                String newFileName = this.fileStorageService.uploadModelFile(modelFile, maladie_result.getNom().toLowerCase(), tailleImage);
+                String newFileName = this.fileStorageService.uploadModelFile(modelFile, maladie_result.getNom().toLowerCase(), imageWidth);
 
-                maladie_result.setImageSize(tailleImage);
+                maladie_result.setWidth(imageWidth);
+                maladie_result.setHeight(imageHeight);
                 maladie_result.setModeleFileName(newFileName);
                 maladie_result.setModeleContentType(modelFile.getContentType());
 

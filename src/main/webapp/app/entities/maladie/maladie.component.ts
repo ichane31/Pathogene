@@ -46,7 +46,13 @@ export default class Maladie extends Vue {
 
   private importId: number = null;
 
-  public tailleImage: number = null;
+  public imageWidth: number = null;
+
+  public imageHeight: number = null;
+
+  public classNames: {
+    0: ''; // Initial class name
+  };
 
   public mounted(): void {
     if (this.isMedecin() || this.isAdmin()) this.retrieveAllMaladies();
@@ -122,6 +128,12 @@ export default class Maladie extends Vue {
     }
   }
 
+  // Method to add a new class input field
+  public addClassField() {
+    const nextClassNumber = Object.keys(this.classNames).length;
+    this.$set(this.classNames, nextClassNumber, ''); // Add a new class name field
+  }
+
   public async saveStade() {
     this.stade.maladie = this.maladie;
     try {
@@ -142,7 +154,8 @@ export default class Maladie extends Vue {
 
   public async saveModel() {
     const formData = new FormData();
-    formData.append('tailleImage', this.tailleImage.toString());
+    formData.append('imageWidth', this.imageWidth.toString());
+    formData.append('imageHeight', this.imageHeight.toString());
     formData.append('modelFile', (this.$refs.modelInput as HTMLInputElement).files[0]);
     console.log(formData);
 

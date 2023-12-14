@@ -2,20 +2,20 @@
   "pathogeneApp": {
     "stade": {
       "home": {
-        "title": "Stades",
+        "title": "Stages",
         "refreshListLabel": "Refresh list",
-        "createLabel": "Create a new Stade",
-        "createOrEditLabel": "Create or edit a Stade",
-        "notFound": "No Stades found"
+        "createLabel": "Create a new Stage",
+        "createOrEditLabel": "Create or edit a Stage",
+        "notFound": "No Stages found"
       },
-      "created": "A new Stade is created with identifier {{ param }}",
-      "updated": "A Stade is updated with identifier {{ param }}",
-      "deleted": "A Stade is deleted with identifier {{ param }}",
+      "created": "A new Stage is created with identifier {{ param }}",
+      "updated": "A Stage is updated with identifier {{ param }}",
+      "deleted": "A Stage is deleted with identifier {{ param }}",
       "delete": {
-        "question": "Are you sure you want to delete Stade {{ id }}?"
+        "question": "Are you sure you want to delete Stage {{ id }}?"
       },
       "detail": {
-        "title": "Stade"
+        "title": "Stage"
       },
       "id": "ID",
       "code": "Code",
@@ -24,7 +24,7 @@
       "classification": "Classification",
       "image": "Image",
       "patient": "Patient",
-      "maladie": "Maladie"
+      "maladie": "Disease"
     }
   }
 }

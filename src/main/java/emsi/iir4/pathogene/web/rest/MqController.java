@@ -23,21 +23,30 @@ public class MqController {
         // BigInteger.valueOf(id).toByteArray()
         System.out.println(" [x] Requesting classification.....");
         System.out.println("from :" + exchange.getName());
+        System.out.println("name :" + name);
         byte[] response;
-        if (name.equals("brain Cancer")) {
-            response = (byte[]) template.convertSendAndReceive("", "rpc_brain", photo);
-        } else if (name.equals("Rethinopathy")) {
-            response = (byte[]) template.convertSendAndReceive("", "rpc_retino", photo);
-        } else if (name.equals("Pneumonia")) {
-            response = (byte[]) template.convertSendAndReceive("", "rpc_pneumonia", photo);
-        } else if (name.equals("Breast Cancer")) {
-            response = (byte[]) template.convertSendAndReceive("", "rpc_breast", photo);
-        } else {
-            // Handle unknown disease name
-            return "Unknown disease: " + name;
+        switch (name) {
+            case "brain Cancer":
+                response = (byte[]) template.convertSendAndReceive("", "rpc_brain", photo);
+                break;
+            case "Rethinopathy":
+                response = (byte[]) template.convertSendAndReceive("", "rpc_retino", photo);
+                break;
+            case "Pneumonia":
+                response = (byte[]) template.convertSendAndReceive("", "rpc_pneumonia", photo);
+                break;
+            case "Breast Cancer":
+                response = (byte[]) template.convertSendAndReceive("", "rpc_breast", photo);
+                break;
+            case "Keratocone":
+                response = (byte[]) template.convertSendAndReceive("", "rpc_keratocone", photo);
+                break;
+            default:
+                // Handle unknown disease name
+                return "Unknown disease: " + name;
         }
-
-        String oracle = new String(response);
+        String oracle;
+        if (response != null) oracle = new String(response); else oracle = new String(new byte[0]);
         System.out.println("[x]" + oracle);
         return oracle;
     }

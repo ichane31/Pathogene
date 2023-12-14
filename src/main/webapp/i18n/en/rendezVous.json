@@ -2,28 +2,28 @@
   "pathogeneApp": {
     "rendezVous": {
       "home": {
-        "title": "Rendez Vous",
+        "title": "Appointments",
         "refreshListLabel": "Refresh list",
-        "createLabel": "Create a new Rendez Vous",
-        "createOrEditLabel": "Create or edit a Rendez Vous",
-        "notFound": "No Rendez Vous found"
+        "createLabel": "Create a new Appointment",
+        "createOrEditLabel": "Create or edit an Appointment",
+        "notFound": "No Appointments found"
       },
-      "created": "A new Rendez Vous is created with identifier {{ param }}",
-      "updated": "A Rendez Vous is updated with identifier {{ param }}",
-      "deleted": "A Rendez Vous is deleted with identifier {{ param }}",
+      "created": "A new Appointment is created with identifier {{ param }}",
+      "updated": "An Appointment is updated with identifier {{ param }}",
+      "deleted": "An Appointment is deleted with identifier {{ param }}",
       "delete": {
-        "question": "Are you sure you want to delete Rendez Vous {{ id }}?"
+        "question": "Are you sure you want to delete Appointment {{ id }}?"
       },
       "detail": {
-        "title": "Rendez Vous"
+        "title": "Appointment"
       },
       "id": "ID",
       "date": "Date",
       "code": "Code",
       "status": "Status",
-      "visite": "Visite",
+      "visite": "Visit",
       "patient": "Patient",
-      "medecin": "Medecin"
+      "medecin": "Doctor"
     }
   }
 }

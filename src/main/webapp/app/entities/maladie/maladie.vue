@@ -3,7 +3,7 @@
     <div class="card jh-card">
       <div>
         <h2 id="page-heading" data-cy="MaladieHeading">
-          <span v-text="$t('pathogeneApp.maladie.home.title')" id="maladie-heading">Maladies</span>
+          <span v-text="$t('pathogeneApp.maladie.home.title')" id="maladie-heading">Diseases</span>
           <div class="d-flex justify-content-between align-items-center">
             <div class="input-group col-4">
               <div class="input-group-prepend">
@@ -24,7 +24,7 @@
                   class="btn btn-primary jh-create-entity create-maladie"
                 >
                   <font-awesome-icon icon="plus"></font-awesome-icon>
-                  <span v-text="$t('pathogeneApp.maladie.home.createLabel')"> Create a new Maladie </span>
+                  <span v-text="$t('pathogeneApp.maladie.home.createLabel')"> Create a new Disease </span>
                 </button>
               </router-link>
             </div>
@@ -32,7 +32,7 @@
         </h2>
         <br />
         <div class="alert alert-warning" v-if="!isFetching && maladies && maladies.length === 0">
-          <span v-text="$t('pathogeneApp.maladie.home.notFound')">No maladies found</span>
+          <span v-text="$t('pathogeneApp.maladie.home.notFound')">No Diseases found</span>
         </div>
         <div class="table-responsive" v-if="maladies && maladies.length > 0">
           <table class="table table-striped" aria-describedby="maladies">
@@ -43,7 +43,7 @@
                   <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'code'"></jhi-sort-indicator>
                 </th>
                 <th scope="row" v-on:click="changeOrder('nom')">
-                  <span v-text="$t('pathogeneApp.maladie.nom')">Nom</span>
+                  <span v-text="$t('pathogeneApp.maladie.nom')">Name</span>
                   <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'nom'"></jhi-sort-indicator>
                 </th>
                 <th scope="row"></th>
@@ -103,7 +103,7 @@
                       v-b-modal.affecteEntity
                     >
                       <font-awesome-icon icon="plus"></font-awesome-icon>
-                      <span class="d-none d-md-inline">Stade</span>
+                      <span class="d-none d-md-inline">Stage</span>
                     </b-button>
                   </div>
                 </td>
@@ -138,7 +138,7 @@
         </b-modal>
         <b-modal ref="affecteEntity" id="affecteEntity">
           <span slot="modal-title"
-            ><span id="pathogeneApp.maladie.affecte.question" data-cy="maladieAffecteDialogHeading">Créer le stade</span></span
+            ><span id="pathogeneApp.maladie.affecte.question" data-cy="maladieAffecteDialogHeading">Create Disease stage</span></span
           >
           <div class="modal-body">
             <form name="editForm" role="form" novalidate v-on:submit.prevent="saveStade()">
@@ -186,58 +186,7 @@
             </form>
           </div>
           <div slot="modal-footer">
-            <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Annuler</button>
-          </div>
-        </b-modal>
-        <b-modal ref="importEntity" id="importEntity">
-          <span slot="modal-title">
-            <span id="pathogeneApp.maladie.import.question" data-cy="maladieImportDialogHeading">Importer le modele</span></span
-          >
-          <div class="modal-body">
-            <form name="editForm" role="form" enctype="multipart/form-data" novalidate v-on:submit.prevent="saveModel()">
-              <div>
-                <div class="form-group">
-                  <label class="form-control-label" for="taille-image">Taille Image </label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    name="taille-image"
-                    id="taille-image"
-                    data-cy="taille-image"
-                    v-model="tailleImage"
-                  />
-                </div>
-
-                <div class="form-group">
-                  <label class="form-control-label" for="stade-description">Model File</label>
-                  <input
-                    type="file"
-                    class="form-control"
-                    name="import-model"
-                    id="stade-description"
-                    data-cy="import-model"
-                    ref="modelInput"
-                  />
-                </div>
-              </div>
-              <div>
-                <button
-                  type="button"
-                  id="cancel-save"
-                  data-cy="entityCreateCancelButton"
-                  class="btn btn-secondary"
-                  v-on:click="closeDialog()"
-                >
-                  <font-awesome-icon icon="ban"></font-awesome-icon>&nbsp;<span>Cancel</span>
-                </button>
-                <button type="submit" id="save-entity" data-cy="entityCreateSaveButton" class="btn btn-primary">
-                  <font-awesome-icon icon="save"></font-awesome-icon>&nbsp;<span>Save</span>
-                </button>
-              </div>
-            </form>
-          </div>
-          <div slot="modal-footer">
-            <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Annuler</button>
+            <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Cancel</button>
           </div>
         </b-modal>
         <div v-show="maladies && maladies.length > 0">

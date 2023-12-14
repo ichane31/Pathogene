@@ -29,49 +29,49 @@
                 <span>{{ patient.code }}</span>
               </dd>
               <dt>
-                <span v-text="$t('pathogeneApp.patient.nom')">Nom</span>
+                <span v-text="$t('pathogeneApp.patient.nom')">LastName</span>
               </dt>
               <dd>
                 <span>{{ patient.nom }}</span>
               </dd>
               <dt>
-                <span v-text="$t('pathogeneApp.patient.prenom')">Prenom</span>
+                <span v-text="$t('pathogeneApp.patient.prenom')">FirstName</span>
               </dt>
               <dd>
                 <span>{{ patient.prenom }}</span>
               </dd>
               <dt>
-                <span v-text="$t('pathogeneApp.patient.dateNaissance')">Date Naissance</span>
+                <span v-text="$t('pathogeneApp.patient.dateNaissance')">DateOfBirth </span>
               </dt>
               <dd>
                 <span>{{ patient.dateNaissance }}</span>
               </dd>
               <dt>
-                <span v-text="$t('pathogeneApp.patient.adresse')">Adresse</span>
+                <span v-text="$t('pathogeneApp.patient.adresse')">Address</span>
               </dt>
               <dd>
                 <span>{{ patient.adresse }}</span>
               </dd>
               <dt>
-                <span v-text="$t('pathogeneApp.patient.genre')">Genre</span>
+                <span v-text="$t('pathogeneApp.patient.genre')">Gender</span>
               </dt>
               <dd>
                 <span v-text="$t('pathogeneApp.Genre.' + patient.genre)">{{ patient.genre }}</span>
               </dd>
               <dt>
-                <span v-text="$t('pathogeneApp.patient.telephone')">Telephone</span>
+                <span v-text="$t('pathogeneApp.patient.telephone')">Phone</span>
               </dt>
               <dd>
                 <span>{{ patient.telephone }}</span>
               </dd>
               <dt>
-                <span v-text="$t('pathogeneApp.patient.taille')">Taille</span>
+                <span v-text="$t('pathogeneApp.patient.taille')">Height </span>
               </dt>
               <dd>
                 <span>{{ patient.taille }}</span>
               </dd>
               <dt>
-                <span v-text="$t('pathogeneApp.patient.poids')">Poids</span>
+                <span v-text="$t('pathogeneApp.patient.poids')">Weight </span>
               </dt>
               <dd>
                 <span>{{ patient.poids }}</span>

@@ -2,36 +2,36 @@
   "pathogeneApp": {
     "medecin": {
       "home": {
-        "title": "Medecins",
+        "title": "Doctors",
         "refreshListLabel": "Refresh list",
-        "createLabel": "Create a new Medecin",
-        "createOrEditLabel": "Create or edit a Medecin",
-        "notFound": "No Medecins found"
+        "createLabel": "Create a new Doctor",
+        "createOrEditLabel": "Create or edit a Doctor",
+        "notFound": "No Doctors found"
       },
-      "created": "A new Medecin is created with identifier {{ param }}",
-      "updated": "A Medecin is updated with identifier {{ param }}",
-      "deleted": "A Medecin is deleted with identifier {{ param }}",
+      "created": "A new Doctor is created with identifier {{ param }}",
+      "updated": "A Doctor is updated with identifier {{ param }}",
+      "deleted": "A Doctor is deleted with identifier {{ param }}",
       "delete": {
-        "question": "Are you sure you want to delete Medecin {{ id }}?"
+        "question": "Are you sure you want to delete Doctor {{ id }}?"
       },
       "detail": {
-        "title": "Medecin"
+        "title": "Doctor"
       },
       "id": "ID",
       "code": "Code",
-      "nom": "Nom",
-      "numEmp": "Num Emp",
-      "prenom": "Prenom",
+      "nom": "Last Name",
+      "numEmp": "Employee Number",
+      "prenom": "First Name",
       "expertLevel": "Expert Level",
       "photo": "Photo",
       "type": "Type",
-      "nbrPatients": "Nbr Patients",
+      "nbrPatients": "Number of Patients",
       "rating": "Rating",
       "description": "Description",
       "user": "User",
       "classification": "Classification",
-      "rendezVous": "Rendez Vous",
-      "secretaire": "Secretaire"
+      "rendezVous": "Appointments",
+      "secretaire": "Secretary"
     }
   }
 }

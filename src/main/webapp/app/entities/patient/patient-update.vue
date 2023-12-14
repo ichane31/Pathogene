@@ -17,7 +17,7 @@
                 <input type="text" class="form-control" id="id" name="id" v-model="patient.id" readonly />
               </div>
               <div class="form-group">
-                <label class="form-control-label" v-text="$t('pathogeneApp.patient.nom')" for="patient-nom">Nom</label>
+                <label class="form-control-label" v-text="$t('pathogeneApp.patient.nom')" for="patient-nom">LastName</label>
                 <input
                   type="text"
                   class="form-control"
@@ -29,7 +29,7 @@
                 />
               </div>
               <div class="form-group">
-                <label class="form-control-label" v-text="$t('pathogeneApp.patient.prenom')" for="patient-prenom">Prenom</label>
+                <label class="form-control-label" v-text="$t('pathogeneApp.patient.prenom')" for="patient-prenom">FirstName</label>
                 <input
                   type="text"
                   class="form-control"
@@ -42,8 +42,8 @@
               </div>
               <div class="form-group">
                 <label class="form-control-label" v-text="$t('pathogeneApp.patient.dateNaissance')" for="patient-dateNaissance"
-                  >Date Naissance</label
-                >
+                  >DateOfBirth
+                </label>
                 <b-input-group class="mb-3">
                   <b-input-group-prepend>
                     <b-form-datepicker
@@ -71,7 +71,7 @@
                 </b-input-group>
               </div>
               <div class="form-group">
-                <label class="form-control-label" v-text="$t('pathogeneApp.patient.adresse')" for="patient-adresse">Adresse</label>
+                <label class="form-control-label" v-text="$t('pathogeneApp.patient.adresse')" for="patient-adresse">Address</label>
                 <input
                   type="text"
                   class="form-control"
@@ -83,7 +83,7 @@
                 />
               </div>
               <div class="form-group">
-                <label class="form-control-label" v-text="$t('pathogeneApp.patient.genre')" for="patient-genre">Genre</label>
+                <label class="form-control-label" v-text="$t('pathogeneApp.patient.genre')" for="patient-genre">Gender</label>
                 <select
                   class="form-control"
                   name="genre"
@@ -98,7 +98,7 @@
                 </select>
               </div>
               <div class="form-group">
-                <label class="form-control-label" v-text="$t('pathogeneApp.patient.telephone')" for="patient-telephone">Telephone</label>
+                <label class="form-control-label" v-text="$t('pathogeneApp.patient.telephone')" for="patient-telephone">Phone</label>
                 <input
                   type="text"
                   class="form-control"
@@ -110,7 +110,7 @@
                 />
               </div>
               <div class="form-group">
-                <label class="form-control-label" v-text="$t('pathogeneApp.patient.taille')" for="patient-taille">Taille</label>
+                <label class="form-control-label" v-text="$t('pathogeneApp.patient.taille')" for="patient-taille">Height </label>
                 <input
                   type="number"
                   class="form-control"
@@ -122,7 +122,7 @@
                 />
               </div>
               <div class="form-group">
-                <label class="form-control-label" v-text="$t('pathogeneApp.patient.poids')" for="patient-poids">Poids</label>
+                <label class="form-control-label" v-text="$t('pathogeneApp.patient.poids')" for="patient-poids">Weight</label>
                 <input
                   type="number"
                   class="form-control"

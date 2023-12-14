@@ -33,13 +33,13 @@
                 <span v-text="$t('pathogeneApp.detection.validation')">Validation</span>
               </dt>
               <dd v-if="detection.validation">
-                <span>Validé</span>
+                <span>Validated</span>
               </dd>
               <dd v-if="!detection.validation">
-                <span>Non validé</span>
+                <span>Not Validated</span>
               </dd>
               <dt>
-                <span v-text="$t('pathogeneApp.detection.stade')">Stade</span>
+                <span v-text="$t('pathogeneApp.detection.stade')">Stage</span>
               </dt>
               <dd>
                 <span>{{ detection.stade }}</span>
@@ -57,7 +57,7 @@
                 <span>{{ detection.description }}</span>
               </dd>
               <dt>
-                <span v-text="$t('pathogeneApp.detection.maladie')">Maladie</span>
+                <span v-text="$t('pathogeneApp.detection.maladie')">Disease</span>
               </dt>
               <dd>
                 <div v-if="detection.maladie">

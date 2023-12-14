@@ -44,11 +44,11 @@
           <thead>
             <tr>
               <th scope="row" v-on:click="changeOrder('nom')">
-                <span v-text="$t('pathogeneApp.patient.nom')">Nom</span>
+                <span v-text="$t('pathogeneApp.patient.nom')">LastName</span>
                 <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'nom'"></jhi-sort-indicator>
               </th>
               <th scope="row" v-on:click="changeOrder('prenom')">
-                <span v-text="$t('pathogeneApp.patient.prenom')">Prenom</span>
+                <span v-text="$t('pathogeneApp.patient.prenom')">FirstName</span>
                 <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'prenom'"></jhi-sort-indicator>
               </th>
               <th scope="row" v-on:click="changeOrder('adresse')">
@@ -56,7 +56,7 @@
                 <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'adresse'"></jhi-sort-indicator>
               </th>
               <th scope="row" v-on:click="changeOrder('telephone')">
-                <span v-text="$t('pathogeneApp.patient.telephone')">Telephone</span>
+                <span v-text="$t('pathogeneApp.patient.telephone')">Phone</span>
                 <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'telephone'"></jhi-sort-indicator>
               </th>
               <th scope="row" v-on:click="changeOrder('photo')">

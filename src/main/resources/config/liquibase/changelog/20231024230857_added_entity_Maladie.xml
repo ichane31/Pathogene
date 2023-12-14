@@ -20,6 +20,18 @@
             <column name="nom" type="varchar(255)">
                 <constraints nullable="true" unique="true" uniqueConstraintName="ux_maladie__nom" />
             </column>
+            <column name="modele_content_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="model_file_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="image_width" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="image_height" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
     </changeSet>

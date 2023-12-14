@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -38,8 +37,19 @@ public class Maladie implements Serializable {
     @Column(name = "model_file_name")
     private String modeleFileName;
 
-    @Column(name = "image_size")
-    private Long imageSize;
+    @Column(name = "image_width")
+    private Long width;
+
+    @Column(name = "image_height")
+    private Long height;
+
+    public Long getHeight() {
+        return height;
+    }
+
+    public void setHeight(Long height) {
+        this.height = height;
+    }
 
     @OneToMany(mappedBy = "maladie")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -114,12 +124,12 @@ public class Maladie implements Serializable {
         this.modeleFileName = modeleFileName;
     }
 
-    public Long getImageSize() {
-        return imageSize;
+    public Long getWidth() {
+        return width;
     }
 
-    public void setImageSize(Long imageSize) {
-        this.imageSize = imageSize;
+    public void setWidth(Long imageSize) {
+        this.width = imageSize;
     }
 
     public Set<Detection> getDetections() {

@@ -9,7 +9,7 @@
               data-cy="MaladieCreateUpdateHeading"
               v-text="$t('pathogeneApp.maladie.home.createOrEditLabel')"
             >
-              Create or edit a Maladie
+              Create or edit a Disease
             </h2>
             <div>
               <div class="form-group" v-if="maladie.id">
@@ -17,7 +17,7 @@
                 <input type="text" class="form-control" id="id" name="id" v-model="maladie.id" readonly />
               </div>
               <div class="form-group">
-                <label class="form-control-label" v-text="$t('pathogeneApp.maladie.nom')" for="maladie-nom">Nom</label>
+                <label class="form-control-label" v-text="$t('pathogeneApp.maladie.nom')" for="maladie-nom">Name</label>
                 <input
                   type="text"
                   class="form-control"

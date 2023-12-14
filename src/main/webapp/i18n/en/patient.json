@@ -19,20 +19,20 @@
       },
       "id": "ID",
       "code": "Code",
-      "nom": "Nom",
-      "prenom": "Prenom",
-      "dateNaissance": "Date Naissance",
-      "adresse": "Adresse",
-      "genre": "Genre",
+      "nom": "Last Name",
+      "prenom": "First Name",
+      "dateNaissance": "Date of Birth",
+      "adresse": "Address",
+      "genre": "Gender",
       "telephone": "Telephone",
-      "taille": "Taille",
-      "poids": "Poids",
+      "taille": "Height",
+      "poids": "Weight",
       "photo": "Photo",
       "user": "User",
-      "rendezVous": "Rendez Vous",
+      "rendezVous": "Appointments",
       "detection": "Detection",
-      "secretaire": "Secretaire",
-      "stade": "Stade"
+      "secretaire": "Secretary",
+      "stade": "Stage"
     }
   }
 }
