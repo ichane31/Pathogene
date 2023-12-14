@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="card jh-card">
       <h2 id="page-heading" data-cy="StadeHeading">
-        <span v-text="$t('pathogeneApp.stade.home.title')" id="stade-heading">Stades</span>
+        <span v-text="$t('pathogeneApp.stade.home.title')" id="stade-heading">Stages</span>
         <div class="d-flex justify-content-end">
           <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isFetching">
             <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon>
@@ -12,7 +12,7 @@
       </h2>
       <br />
       <div class="alert alert-warning" v-if="!isFetching && stades && stades.length === 0">
-        <span v-text="$t('pathogeneApp.stade.home.notFound')">No stades found</span>
+        <span v-text="$t('pathogeneApp.stade.home.notFound')">No stages found</span>
       </div>
       <div class="table-responsive" v-if="stades && stades.length > 0">
         <table class="table table-striped" aria-describedby="stades">
@@ -27,7 +27,7 @@
                 <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'description'"></jhi-sort-indicator>
               </th>
               <th scope="row" v-on:click="changeOrder('maladie.id')">
-                <span v-text="$t('pathogeneApp.stade.maladie')">Maladie</span>
+                <span v-text="$t('pathogeneApp.stade.maladie')">Disease</span>
                 <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'maladie.id'"></jhi-sort-indicator>
               </th>
               <th scope="row"></th>
@@ -90,7 +90,7 @@
         >
         <div class="modal-body">
           <p id="jhi-delete-stade-heading" v-text="$t('pathogeneApp.stade.delete.question', { id: removeId })">
-            Are you sure you want to delete this Stade?
+            Are you sure you want to delete this Stage?
           </p>
         </div>
         <div slot="modal-footer">
@@ -162,7 +162,7 @@
           </div>
         </div>
         <div slot="modal-footer">
-          <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Annuler</button>
+          <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Cancel</button>
           <button type="submit" id="save-entity" data-cy="entityCreateSaveButton" class="btn btn-primary" v-on:click="saveImage()">
             <font-awesome-icon icon="save"></font-awesome-icon>&nbsp;<span>Save</span>
           </button>

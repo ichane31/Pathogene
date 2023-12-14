@@ -63,7 +63,7 @@
                 />
               </div>
               <div class="form-group">
-                <label class="form-control-label" v-text="$t('pathogeneApp.image.stade')" for="image-stade">Stade</label>
+                <label class="form-control-label" v-text="$t('pathogeneApp.image.stade')" for="image-stade">Stage</label>
                 <select class="form-control" id="image-stade" data-cy="stade" name="stade" v-model="image.stade">
                   <option v-bind:value="null"></option>
                   <option

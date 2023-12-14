@@ -29,7 +29,7 @@
                 <span>{{ image.code }}</span>
               </dd>
               <dt>
-                <span v-text="$t('pathogeneApp.image.stade')">Stade</span>
+                <span v-text="$t('pathogeneApp.image.stade')">Stage</span>
               </dt>
               <dd>
                 <div v-if="image.stade">

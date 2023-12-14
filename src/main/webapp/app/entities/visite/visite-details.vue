@@ -5,7 +5,7 @@
         <div class="col-8">
           <div v-if="visite">
             <h2 class="jh-entity-heading" data-cy="visiteDetailsHeading">
-              <span v-text="$t('pathogeneApp.visite.detail.title')">Visite</span>
+              <span v-text="$t('pathogeneApp.visite.detail.title')">Visit</span>
             </h2>
             <dl class="row jh-entity-details">
               <dt>
@@ -21,7 +21,7 @@
                 <span v-if="visite.date">{{ visite.date | formatDate }}</span>
               </dd>
               <dt>
-                <span v-text="$t('pathogeneApp.visite.rendezVous')">Rendez Vous</span>
+                <span v-text="$t('pathogeneApp.visite.rendezVous')">Appointment</span>
               </dt>
               <dd>
                 <div v-if="visite.rendezVous">

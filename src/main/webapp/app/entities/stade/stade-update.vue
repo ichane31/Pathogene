@@ -4,7 +4,7 @@
       <div class="row justify-content-center">
         <div class="col-8">
           <form name="editForm" role="form" novalidate v-on:submit.prevent="save()">
-            <h2 id="pathogeneApp.stade.home.createOrEditLabel" data-cy="StadeCreateUpdateHeading">Create or edit a Stade</h2>
+            <h2 id="pathogeneApp.stade.home.createOrEditLabel" data-cy="StadeCreateUpdateHeading">Create or edit a Stage</h2>
             <div>
               <div class="form-group" v-if="stade.id">
                 <label for="id">ID</label>
@@ -36,7 +36,7 @@
                 />
               </div>
               <div class="form-group">
-                <label class="form-control-label" for="stade-maladie">Maladie</label>
+                <label class="form-control-label" for="stade-maladie">Disease</label>
                 <select class="form-control" id="stade-maladie" data-cy="maladie" name="maladie" v-model="stade.maladie">
                   <option v-bind:value="null"></option>
                   <option

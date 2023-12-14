@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="card jh-card">
       <h2 id="page-heading" data-cy="VisiteHeading">
-        <span v-text="$t('pathogeneApp.visite.home.title')" id="visite-heading">Visites</span>
+        <span v-text="$t('pathogeneApp.visite.home.title')" id="visite-heading">Visits</span>
         <div class="d-flex justify-content-between align-items-center">
           <div class="input-group col-4">
             <div class="input-group-prepend">
@@ -20,7 +20,7 @@
       </h2>
       <br />
       <div class="alert alert-warning" v-if="!isFetching && visites && visites.length === 0">
-        <span v-text="$t('pathogeneApp.visite.home.notFound')">No visites found</span>
+        <span v-text="$t('pathogeneApp.visite.home.notFound')">No visits found</span>
       </div>
       <div class="table-responsive" v-if="visites && visites.length > 0">
         <table class="table table-striped" aria-describedby="visites">
@@ -31,11 +31,11 @@
                 <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'date'"></jhi-sort-indicator>
               </th>
               <th scope="row" v-on:click="changeOrder('rendezVous.id')">
-                <span v-text="$t('pathogeneApp.visite.rendezVous')">Rendez Vous</span>
+                <span v-text="$t('pathogeneApp.visite.rendezVous')">Appointment </span>
                 <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'rendezVous.id'"></jhi-sort-indicator>
               </th>
               <th scope="row" v-if="!isPatient()"><span>Patient</span></th>
-              <th scope="row" v-if="!isMedecin()"><span>Medecin</span></th>
+              <th scope="row" v-if="!isMedecin()"><span>Doctor </span></th>
               <th scope="row"></th>
             </tr>
           </thead>
@@ -84,7 +84,7 @@
         >
         <div class="modal-body">
           <p id="jhi-delete-visite-heading" v-text="$t('pathogeneApp.visite.delete.question', { id: removeId })">
-            Are you sure you want to delete this Visite?
+            Are you sure you want to delete this Visit?
           </p>
         </div>
         <div slot="modal-footer">

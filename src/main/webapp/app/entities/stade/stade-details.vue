@@ -5,7 +5,7 @@
         <div class="col-8">
           <div v-if="stade">
             <h2 class="jh-entity-heading" data-cy="stadeDetailsHeading">
-              <span v-text="$t('pathogeneApp.stade.detail.title')">Stade</span>
+              <span v-text="$t('pathogeneApp.stade.detail.title')">Stage</span>
             </h2>
             <dl class="row jh-entity-details">
               <dt>

@@ -27,56 +27,56 @@
                 <span>{{ patient.code }}</span>
               </dd>
               <dt>
-                <span>Nom</span>
+                <span>LastName</span>
               </dt>
               <dd>
                 <span>{{ patient.nom }}</span>
               </dd>
               <dt>
-                <span>Prenom</span>
+                <span>FirstName</span>
               </dt>
               <dd>
                 <span>{{ patient.prenom }}</span>
               </dd>
               <dt>
-                <span>Date Naissance</span>
+                <span>DateOfBirth </span>
               </dt>
               <dd>
                 <span>{{ patient.dateNaissance }}</span>
               </dd>
               <dt>
-                <span>Adresse</span>
+                <span>Address</span>
               </dt>
               <dd>
                 <span>{{ patient.adresse }}</span>
               </dd>
               <dt>
-                <span>Genre</span>
+                <span>Gender</span>
               </dt>
               <dd>
                 <span>{{ patient.genre }}</span>
               </dd>
               <dt>
-                <span>Telephone</span>
+                <span>Phone</span>
               </dt>
               <dd>
                 <span>{{ patient.telephone }}</span>
               </dd>
               <dt>
-                <span>Poids</span>
+                <span>Weight</span>
               </dt>
               <dd>
                 <span>{{ patient.poids }}</span>
               </dd>
               <dt>
-                <span>Taille</span>
+                <span>Height</span>
               </dt>
               <dd>
                 <span>{{ patient.taille }}</span>
               </dd>
 
               <dt>
-                <span>Stade</span>
+                <span>Stage</span>
               </dt>
               <dd>
                 <div v-if="patient.stade">
@@ -107,9 +107,9 @@
                     <tr>
                       <th scope="row"><span>Photo</span></th>
                       <th scope="row"><span>Validation</span></th>
-                      <th scope="row"><span>Stade</span></th>
+                      <th scope="row"><span>Stage</span></th>
                       <th scope="row"><span>Description</span></th>
-                      <th scope="row"><span>Maladie</span></th>
+                      <th scope="row"><span>Disease</span></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -123,8 +123,8 @@
                           />
                         </a>
                       </td>
-                      <td v-if="detection.validation">Validé</td>
-                      <td v-if="!detection.validation">Non validé</td>
+                      <td v-if="detection.validation">Validated</td>
+                      <td v-if="!detection.validation">Not Validated</td>
                       <td>{{ detection.stade }}</td>
                       <td>{{ detection.description }}</td>
                       <td>

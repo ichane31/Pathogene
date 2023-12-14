@@ -7,7 +7,7 @@
           data-cy="RendezVousCreateUpdateHeading"
           v-text="$t('pathogeneApp.rendezVous.home.createOrEditLabel')"
         >
-          Create or edit a RendezVous
+          Create or edit a Appointment
         </h2>
         <div>
           <div class="form-group" v-if="rendezVous.id">
@@ -68,7 +68,7 @@
             </select>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="$t('pathogeneApp.rendezVous.medecin')" for="rendez-vous-medecin">Medecin</label>
+            <label class="form-control-label" v-text="$t('pathogeneApp.rendezVous.medecin')" for="rendez-vous-medecin">Doctor </label>
             <select class="form-control" id="rendez-vous-medecin" data-cy="medecin" name="medecin" v-model="rendezVous.medecin">
               <option v-bind:value="null"></option>
               <option

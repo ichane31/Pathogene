@@ -14,7 +14,7 @@ const AddPatients = () => import('@/admin/user-management/patients/add-patients.
 
 export default [
   {
-    path: '/secretaire/add-patient',
+    path: '/secretary/add-patient',
     name: 'AddPatients',
     component: AddPatients,
     meta: { authorities: [Authority.SECRETAIRE] },

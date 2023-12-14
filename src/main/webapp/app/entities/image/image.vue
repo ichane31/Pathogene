@@ -39,7 +39,7 @@
                   <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'photo'"></jhi-sort-indicator>
                 </th>
                 <th scope="row" v-on:click="changeOrder('stade.id')">
-                  <span v-text="$t('pathogeneApp.image.stade')">Stade</span>
+                  <span v-text="$t('pathogeneApp.image.stade')">Stage</span>
                   <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'stade.id'"></jhi-sort-indicator>
                 </th>
                 <th scope="row"></th>
@@ -52,7 +52,7 @@
                   <a v-if="image.photo" v-on:click="openFile(image.photoContentType, image.photo)">
                     <img
                       v-bind:src="'data:' + image.photoContentType + ';base64,' + image.photo"
-                      style="max-height: 30px"
+                      style="width: 50px; max-height: 30px"
                       alt="image image"
                     />
                   </a>

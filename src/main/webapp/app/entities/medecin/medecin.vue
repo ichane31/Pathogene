@@ -3,7 +3,7 @@
     <div class="card jh-card">
       <div>
         <h2 id="page-heading" data-cy="MedecinHeading">
-          <span v-text="$t('pathogeneApp.medecin.home.title')" id="medecin-heading">Medecins</span>
+          <span v-text="$t('pathogeneApp.medecin.home.title')" id="medecin-heading">Doctors</span>
           <div class="d-flex justify-content-between align-items-center">
             <div class="input-group col-4">
               <div class="input-group-prepend">
@@ -30,7 +30,7 @@
                   class="btn btn-primary jh-create-entity create-medecin"
                 >
                   <font-awesome-icon icon="plus"></font-awesome-icon>
-                  <span v-text="$t('pathogeneApp.medecin.home.createLabel')"> New Medecin </span>
+                  <span v-text="$t('pathogeneApp.medecin.home.createLabel')"> New Doctor </span>
                 </button>
               </router-link>
             </div>
@@ -38,18 +38,18 @@
         </h2>
         <br />
         <div class="alert alert-warning" v-if="!isFetching && medecins && medecins.length === 0">
-          <span v-text="$t('pathogeneApp.medecin.home.notFound')">No medecins found</span>
+          <span v-text="$t('pathogeneApp.medecin.home.notFound')">No Doctors found</span>
         </div>
         <div class="table-responsive" v-if="medecins && medecins.length > 0">
           <table class="table table-striped" aria-describedby="medecins">
             <thead>
               <tr>
                 <th scope="row" v-on:click="changeOrder('nom')">
-                  <span v-text="$t('pathogeneApp.medecin.nom')">Nom</span>
+                  <span v-text="$t('pathogeneApp.medecin.nom')">Last Name</span>
                   <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'nom'"></jhi-sort-indicator>
                 </th>
                 <th scope="row" v-on:click="changeOrder('prenom')">
-                  <span v-text="$t('pathogeneApp.medecin.prenom')">Prenom</span>
+                  <span v-text="$t('pathogeneApp.medecin.prenom')">First Name</span>
                   <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'prenom'"></jhi-sort-indicator>
                 </th>
                 <th scope="row" v-on:click="changeOrder('photo')">
@@ -120,7 +120,7 @@
           >
           <div class="modal-body">
             <p id="jhi-delete-medecin-heading" v-text="$t('pathogeneApp.medecin.delete.question', { id: removeId })">
-              Are you sure you want to delete this Medecin?
+              Are you sure you want to delete this Doctor?
             </p>
           </div>
           <div slot="modal-footer">

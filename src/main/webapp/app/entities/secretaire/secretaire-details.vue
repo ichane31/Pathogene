@@ -4,7 +4,7 @@
       <div class="row justify-content-center">
         <div class="col-8">
           <div v-if="secretaire">
-            <h2 class="jh-entity-heading" data-cy="secretaireDetailsHeading"><span>Secretaire</span></h2>
+            <h2 class="jh-entity-heading" data-cy="secretaireDetailsHeading"><span>Secretary</span></h2>
             <dl class="row jh-entity-details">
               <dt>
                 <span>Photo</span>
@@ -29,21 +29,21 @@
               </dd>
 
               <dt>
-                <span>Num Emp</span>
+                <span>Employee Number </span>
               </dt>
               <dd>
                 <span>{{ secretaire.numEmp }}</span>
               </dd>
 
               <dt>
-                <span>Nom</span>
+                <span>LastName</span>
               </dt>
               <dd>
                 <span>{{ secretaire.nom }}</span>
               </dd>
 
               <dt>
-                <span>Prenom</span>
+                <span>FirstName</span>
               </dt>
               <dd>
                 <span>{{ secretaire.prenom }}</span>

@@ -9,7 +9,7 @@
               data-cy="VisiteCreateUpdateHeading"
               v-text="$t('pathogeneApp.visite.home.createOrEditLabel')"
             >
-              Create or edit a Visite
+              Create or edit a Visit
             </h2>
             <div>
               <div class="form-group" v-if="visite.id">
@@ -45,7 +45,7 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="form-control-label" v-text="$t('pathogeneApp.visite.rendezVous')" for="visite-rendezVous">Rendez Vous</label>
+                <label class="form-control-label" v-text="$t('pathogeneApp.visite.rendezVous')" for="visite-rendezVous">Appointment </label>
                 <select class="form-control" id="visite-rendezVous" data-cy="rendezVous" name="rendezVous" v-model="visite.rendezVous">
                   <option v-bind:value="null"></option>
                   <option

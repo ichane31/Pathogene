@@ -33,18 +33,18 @@
           <thead>
             <tr>
               <th scope="row" v-on:click="changeOrder('nom')">
-                <span v-text="$t('pathogeneApp.patient.nom')">Nom</span>
+                <span v-text="$t('pathogeneApp.patient.nom')">LastName</span>
                 <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'nom'"></jhi-sort-indicator>
               </th>
               <th scope="row" v-on:click="changeOrder('prenom')">
-                <span v-text="$t('pathogeneApp.patient.prenom')">Prenom</span>
+                <span v-text="$t('pathogeneApp.patient.prenom')">FirstName</span>
                 <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'prenom'"></jhi-sort-indicator>
               </th>
               <th scope="row" v-on:click="changeOrder('adresse')">
-                <span v-text="$t('pathogeneApp.patient.adresse')">Adresse</span>
+                <span v-text="$t('pathogeneApp.patient.adresse')">Address</span>
               </th>
               <th scope="row" v-on:click="changeOrder('telephone')">
-                <span v-text="$t('pathogeneApp.patient.telephone')">Telephone</span>
+                <span v-text="$t('pathogeneApp.patient.telephone')">Phone</span>
                 <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'telephone'"></jhi-sort-indicator>
               </th>
               <th scope="row" v-on:click="changeOrder('photo')">
@@ -94,7 +94,7 @@
                     v-b-modal.stadeEntity
                   >
                     <font-awesome-icon icon="plus"></font-awesome-icon>
-                    <span class="d-none d-md-inline">Stade</span>
+                    <span class="d-none d-md-inline">Stage</span>
                   </b-button>
                 </div>
               </td>
@@ -104,7 +104,7 @@
       </div>
       <b-modal ref="detectionEntity" id="detectionEntity">
         <span slot="modal-title"
-          ><span id="pathogeneApp.patient.detection.question" data-cy="patientDetectionDialogHeading">Créer la detection</span></span
+          ><span id="pathogeneApp.patient.detection.question" data-cy="patientDetectionDialogHeading">Create detection</span></span
         >
         <div class="modal-body">
           <div class="form-group">
@@ -120,7 +120,7 @@
                 <span class="pull-left">{{ detection.photoContentType }}, {{ byteSize(detection.photo) }}</span>
                 <button
                   type="button"
-                  v-on:click="clearInputImage('photo', 'photoContentType', 'file_photo')"
+                  v-on:click="clearInputImage(detection, 'file_photo', 'photo', 'photoContentType', 'file_photo')"
                   class="btn btn-secondary btn-xs pull-right"
                 >
                   <font-awesome-icon icon="times"></font-awesome-icon>
@@ -167,7 +167,7 @@
           </div>
 
           <div class="form-group">
-            <label class="form-control-label">Visite</label>
+            <label class="form-control-label">Visit</label>
             <select class="form-control" id="visite-patient" data-cy="visite" name="patient" v-model="idVisite">
               <option v-for="visite in visites" :key="visite.id" v-bind:value="visite.id">
                 {{ visite.date }}
@@ -176,7 +176,7 @@
           </div>
 
           <div class="form-group">
-            <label class="form-control-label">Maladie</label>
+            <label class="form-control-label">Disease</label>
             <select class="form-control" id="maladie-patient" data-cy="maladie" name="maladie" v-model="idMaladie">
               <option v-for="maladie in maladies" :key="maladie.id" v-bind:value="maladie.id">
                 {{ maladie.nom }}
@@ -185,7 +185,7 @@
           </div>
         </div>
         <div slot="modal-footer">
-          <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Annuler</button>
+          <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Cancel</button>
           <button type="submit" id="save-entity" data-cy="entityCreateSaveButton" class="btn btn-primary" v-on:click="saveDetection()">
             <font-awesome-icon icon="save"></font-awesome-icon>&nbsp;<span>Save</span>
           </button>
@@ -194,14 +194,14 @@
 
       <b-modal ref="stadeEntity" id="stadeEntity">
         <span slot="modal-title"
-          ><span id="pathogeneApp.patient.stade.question" data-cy="patientStadeDialogHeading">Choisir le stade</span></span
+          ><span id="pathogeneApp.patient.stade.question" data-cy="patientStadeDialogHeading">Choose the stage</span></span
         >
         <div class="modal-body">
           <table class="table table-striped" aria-describedby="stades">
             <thead>
               <tr>
                 <th scope="row"><span>Level</span></th>
-                <th scope="row"><span>Maladie</span></th>
+                <th scope="row"><span>Disease </span></th>
                 <th scope="row"></th>
               </tr>
             </thead>
@@ -214,7 +214,7 @@
                 <td class="text-right">
                   <div class="btn-group">
                     <b-button v-on:click="saveStade(stade)" variant="success" class="btn btn-sm" data-cy="entityCreateButton">
-                      <span class="d-none d-md-inline">Choisir</span>
+                      <span class="d-none d-md-inline">Choose</span>
                     </b-button>
                   </div>
                 </td>
@@ -223,7 +223,7 @@
           </table>
         </div>
         <div slot="modal-footer">
-          <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Annuler</button>
+          <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Cancel</button>
         </div>
       </b-modal>
 
@@ -241,7 +241,7 @@
                 <a v-on:click="openFile(detection.photoContentType, detection.photo)">
                   <img
                     v-bind:src="'data:' + detection.photoContentType + ';base64,' + detection.photo"
-                    style="max-width: 50%"
+                    style="width: 90px; max-height: 70px"
                     alt="patient image"
                   />
                 </a>
@@ -254,7 +254,7 @@
               <span>{{ detection.description }}</span>
             </dd>
             <dt>
-              <span>Stade</span>
+              <span>Stage</span>
             </dt>
             <dd>
               <span>{{ detection.stade }}</span>
@@ -262,7 +262,7 @@
           </dl>
         </div>
         <div slot="modal-footer">
-          <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Quitter</button>
+          <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Leave</button>
         </div>
       </b-modal>
       <div v-show="patients && patients.length > 0">

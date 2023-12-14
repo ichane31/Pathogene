@@ -3,7 +3,7 @@
     <div class="card jh-card">
       <!-- bouttons pour affiches mes medecins et les patients -->
       <h2 id="page-heading" data-cy="RendezVousHeading">
-        <span id="rendez-vous-heading">Rendez Vous</span>
+        <span id="rendez-vous-heading">Appointments</span>
       </h2>
       <!-- end bouttons pour affiches mes medecins et les patients -->
 
@@ -16,7 +16,7 @@
       <!-- modal create rdv -->
       <b-modal ref="createEntity" id="createEntity">
         <span slot="modal-title"
-          ><span id="pathogeneApp.rendezVous.create.question" data-cy="rendezVousCreateDialogHeading">Entrez les détails</span></span
+          ><span id="pathogeneApp.rendezVous.create.question" data-cy="rendezVousCreateDialogHeading">Give the details</span></span
         >
         <div class="modal-body">
           <div class="form-group">
@@ -28,7 +28,7 @@
             </select>
           </div>
           <div class="form-group">
-            <label class="form-control-label" for="rendez-vous-medecin">Medecin</label>
+            <label class="form-control-label" for="rendez-vous-medecin">Doctor </label>
             <select class="form-control" id="rendez-vous-medecin" data-cy="medecin" name="medecin" v-model="idMedecin">
               <option v-for="medecin in medecins" :key="medecin.id" v-bind:value="medecin.id">
                 {{ medecin.nom }} {{ medecin.prenom }}
@@ -37,12 +37,12 @@
           </div>
 
           <div class="form-group">
-            <label>Heure</label>
+            <label>Hour </label>
             <input list="calltimeslist" class="form-control" v-model="$v.rendezVous.heure.$model" />
           </div>
         </div>
         <div slot="modal-footer">
-          <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Annuler</button>
+          <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Cancel</button>
           <button
             type="button"
             class="btn btn-primary"
@@ -50,7 +50,7 @@
             data-cy="entityConfirmCreateButton"
             v-on:click="save()"
           >
-            Sauvegarder
+            Save
           </button>
         </div>
       </b-modal>
@@ -59,11 +59,11 @@
       <!-- modal delete rdv -->
       <b-modal ref="removeEntity" id="removeEntity">
         <span slot="modal-title"
-          ><span id="pathogeneApp.rendezVous.delete.question" data-cy="rendezVousDeleteDialogHeading">Choisissez l'operation</span></span
+          ><span id="pathogeneApp.rendezVous.delete.question" data-cy="rendezVousDeleteDialogHeading">Choose operation</span></span
         >
         <div class="modal-body"></div>
         <div slot="modal-footer">
-          <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Quitter</button>
+          <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Exit operation</button>
           <button
             type="button"
             class="btn btn-success"
@@ -71,7 +71,7 @@
             data-cy="entityConfirmVaideButton"
             v-on:click="valideRendezVous()"
           >
-            Valider
+            Validate
           </button>
           <button
             type="button"
@@ -80,7 +80,7 @@
             data-cy="entityConfirmDeleteButton"
             v-on:click="removeRendezVous()"
           >
-            Annuler
+            Cancel
           </button>
         </div>
       </b-modal>

@@ -9,7 +9,7 @@
               data-cy="MedecinCreateUpdateHeading"
               v-text="$t('pathogeneApp.medecin.home.createOrEditLabel')"
             >
-              Create or edit a Medecin
+              Create or edit a Doctor
             </h2>
             <div>
               <div class="form-group" v-if="medecin.id">
@@ -17,7 +17,7 @@
                 <input type="text" class="form-control" id="id" name="id" v-model="medecin.id" readonly />
               </div>
               <div class="form-group">
-                <label class="form-control-label" v-text="$t('pathogeneApp.medecin.nom')" for="medecin-nom">Nom</label>
+                <label class="form-control-label" v-text="$t('pathogeneApp.medecin.nom')" for="medecin-nom">LastName</label>
                 <input
                   type="text"
                   class="form-control"
@@ -29,7 +29,7 @@
                 />
               </div>
               <div class="form-group">
-                <label class="form-control-label" v-text="$t('pathogeneApp.medecin.numEmp')" for="medecin-numEmp">Num Emp</label>
+                <label class="form-control-label" v-text="$t('pathogeneApp.medecin.numEmp')" for="medecin-numEmp">Employee Number </label>
                 <input
                   type="text"
                   class="form-control"
@@ -41,7 +41,7 @@
                 />
               </div>
               <div class="form-group">
-                <label class="form-control-label" v-text="$t('pathogeneApp.medecin.prenom')" for="medecin-prenom">Prenom</label>
+                <label class="form-control-label" v-text="$t('pathogeneApp.medecin.prenom')" for="medecin-prenom">FirstName</label>
                 <input
                   type="text"
                   class="form-control"
@@ -126,8 +126,8 @@
               </div>
               <div class="form-group">
                 <label class="form-control-label" v-text="$t('pathogeneApp.medecin.nbrPatients')" for="medecin-nbrPatients"
-                  >Nbr Patients</label
-                >
+                  >NumberOfPatients
+                </label>
                 <input
                   type="number"
                   class="form-control"
@@ -177,7 +177,7 @@
                 </select>
               </div>
               <div class="form-group">
-                <label class="form-control-label" v-text="$t('pathogeneApp.medecin.secretaire')" for="medecin-secretaire">Secretaire</label>
+                <label class="form-control-label" v-text="$t('pathogeneApp.medecin.secretaire')" for="medecin-secretaire">Secretary</label>
                 <select class="form-control" id="medecin-secretaire" data-cy="secretaire" name="secretaire" v-model="medecin.secretaire">
                   <option v-bind:value="null"></option>
                   <option

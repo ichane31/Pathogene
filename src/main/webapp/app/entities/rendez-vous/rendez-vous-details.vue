@@ -4,7 +4,7 @@
       <div class="col-8">
         <div v-if="rendezVous">
           <h2 class="jh-entity-heading" data-cy="rendezVousDetailsHeading">
-            <span v-text="$t('pathogeneApp.rendezVous.detail.title')">RendezVous</span>
+            <span v-text="$t('pathogeneApp.rendezVous.detail.title')">Appointment</span>
           </h2>
           <dl class="row jh-entity-details">
             <dt>
@@ -32,7 +32,7 @@
               <div v-if="rendezVous.patient">{{ rendezVous.patient.nom }} {{ rendezVous.patient.prenom }}</div>
             </dd>
             <dt>
-              <span v-text="$t('pathogeneApp.rendezVous.medecin')">Medecin</span>
+              <span v-text="$t('pathogeneApp.rendezVous.medecin')">Doctor</span>
             </dt>
             <dd v-if="!isMedecin()">
               <div v-if="rendezVous.medecin">

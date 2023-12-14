@@ -56,7 +56,7 @@
               </div>
 
               <div class="form-group">
-                <label class="form-control-label" for="secretaire-numEmp">Num Emp</label>
+                <label class="form-control-label" for="secretaire-numEmp">Empployee Number</label>
                 <input
                   type="text"
                   class="form-control"

@@ -33,7 +33,12 @@ public class RabbitController {
     @PostConstruct
     public void initializeModels() {
         // Chargez la liste des noms de toutes les maladies et leurs modèles associés
-        models = maladieRepository.findAll().stream().collect(Collectors.toMap(Maladie::getNom, Maladie::getModeleFileName));
+        models =
+            maladieRepository
+                .findAll()
+                .stream()
+                .filter(maladie -> maladie.getNom() != null && maladie.getModeleFileName() != null)
+                .collect(Collectors.toMap(Maladie::getNom, Maladie::getModeleFileName));
     }
 
     @PostMapping("/analyze")

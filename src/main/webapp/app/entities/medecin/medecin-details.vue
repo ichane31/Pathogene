@@ -5,7 +5,7 @@
         <div class="col-8">
           <div v-if="medecin">
             <h2 class="jh-entity-heading" data-cy="medecinDetailsHeading">
-              <span v-text="$t('pathogeneApp.medecin.detail.title')">Medecin</span>
+              <span v-text="$t('pathogeneApp.medecin.detail.title')">Doctors</span>
             </h2>
             <dl class="row jh-entity-details">
               <dt>
@@ -17,7 +17,7 @@
                     <img
                       v-bind:src="'data:' + medecin.photoContentType + ';base64,' + medecin.photo"
                       style="max-width: 100%"
-                      alt="medecin image"
+                      alt="Doctor image"
                     />
                   </a>
                 </div>
@@ -30,19 +30,19 @@
               </dd>
 
               <dt>
-                <span v-text="$t('pathogeneApp.medecin.nom')">Nom</span>
+                <span v-text="$t('pathogeneApp.medecin.nom')">LastName</span>
               </dt>
               <dd>
                 <span>{{ medecin.nom }}</span>
               </dd>
               <dt>
-                <span v-text="$t('pathogeneApp.medecin.numEmp')">Num Emp</span>
+                <span v-text="$t('pathogeneApp.medecin.numEmp')">Employee Number </span>
               </dt>
               <dd>
                 <span>{{ medecin.numEmp }}</span>
               </dd>
               <dt>
-                <span v-text="$t('pathogeneApp.medecin.prenom')">Prenom</span>
+                <span v-text="$t('pathogeneApp.medecin.prenom')">FirstName</span>
               </dt>
               <dd>
                 <span>{{ medecin.prenom }}</span>
@@ -60,7 +60,7 @@
                 <span>{{ medecin.type }}</span>
               </dd>
               <dt>
-                <span v-text="$t('pathogeneApp.medecin.nbrPatients')">Nbr Patients</span>
+                <span v-text="$t('pathogeneApp.medecin.nbrPatients')">NumberOfPatients </span>
               </dt>
               <dd>
                 <span>{{ medecin.nbrPatients }}</span>
@@ -79,7 +79,7 @@
               </dd>
 
               <dt>
-                <span v-text="$t('pathogeneApp.medecin.secretaire')">Secretaire</span>
+                <span v-text="$t('pathogeneApp.medecin.secretaire')">Secretary</span>
               </dt>
               <dd>
                 <div v-if="medecin.secretaire">

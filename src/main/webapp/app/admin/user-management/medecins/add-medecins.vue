@@ -4,10 +4,10 @@
       <div class="row justify-content-center">
         <div class="col-8">
           <form name="editForm" role="form" novalidate v-on:submit.prevent="save()">
-            <h2 id="pathogeneApp.medecin.home.createOrEditLabel" data-cy="MedecinCreateUpdateHeading">Create a Medecin</h2>
+            <h2 id="pathogeneApp.medecin.home.createOrEditLabel" data-cy="MedecinCreateUpdateHeading">Create a Doctor</h2>
             <div>
               <div class="form-group">
-                <label class="form-control-label" for="medecin-nom">Nom</label>
+                <label class="form-control-label" for="medecin-nom">LastName</label>
                 <input
                   type="text"
                   class="form-control"
@@ -20,7 +20,7 @@
               </div>
 
               <div class="form-group">
-                <label class="form-control-label" for="medecin-prenom">Prenom</label>
+                <label class="form-control-label" for="medecin-prenom">FirstName</label>
                 <input
                   type="text"
                   class="form-control"
@@ -56,7 +56,7 @@
               </div>
 
               <div class="form-group">
-                <label class="form-control-label" for="medecin-numEmp">Num Emp</label>
+                <label class="form-control-label" for="medecin-numEmp">Employee Number</label>
                 <input
                   type="text"
                   class="form-control"
@@ -141,7 +141,7 @@
               </div>
 
               <div class="form-group">
-                <label class="form-control-label" for="medecin-nbrPatients">Nbr Patients</label>
+                <label class="form-control-label" for="medecin-nbrPatients">NumberOfPatients</label>
                 <input
                   type="number"
                   class="form-control"
@@ -180,7 +180,7 @@
               </div>
 
               <div class="form-group">
-                <label class="form-control-label" for="medecin-secretaire">Secretaire</label>
+                <label class="form-control-label" for="medecin-secretaire">Secretary</label>
                 <select class="form-control" id="medecin-secretaire" data-cy="secretaire" name="secretaire" v-model="medecin.secretaire">
                   <option v-bind:value="null"></option>
                   <option

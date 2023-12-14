@@ -1,7 +1,7 @@
 <template>
   <b-navbar data-cy="navbar" toggleable="md" type="dark" class="jh-navbar">
     <b-navbar-brand class="logo" b-link to="/">
-      <span class="navbar-title">HealthCare</span>
+      <span class="navbar-title">DLDiagnosis</span>
     </b-navbar-brand>
     <b-navbar-toggle
       right
@@ -24,30 +24,30 @@
           </span>
         </b-nav-item>
         <b-nav-item to="/admin/user-management" v-if="(hasAnyAuthority('ROLE_ADMIN') || hasAnyAuthority('SECRETAIRE')) && authenticated"
-          >Comptes</b-nav-item
+          >Accounts</b-nav-item
         >
-        <b-nav-item to="/medecin" v-if="hasAnyAuthority('ROLE_ADMIN') && authenticated">Medecins</b-nav-item>
-        <b-nav-item to="/patient/medecins" v-if="hasAnyAuthority('PATIENT') && authenticated">Mes medecins</b-nav-item>
-        <b-nav-item to="/medecin/patients" v-if="hasAnyAuthority('MEDECIN') && authenticated">Mes patients</b-nav-item>
+        <b-nav-item to="/doctor" v-if="hasAnyAuthority('ROLE_ADMIN') && authenticated">Doctors</b-nav-item>
+        <b-nav-item to="/patient/doctors" v-if="hasAnyAuthority('PATIENT') && authenticated">My Doctors</b-nav-item>
+        <b-nav-item to="/doctor/patients" v-if="hasAnyAuthority('MEDECIN') && authenticated">My Patients</b-nav-item>
         <b-nav-item to="/patient" v-if="hasAnyAuthority('SECRETAIRE') && authenticated">Patients</b-nav-item>
-        <b-nav-item to="/secretaire" v-if="hasAnyAuthority('ROLE_ADMIN') && authenticated">Secretaires</b-nav-item>
+        <b-nav-item to="/secretary" v-if="hasAnyAuthority('ROLE_ADMIN') && authenticated">Secretaries</b-nav-item>
         <b-nav-item
-          to="/rendez-vous"
+          to="/appointment"
           v-if="(hasAnyAuthority('PATIENT') || hasAnyAuthority('SECRETAIRE') || hasAnyAuthority('MEDECIN')) && authenticated"
-          >Rendez-vous</b-nav-item
+          >Appointments</b-nav-item
         >
         <b-nav-item
-          to="/visite"
+          to="/visit"
           v-if="(hasAnyAuthority('PATIENT') || hasAnyAuthority('SECRETAIRE') || hasAnyAuthority('MEDECIN')) && authenticated"
-          >Visites</b-nav-item
+          >Visits</b-nav-item
         >
         <b-nav-item to="/detection" v-if="(hasAnyAuthority('MEDECIN') || hasAnyAuthority('PATIENT')) && authenticated"
           >Detections</b-nav-item
         >
         <b-nav-item
-          to="/maladie"
+          to="/disease"
           v-if="(hasAnyAuthority('MEDECIN') || hasAnyAuthority('PATIENT') || hasAnyAuthority('ROLE_ADMIN')) && authenticated"
-          >Maladies</b-nav-item
+          >Diseases</b-nav-item
         >
         <b-nav-item v-on:click="openLogin()" v-if="!authenticated">Sign in</b-nav-item>
         <b-nav-item to="/register" v-if="!authenticated">Register</b-nav-item>

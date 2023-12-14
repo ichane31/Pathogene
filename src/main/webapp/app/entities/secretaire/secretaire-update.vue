@@ -4,7 +4,7 @@
       <div class="row justify-content-center">
         <div class="col-8">
           <form name="editForm" role="form" novalidate v-on:submit.prevent="save()">
-            <h2 id="pathogeneApp.secretaire.home.createOrEditLabel" data-cy="SecretaireCreateUpdateHeading">Create or edit a Secretaire</h2>
+            <h2 id="pathogeneApp.secretaire.home.createOrEditLabel" data-cy="SecretaireCreateUpdateHeading">Create or edit a Secretary</h2>
             <div>
               <div class="form-group" v-if="secretaire.id">
                 <label for="id">ID</label>
@@ -12,7 +12,7 @@
               </div>
 
               <div class="form-group">
-                <label class="form-control-label" for="secretaire-nom">Nom</label>
+                <label class="form-control-label" for="secretaire-nom">LastName</label>
                 <input
                   type="text"
                   class="form-control"
@@ -24,7 +24,7 @@
                 />
               </div>
               <div class="form-group">
-                <label class="form-control-label" for="secretaire-numEmp">Num Emp</label>
+                <label class="form-control-label" for="secretaire-numEmp">Employee Number </label>
                 <input
                   type="text"
                   class="form-control"
@@ -36,7 +36,7 @@
                 />
               </div>
               <div class="form-group">
-                <label class="form-control-label" for="secretaire-prenom">Prenom</label>
+                <label class="form-control-label" for="secretaire-prenom">FirstName</label>
                 <input
                   type="text"
                   class="form-control"
