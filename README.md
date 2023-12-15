@@ -39,7 +39,7 @@ Make sure you have the following installed:
 3. *Python Component:*
    - Used for loading pre-trained models in .h5 format.
    - Predictions are published on a RabbitMQ queue and retrieved at the backend.
-   - Python source code: [python-component](python-component)
+   - Python source code: [python-component][(python-component](https://github.com/najiaokacha/DiagnoDeepClassification/tree/master))
 
 ### Compilation and Execution
 
