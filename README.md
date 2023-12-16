@@ -39,7 +39,7 @@ Ensure you have the following installed and configured on your development machi
    - Backend source code: [web-application/src/main/java](web-application/src/main/java)
 
 2. *Mobile Application:*
-  - Developed with Flutter and Dart.
+   - Developed with Flutter and Dart.
    - The mobile app provides a cross-platform experience with a single codebase.
    - Dart is used for building the logic, and Flutter's widgets ensure a native look and feel.
 
