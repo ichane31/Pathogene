@@ -43,7 +43,7 @@ Ensure you have the following installed and configured on your development machi
    - The mobile app provides a cross-platform experience with a single codebase.
    - Dart is used for building the logic, and Flutter's widgets ensure a native look and feel.
 
-   - Mobile app source code: [mobile-application/lib]([mobile-application/lib](https://github.com/mabouelkhir/dldiagnostics))
+   - Mobile app source code: [mobile-application/lib][(mobile-application/lib](https://github.com/mabouelkhir/dldiagnostics))
 
 3. *Python Component:*
    - Used for loading pre-trained models in `.h5` format.
