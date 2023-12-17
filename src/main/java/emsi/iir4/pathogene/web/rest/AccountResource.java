@@ -17,6 +17,7 @@ import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -154,7 +155,7 @@ public class AccountResource {
      */
     @GetMapping("/account")
     public AdminUserDTO getAccount() {
-        AdminUserDTO userDTO = new AdminUserDTO();
+        AdminUserDTO userDTO;
         userDTO =
             userService
                 .getUserWithAuthorities()
@@ -236,26 +237,28 @@ public class AccountResource {
 
     @GetMapping("/maladie/patient")
     @PreAuthorize("hasAnyAuthority('" + AuthoritiesConstants.PATIENT + "','" + AuthoritiesConstants.ADMIN + "')")
-    public ResponseEntity<Maladie> getMaladieByPatient(
-        @org.springdoc.api.annotations.ParameterObject Pageable pageable,
+    public ResponseEntity<List<Maladie>> getMaladieByPatient(
+        @ParameterObject Pageable pageable,
         @RequestParam(required = false) String filter
     ) {
-        if ((patientRepository.findByUserId(getAccount().getId())).isPresent()) {
-            Patient patient = patientRepository.findByUserId(getAccount().getId()).get();
+        Optional<Patient> optionalPatient = patientRepository.findByUserId(getAccount().getId());
+        if (optionalPatient.isPresent()) {
+            Patient patient = optionalPatient.get();
 
-            // Récupérez le stade du patient
-            Stade stade = stadeRepository.findById(patient.getStade().getId()).get();
+            Optional<Stade> optionalStade = stadeRepository.findById(patient.getStade().getId());
 
-            // Récupérez la maladie associée au stade du patient
-            Maladie maladie = stade.getMaladie();
+            if (optionalStade.isPresent()) {
+                Stade stade = optionalStade.get();
 
-            // Créez une liste de maladies contenant uniquement la maladie du patient
-            List<Maladie> maladies = Collections.singletonList(maladie);
+                Maladie maladie = stade.getMaladie();
 
-            // Retournez la liste de maladies du patient
-            return ResponseEntity.ok().body(maladie);
+                List<Maladie> maladies = Collections.singletonList(maladie);
+
+                return ResponseEntity.ok().body(maladies);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
         } else {
-            // Le patient n'a pas été trouvé, renvoyez une réponse appropriée (par exemple, 404 Not Found)
             return ResponseEntity.notFound().build();
         }
     }

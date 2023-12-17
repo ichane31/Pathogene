@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.ConcurrencyFailureException;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.validation.BindingResult;
@@ -59,7 +60,9 @@ public class ExceptionTranslator implements ProblemHandling, SecurityAdviceTrait
     @Override
     public ResponseEntity<Problem> process(@Nullable ResponseEntity<Problem> entity, NativeWebRequest request) {
         if (entity == null) {
-            return null;
+            return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Problem.builder().withTitle("Error").withDetail("Problem processing request").build());
         }
         Problem problem = entity.getBody();
         if (!(problem instanceof ConstraintViolationProblem || problem instanceof DefaultProblem)) {
