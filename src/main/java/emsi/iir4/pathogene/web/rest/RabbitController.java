@@ -3,7 +3,6 @@ package emsi.iir4.pathogene.web.rest;
 import emsi.iir4.pathogene.domain.Maladie;
 import emsi.iir4.pathogene.repository.MaladieRepository;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import org.springframework.amqp.core.DirectExchange;

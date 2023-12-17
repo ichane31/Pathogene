@@ -23,7 +23,6 @@ import emsi.iir4.pathogene.web.rest.vm.ManagedUserVM;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
-import java.util.Collections;
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import org.slf4j.Logger;
@@ -298,15 +297,19 @@ public class UserResource {
     public ResponseEntity<Void> deleteUser(@PathVariable @Pattern(regexp = Constants.LOGIN_REGEX) String login) {
         if (accountResource.getAccount().getAuthorities().contains(new SimpleGrantedAuthority(AuthoritiesConstants.SECRETAIRE))) {
             log.debug("REST request to delete User : {}", login);
-            //forbid deleting non PATIENT users
-            if (
-                !userService
-                    .getUserWithAuthoritiesByLogin(login)
-                    .get()
-                    .getAuthorities()
-                    .contains(new SimpleGrantedAuthority(AuthoritiesConstants.PATIENT))
-            ) {
-                return ResponseEntity.badRequest().build();
+
+            Optional<User> optionalUser = userService.getUserWithAuthoritiesByLogin(login);
+
+            if (optionalUser.isPresent()) {
+                User user = optionalUser.get();
+
+                // Vérifier si l'utilisateur n'est pas un PATIENT avant de le supprimer
+                if (!user.getAuthorities().contains(new SimpleGrantedAuthority(AuthoritiesConstants.PATIENT))) {
+                    return ResponseEntity.badRequest().build();
+                }
+            } else {
+                // L'utilisateur n'a pas été trouvé
+                return ResponseEntity.notFound().build();
             }
         }
         log.debug("REST request to delete User: {}", login);
