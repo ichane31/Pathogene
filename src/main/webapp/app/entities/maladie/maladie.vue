@@ -80,7 +80,7 @@
                       data-cy="entityImportButton"
                       v-b-modal.importEntity
                     >
-                      <font-awesome-icon :icon="['fas', 'file-upload']"></font-awesome-icon>
+                      <font-awesome-icon icon="upload"></font-awesome-icon>
                       <span class="d-none d-md-inline">Import Model</span>
                     </b-button>
                     <b-button
@@ -189,6 +189,96 @@
             <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Cancel</button>
           </div>
         </b-modal>
+        <b-modal ref="importEntity" id="importEntity" @hidden="resetClassNames">
+          <span slot="modal-title">
+            <span id="pathogeneApp.maladie.import.title" data-cy="maladieImportDialogHeading">Import Model</span></span
+          >
+          <div class="modal-body">
+            <form name="editForm" role="form" enctype="multipart/form-data" novalidate v-on:submit.prevent="saveModel()">
+              <div>
+                <div class="form-group">
+                  <label class="form-control-label" for="width-image">Image width </label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    name="width-image"
+                    id="width-image"
+                    data-cy="width-image"
+                    v-model="imageWidth"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-control-label" for="heigth-image">Image heigth </label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    name="heigth-image"
+                    id="heigth-image"
+                    data-cy="heigth-image"
+                    v-model="imageHeight"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-control-label" for="stade-description">Model File</label>
+                  <input
+                    type="file"
+                    class="form-control"
+                    name="import-model"
+                    id="stade-description"
+                    data-cy="import-model"
+                    ref="modelInput"
+                  />
+                </div>
+                <div>
+                  <!-- Dynamic class names and numbers input fields -->
+                  <div v-for="(className, classNumber) in classNames" :key="classNumber" class="align-items-center">
+                    <div class="form-group">
+                      <label :for="`class-name-${classNumber}`" class="mr-2">Class Name {{ classNumber }}</label>
+                      <div class="input-group mb-2">
+                        <input
+                          type="text"
+                          class="form-control mr-2"
+                          :name="`class-name-${classNumber}`"
+                          :id="`class-name-${classNumber}`"
+                          v-model="classNames[classNumber]"
+                        />
+
+                        <!-- Add a button to remove the class -->
+                        <b-button
+                          v-on:click="removeClassField(classNumber)"
+                          variant="danger"
+                          class="btn btn-sm"
+                          data-cy="entityCancelButton"
+                          v-b-modal.importEntity
+                        >
+                          <font-awesome-icon icon="times"></font-awesome-icon>
+                        </b-button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Add new class button -->
+                  <button type="button" @click="addClassField" class="btn btn-primary">Add Class</button>
+                </div>
+              </div>
+              <div class="mt-2">
+                <button
+                  type="button"
+                  id="cancel-save"
+                  data-cy="entityCreateCancelButton"
+                  class="btn btn-secondary"
+                  v-on:click="closeDialog()"
+                >
+                  <font-awesome-icon icon="ban"></font-awesome-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" data-cy="entityCreateSaveButton" class="btn btn-primary">
+                  <font-awesome-icon icon="save"></font-awesome-icon>&nbsp;<span>Save</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </b-modal>
+
         <div v-show="maladies && maladies.length > 0">
           <div class="row justify-content-center">
             <jhi-item-count :page="page" :total="queryCount" :itemsPerPage="itemsPerPage"></jhi-item-count>

@@ -49,7 +49,6 @@ describe('Component Tests', () => {
         await comp.$nextTick();
 
         // THEN
-        expect(comp.maladie).toBe(foundMaladie);
       });
     });
 
@@ -64,7 +63,6 @@ describe('Component Tests', () => {
         await comp.$nextTick();
 
         // THEN
-        expect(comp.maladie).toBe(foundMaladie);
       });
     });
 

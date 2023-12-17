@@ -50,8 +50,8 @@ export default class Maladie extends Vue {
 
   public imageHeight: number = null;
 
-  public classNames: {
-    0: ''; // Initial class name
+  public classNames: { [key: number]: string } = {
+    0: '', // Initial class name
   };
 
   public mounted(): void {
@@ -134,6 +134,15 @@ export default class Maladie extends Vue {
     this.$set(this.classNames, nextClassNumber, ''); // Add a new class name field
   }
 
+  public removeClassField(classNumber) {
+    // Remove the class by its number
+    this.$delete(this.classNames, classNumber);
+  }
+
+  public resetClassNames() {
+    this.classNames = { 0: '' };
+  }
+
   public async saveStade() {
     this.stade.maladie = this.maladie;
     try {
@@ -157,8 +166,13 @@ export default class Maladie extends Vue {
     formData.append('imageWidth', this.imageWidth.toString());
     formData.append('imageHeight', this.imageHeight.toString());
     formData.append('modelFile', (this.$refs.modelInput as HTMLInputElement).files[0]);
-    console.log(formData);
-
+    // Iterate through classNames and append each class name to formData
+    for (const [classNumber, className] of Object.entries(this.classNames)) {
+      formData.append(`classNames[${classNumber}]`, className);
+    }
+    formData.forEach((value, key) => {
+      console.log(key, value);
+    });
     try {
       await this.maladieService().uploadModel(this.importId, formData);
       this.$bvToast.toast('A model is imported', {
@@ -237,7 +251,7 @@ export default class Maladie extends Vue {
   public closeDialog(): void {
     (<any>this.$refs.removeEntity).hide();
     (<any>this.$refs.affecteEntity).hide();
-    (<any>this.$refs.importModel).hide();
+    (<any>this.$refs.importEntity).hide();
   }
 
   @Watch('searchQuery')

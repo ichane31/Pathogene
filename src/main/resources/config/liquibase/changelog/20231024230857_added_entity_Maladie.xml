@@ -51,7 +51,7 @@
                   file="config/liquibase/fake-data/maladie.csv"
                   separator=";"
                   tableName="maladie"
-                  usePreparedStatements="true">
+        >
             <column name="id" type="numeric"/>
             <column name="code" type="string"/>
             <column name="nom" type="string"/>

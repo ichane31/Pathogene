@@ -71,7 +71,7 @@ export default class MedecinPatients extends mixins(JhiDataUtils) {
   public async retrieveAllStades() {
     this.isFetching = true;
     try {
-      let response = await this.stadeService().retrieve({
+      const response = await this.stadeService().retrieve({
         page: this.page - 1,
         size: this.itemsPerPage,
         sort: this.sort(),
@@ -131,7 +131,7 @@ export default class MedecinPatients extends mixins(JhiDataUtils) {
   public async retrieveAllVisites() {
     this.isFetching = true;
     try {
-      let response = await this.accountService().retrieveAllVisites({
+      const response = await this.accountService().retrieveAllVisites({
         page: this.page - 1,
         size: this.itemsPerPage,
         sort: this.sort(),
@@ -149,7 +149,7 @@ export default class MedecinPatients extends mixins(JhiDataUtils) {
   public async retrieveAllMaladies() {
     this.isFetching = true;
     try {
-      let response = await this.maladieService().retrieve({
+      const response = await this.maladieService().retrieve({
         page: this.page - 1,
         size: this.itemsPerPage,
         sort: this.sort(),
@@ -166,7 +166,7 @@ export default class MedecinPatients extends mixins(JhiDataUtils) {
 
   public async prepareDetection(instance: IPatient) {
     this.patient = instance;
-    let visites = await this.visiteService().retrieveForMed(instance.id);
+    const visites = await this.visiteService().retrieveForMed(instance.id);
     this.visites = visites.data;
     if (<any>this.$refs.detectionEntity) {
       (<any>this.$refs.detectionEntity).show();

@@ -32,7 +32,7 @@ export default class PatientMedecins extends mixins(JhiDataUtils) {
   public async retrieveAllMedecins(): void {
     this.isFetching = true;
     try {
-      let medecins = await this.accountService().retrieveMedecins({
+      const medecins = await this.accountService().retrieveMedecins({
         page: this.page - 1,
         size: this.itemsPerPage,
         sort: this.sort(),

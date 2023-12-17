@@ -73,6 +73,10 @@ export default class JhiUserManagementEdit extends Vue {
       });
   }
 
+  get filteredAuthorities() {
+    return this.authorities.filter(authority => authority !== null);
+  }
+
   public init(userId: number): void {
     this.userManagementService()
       .get(userId)

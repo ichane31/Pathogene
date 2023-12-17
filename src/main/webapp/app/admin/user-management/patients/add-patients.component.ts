@@ -54,7 +54,7 @@ export default class PatientUpdate extends mixins(JhiDataUtils) {
     this.user.firstName = this.patient.prenom;
     this.user.lastName = this.patient.nom;
     try {
-      let user = JSON.parse(sessionStorage.getItem('user-info'));
+      const user = JSON.parse(sessionStorage.getItem('user-info'));
       this.patient.secretaire = user.secretaire;
       await this.userManagementService().createPatient({
         user: this.user,

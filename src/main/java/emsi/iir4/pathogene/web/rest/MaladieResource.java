@@ -6,10 +6,7 @@ import emsi.iir4.pathogene.service.FileStorageService;
 import emsi.iir4.pathogene.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -78,10 +75,20 @@ public class MaladieResource {
         @PathVariable Long id,
         @RequestParam("imageWidth") Long imageWidth,
         @RequestParam("imageHeight") Long imageHeight,
-        @RequestParam("modelFile") MultipartFile modelFile
+        @RequestParam("modelFile") MultipartFile modelFile,
+        @RequestParam Map<String, String> classNames
     ) {
         try {
             Maladie maladie_result = maladieRepository.findById(id).orElse(null);
+
+            Map<Integer, String> classNamesMapping = new HashMap<>();
+            for (Map.Entry<String, String> entry : classNames.entrySet()) {
+                if (entry.getKey().startsWith("classNames[")) {
+                    // Extract class number from the key
+                    int classNumber = Integer.parseInt(entry.getKey().replaceAll("\\D+", ""));
+                    classNamesMapping.put(classNumber, entry.getValue());
+                }
+            }
 
             if (maladie_result != null) {
                 // Récupérer le nom de l'ancien fichier
@@ -100,6 +107,10 @@ public class MaladieResource {
                 maladie_result.setModeleFileName(newFileName);
                 maladie_result.setModeleContentType(modelFile.getContentType());
 
+                // Set the updated class names
+                // Save class names
+                maladie_result.setClassNamesMapping(classNamesMapping);
+
                 // Save the updated Maladie object
                 maladieRepository.save(maladie_result);
             }
@@ -109,6 +120,15 @@ public class MaladieResource {
             // Handle exceptions, log errors, and return an appropriate response
             return ResponseEntity.status(500).body(e.getMessage());
         }
+    }
+
+    public Map<Integer, String> convertClassNames(Map<String, String> classNames) {
+        Map<Integer, String> convertedClassNames = new HashMap<>();
+        for (Map.Entry<String, String> entry : classNames.entrySet()) {
+            int classNumber = Integer.parseInt(entry.getKey());
+            convertedClassNames.put(classNumber, entry.getValue());
+        }
+        return convertedClassNames;
     }
 
     /**

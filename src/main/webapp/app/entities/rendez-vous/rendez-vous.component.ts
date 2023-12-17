@@ -90,7 +90,7 @@ export default class RendezVouss extends Vue {
       this.idMedecin = null;
       this.calendarOptions.events = [];
       this.rendezVous = new RendezVous();
-      let ev = await this.rendezVousService().retrieve();
+      const ev = await this.rendezVousService().retrieve();
       this.rendezVouss = ev.data;
       if (this.rendezVouss != null) {
         for (let i = 0; i < this.rendezVouss.length; i++) {
@@ -124,7 +124,7 @@ export default class RendezVouss extends Vue {
     try {
       this.calendarOptions.events = [];
       //let medecin = JSON.parse(sessionStorage.getItem('user-info'));
-      let rv = await this.rendezVousService().retrieveAllRendezVousForMedecin();
+      const rv = await this.rendezVousService().retrieveAllRendezVousForMedecin();
       this.rendezVouss = rv.data;
       if (this.rendezVouss != null) {
         for (let i = 0; i < this.rendezVouss.length; i++) {
@@ -155,7 +155,7 @@ export default class RendezVouss extends Vue {
     try {
       this.calendarOptions.events = [];
       //let patient = JSON.parse(sessionStorage.getItem('user-info'));
-      let rd = await this.rendezVousService().retrieveAllRendezVousForPatient();
+      const rd = await this.rendezVousService().retrieveAllRendezVousForPatient();
       this.rendezVouss = rd.data;
       if (this.rendezVouss != null) {
         for (let i = 0; i < this.rendezVouss.length; i++) {
@@ -184,8 +184,8 @@ export default class RendezVouss extends Vue {
   // recuperer tous les medecins et les patients
   public async retrievePatientsMedecins() {
     try {
-      let dataPatients = await this.patientService().retrieve();
-      let dataMedecins = await this.medecinService().retrieve();
+      const dataPatients = await this.patientService().retrieve();
+      const dataMedecins = await this.medecinService().retrieve();
       this.patients = dataPatients.data;
       this.medecins = dataMedecins.data;
     } catch (e) {
@@ -219,7 +219,7 @@ export default class RendezVouss extends Vue {
     try {
       this.rendezVous.patient = await this.patientService().find(this.idPatient);
       this.rendezVous.medecin = await this.medecinService().find(this.idMedecin);
-      let time = this.rendezVous.heure.split(':');
+      const time = this.rendezVous.heure.split(':');
       this.rendezVous.date.setHours(parseInt(time[0]), parseInt(time[1]));
       this.rendezVous.status = 'pending';
       await this.rendezVousService().create(this.rendezVous);
@@ -254,7 +254,7 @@ export default class RendezVouss extends Vue {
       this.visite = new Visite();
       this.visite.rendezVous = this.rendezVous;
       this.visite.date = this.rendezVous.date;
-      let res = await this.visiteService().create(this.visite);
+      const res = await this.visiteService().create(this.visite);
       console.log(res);
     } catch (e) {
       console.log(e);

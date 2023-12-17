@@ -68,6 +68,15 @@ export default class JhiUserManagementComponent extends Vue {
       });
   }
 
+  get filteredUsersPatient() {
+    // Filter out users with 'PATIENT' authority
+    return this.users.filter(user => user.authorities.includes('PATIENT'));
+  }
+
+  get filteredUsersNotPatient() {
+    return this.users.filter(user => !user.authorities.includes('PATIENT'));
+  }
+
   public handleSyncList(): void {
     this.loadAll();
   }

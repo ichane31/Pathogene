@@ -126,18 +126,18 @@ public class UserResource {
 
     @PostMapping("medecin/register")
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
-    public Medecin registerPatient(@Valid @RequestBody MedecinUserDTO medecindto) throws URISyntaxException {
+    public Medecin registerPatient(@Valid @RequestBody MedecinUserDTO medecindto) {
         log.debug("REST request to save Medecin : {}", medecindto);
         Medecin medecin = medecindto.getMedecin();
-        ManagedUserVM Puser = medecindto.getUser();
+        ManagedUserVM puser = medecindto.getUser();
 
         if (medecin.getId() != null) {
             throw new BadRequestAlertException("A new Medecin cannot already have an ID", "Medecin", "idexists");
         }
-        Puser.setAuthorities(new HashSet<>());
-        Puser.getAuthorities().add(AuthoritiesConstants.MEDECIN);
+        puser.setAuthorities(new HashSet<>());
+        puser.getAuthorities().add(AuthoritiesConstants.MEDECIN);
 
-        User user = userService.createAdministeredUser(Puser);
+        User user = userService.createAdministeredUser(puser);
         medecin.setUser(user);
         medecin.setCode("MED-" + UUID.randomUUID().toString());
         return medecinRepository.save(medecin);
@@ -145,16 +145,16 @@ public class UserResource {
 
     @PostMapping("patient/register")
     @PreAuthorize("hasAnyAuthority('" + AuthoritiesConstants.SECRETAIRE + "','" + AuthoritiesConstants.ADMIN + "')")
-    public Patient registerPatient(@Valid @RequestBody PatientUserDTO patientUserDTO) throws URISyntaxException {
+    public Patient registerPatient(@Valid @RequestBody PatientUserDTO patientUserDTO) {
         log.debug("REST request to save Patient : {}", patientUserDTO);
         Patient patient = patientUserDTO.getPatient();
-        ManagedUserVM Puser = patientUserDTO.getUser();
+        ManagedUserVM puser = patientUserDTO.getUser();
         if (patient.getId() != null) {
             throw new BadRequestAlertException("A new Patient cannot already have an ID", "Patient", "idexists");
         }
-        Puser.setAuthorities(new HashSet<>());
-        Puser.getAuthorities().add(AuthoritiesConstants.PATIENT);
-        User user = userService.createAdministeredUser(Puser);
+        puser.setAuthorities(new HashSet<>());
+        puser.getAuthorities().add(AuthoritiesConstants.PATIENT);
+        User user = userService.createAdministeredUser(puser);
         patient.setUser(user);
         patient.setCode("PAT-" + UUID.randomUUID().toString());
         return patientRepository.save(patient);
@@ -162,16 +162,16 @@ public class UserResource {
 
     @PostMapping("secretaire/register")
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
-    public Secretaire registerPatient(@Valid @RequestBody SecretaireUserDTO secretaireUserDTO) throws URISyntaxException {
+    public Secretaire registerPatient(@Valid @RequestBody SecretaireUserDTO secretaireUserDTO) {
         log.debug("REST request to save Secretaire : {}", secretaireUserDTO);
         Secretaire secretaire = secretaireUserDTO.getSecretaire();
-        ManagedUserVM Puser = secretaireUserDTO.getUser();
+        ManagedUserVM puser = secretaireUserDTO.getUser();
         if (secretaire.getId() != null) {
             throw new BadRequestAlertException("A new Secretaire cannot already have an ID", "Secretaire", "idexists");
         }
-        Puser.setAuthorities(new HashSet<>());
-        Puser.getAuthorities().add(AuthoritiesConstants.SECRETAIRE);
-        User user = userService.createAdministeredUser(Puser);
+        puser.setAuthorities(new HashSet<>());
+        puser.getAuthorities().add(AuthoritiesConstants.SECRETAIRE);
+        User user = userService.createAdministeredUser(puser);
         secretaire.setUser(user);
         secretaire.setCode("SEC-" + UUID.randomUUID().toString());
         return secretaireRepository.save(secretaire);

@@ -2,8 +2,11 @@ package emsi.iir4.pathogene.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
@@ -42,6 +45,12 @@ public class Maladie implements Serializable {
 
     @Column(name = "image_height")
     private Long height;
+
+    @ElementCollection
+    @CollectionTable(name = "model_class_names", joinColumns = @JoinColumn(name = "maladie_id"))
+    @MapKeyColumn(name = "class_number")
+    @Column(name = "class_name")
+    private Map<Integer, String> classNamesMapping = new HashMap<>();
 
     public Long getHeight() {
         return height;
@@ -132,6 +141,15 @@ public class Maladie implements Serializable {
         this.width = imageSize;
     }
 
+    @JsonProperty("classNamesMapping")
+    public Map<Integer, String> getClassNamesMapping() {
+        return classNamesMapping;
+    }
+
+    public void setClassNamesMapping(Map<Integer, String> classNamesMapping) {
+        this.classNamesMapping = classNamesMapping;
+    }
+
     public Set<Detection> getDetections() {
         return this.detections;
     }
@@ -193,6 +211,8 @@ public class Maladie implements Serializable {
         stade.setMaladie(null);
         return this;
     }
+
+    // Helper method to convert class names from Map<String, String> to Map<Integer, String>
 
     public Set<Unclassified> getUnclassifieds() {
         return this.unclassifieds;

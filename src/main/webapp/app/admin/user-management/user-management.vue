@@ -37,7 +37,7 @@
           </thead>
 
           <tbody v-if="users && isAdmin()">
-            <tr v-for="user in users" :key="user.id" :id="user.login" v-if="!user.authorities.includes('PATIENT')">
+            <tr v-for="user in filteredUsersNotPatient" :key="user.id" :id="user.login">
               <td>{{ user.login }}</td>
               <td class="jhi-user-email">{{ user.email }}</td>
               <td>
@@ -83,7 +83,7 @@
           </tbody>
 
           <tbody v-if="users && isSecretaire()">
-            <tr v-for="user in users" :key="user.id" :id="user.login" v-if="user.authorities.includes('PATIENT')">
+            <tr v-for="user in filteredUsersPatient" :key="user.id" :id="user.login">
               <td>{{ user.login }}</td>
               <td class="jhi-user-email">{{ user.email }}</td>
               <td>

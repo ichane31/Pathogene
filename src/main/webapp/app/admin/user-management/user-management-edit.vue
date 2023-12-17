@@ -105,7 +105,7 @@
               <div class="form-group" v-if="isAdmin()">
                 <label>Profiles</label>
                 <select class="form-control" multiple name="authority" v-model="userAccount.authorities">
-                  <option v-for="authority of authorities" v-if="authority" :value="authority" :key="authority">{{ authority }}</option>
+                  <option v-for="authority in filteredAuthorities" :value="authority" :key="authority">{{ authority }}</option>
                 </select>
               </div>
             </div>

@@ -1,8 +1,9 @@
 package emsi.iir4.pathogene.config;
 
-import emsi.iir4.pathogene.repository.UserRepository;
 import java.time.Duration;
-import org.ehcache.config.builders.*;
+import org.ehcache.config.builders.CacheConfigurationBuilder;
+import org.ehcache.config.builders.ExpiryPolicyBuilder;
+import org.ehcache.config.builders.ResourcePoolsBuilder;
 import org.ehcache.jsr107.Eh107Configuration;
 import org.hibernate.cache.jcache.ConfigSettings;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,16 @@ import org.springframework.boot.info.BuildProperties;
 import org.springframework.boot.info.GitProperties;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.KeyGenerator;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import tech.jhipster.config.JHipsterProperties;
 import tech.jhipster.config.cache.PrefixedKeyGenerator;
 
 @Configuration
 @EnableCaching
 public class CacheConfiguration {
+
+    private static final String CLASSIFICATIONS = ".classifications";
 
     private GitProperties gitProperties;
     private BuildProperties buildProperties;
@@ -59,7 +63,7 @@ public class CacheConfiguration {
             createCache(cm, emsi.iir4.pathogene.domain.Maladie.class.getName() + ".stades");
             createCache(cm, emsi.iir4.pathogene.domain.Maladie.class.getName() + ".unclassifieds");
             createCache(cm, emsi.iir4.pathogene.domain.Medecin.class.getName());
-            createCache(cm, emsi.iir4.pathogene.domain.Medecin.class.getName() + ".classifications");
+            createCache(cm, emsi.iir4.pathogene.domain.Medecin.class.getName() + CLASSIFICATIONS);
             createCache(cm, emsi.iir4.pathogene.domain.Medecin.class.getName() + ".rendezVous");
             createCache(cm, emsi.iir4.pathogene.domain.Patient.class.getName());
             createCache(cm, emsi.iir4.pathogene.domain.Patient.class.getName() + ".rendezVous");
@@ -69,11 +73,11 @@ public class CacheConfiguration {
             createCache(cm, emsi.iir4.pathogene.domain.Secretaire.class.getName() + ".medecins");
             createCache(cm, emsi.iir4.pathogene.domain.Secretaire.class.getName() + ".patients");
             createCache(cm, emsi.iir4.pathogene.domain.Stade.class.getName());
-            createCache(cm, emsi.iir4.pathogene.domain.Stade.class.getName() + ".classifications");
+            createCache(cm, emsi.iir4.pathogene.domain.Stade.class.getName() + CLASSIFICATIONS);
             createCache(cm, emsi.iir4.pathogene.domain.Stade.class.getName() + ".images");
             createCache(cm, emsi.iir4.pathogene.domain.Stade.class.getName() + ".patients");
             createCache(cm, emsi.iir4.pathogene.domain.Unclassified.class.getName());
-            createCache(cm, emsi.iir4.pathogene.domain.Unclassified.class.getName() + ".classifications");
+            createCache(cm, emsi.iir4.pathogene.domain.Unclassified.class.getName() + CLASSIFICATIONS);
             createCache(cm, emsi.iir4.pathogene.domain.Visite.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
