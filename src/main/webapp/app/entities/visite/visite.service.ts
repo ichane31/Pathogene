@@ -36,7 +36,7 @@ export default class VisiteService {
   public retrieveVisitesForPatient(req?: any): Promise<any> {
     return new Promise(resolve => {
       axios
-        .get(`api/visite/patient?${buildPaginationQueryOpts(req)}`)
+        .get(`api/visites/patient?${buildPaginationQueryOpts(req)}`)
         .then(res => {
           resolve(res);
         })
@@ -55,6 +55,19 @@ export default class VisiteService {
         })
         .catch(() => {
           resolve(false);
+        });
+    });
+  }
+
+  public retrieveForPat(id: number): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      axios
+        .get(`${baseApiUrl}/${id}/patient`)
+        .then(res => {
+          resolve(res);
+        })
+        .catch(err => {
+          reject(err);
         });
     });
   }

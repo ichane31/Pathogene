@@ -22,7 +22,7 @@
                 <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon>
                 <span v-text="$t('pathogeneApp.medecin.home.refreshListLabel')">Refresh List</span>
               </button>
-              <router-link :to="{ name: 'MedecinCreate' }" custom v-slot="{ navigate }">
+              <router-link :to="{ name: 'AddMedecins' }" custom v-slot="{ navigate }">
                 <button
                   @click="navigate"
                   id="jh-create-entity"

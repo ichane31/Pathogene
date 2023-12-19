@@ -59,7 +59,7 @@ export default class AddMedecins extends mixins(JhiDataUtils) {
       this.isSaving = false;
       this.$router.push('/doctor');
       const message = 'A Doctor is created';
-      this.$root.$bvToast.toast(message.toString(), {
+      this.$bvToast.toast(message.toString(), {
         toaster: 'b-toaster-top-center',
         title: 'Success',
         variant: 'success',
