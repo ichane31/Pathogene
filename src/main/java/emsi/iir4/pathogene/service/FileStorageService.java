@@ -37,7 +37,7 @@ public class FileStorageService {
         String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
 
         // Utiliser le nom de la maladie et un UUID pour générer le nouveau nom du fichier
-        return maladieName + "_" + UUID.randomUUID().toString() + "_" + tailleImage + fileExtension;
+        return maladieName + "_" + UUID.randomUUID() + fileExtension;
     }
 
     public void deleteModelFile(String fileName) {

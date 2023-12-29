@@ -46,7 +46,10 @@ public class Maladie implements Serializable {
     @Column(name = "image_height")
     private Long height;
 
-    @ElementCollection
+    @Column(name = "normalizationValue", columnDefinition = "DOUBLE DEFAULT 1")
+    private Double normalizationValue;
+
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "model_class_names", joinColumns = @JoinColumn(name = "maladie_id"))
     @MapKeyColumn(name = "class_number")
     @Column(name = "class_name")
@@ -115,6 +118,14 @@ public class Maladie implements Serializable {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public Double getNormalizationValue() {
+        return normalizationValue;
+    }
+
+    public void setNormalizationValue(Double normalizationValue) {
+        this.normalizationValue = normalizationValue;
     }
 
     public String getModeleContentType() {

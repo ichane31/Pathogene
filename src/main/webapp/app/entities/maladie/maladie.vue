@@ -220,6 +220,29 @@
                 </div>
 
                 <div class="form-group">
+                  <label class="form-control-label" for="validation">Normalize Image ?</label>
+                  <input
+                    type="checkbox"
+                    class="form-check"
+                    name="validation"
+                    id="validation"
+                    data-cy="validation"
+                    v-model="imageNormalize"
+                  />
+                </div>
+                <div v-if="imageNormalize" class="form-group">
+                  <label class="form-control-label" for="normalization-value">Normalization Value</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    name="normalization-value"
+                    id="normalization-value"
+                    data-cy="normalization-value"
+                    v-model="normalizationValue"
+                  />
+                </div>
+
+                <div class="form-group">
                   <label class="form-control-label" for="stade-description">Model File</label>
                   <input
                     type="file"

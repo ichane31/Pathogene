@@ -160,7 +160,7 @@ describe('RendezVous e2e test', () => {
     });
 
     it('should create an instance of RendezVous', () => {
-      cy.get(`[data-cy="date"]`).type('2023-10-24T06:29').blur().should('have.value', '2023-10-24T06:29');
+      cy.get(`[data-cy="date"]`).type('2023-12-21T12:37').blur().should('have.value', '2023-12-21T12:37');
 
       cy.get(`[data-cy="code"]`).type('stable synthesize').should('have.value', 'stable synthesize');
 

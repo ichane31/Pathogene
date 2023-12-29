@@ -76,6 +76,7 @@ public class MaladieResource {
         @RequestParam("imageWidth") Long imageWidth,
         @RequestParam("imageHeight") Long imageHeight,
         @RequestParam("modelFile") MultipartFile modelFile,
+        @RequestParam("normalizationValue") Double normalizationValue,
         @RequestParam Map<String, String> classNames
     ) {
         try {
@@ -106,6 +107,7 @@ public class MaladieResource {
                 maladie_result.setHeight(imageHeight);
                 maladie_result.setModeleFileName(newFileName);
                 maladie_result.setModeleContentType(modelFile.getContentType());
+                maladie_result.setNormalizationValue(normalizationValue);
 
                 // Set the updated class names
                 // Save class names

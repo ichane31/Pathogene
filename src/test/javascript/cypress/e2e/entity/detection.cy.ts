@@ -169,7 +169,7 @@ describe('Detection e2e test', () => {
 
       cy.get(`[data-cy="stade"]`).type('capacity Avon').should('have.value', 'capacity Avon');
 
-      cy.get(`[data-cy="date"]`).type('2023-10-24T16:45').blur().should('have.value', '2023-10-24T16:45');
+      cy.get(`[data-cy="date"]`).type('2023-12-21T22:53').blur().should('have.value', '2023-12-21T22:53');
 
       cy.get(`[data-cy="description"]`).type('dynamic calculating back-end').should('have.value', 'dynamic calculating back-end');
 

@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface MaladieRepository extends JpaRepository<Maladie, Long> {}
+public interface MaladieRepository extends JpaRepository<Maladie, Long> {
+    Maladie findByNom(String nom);
+}

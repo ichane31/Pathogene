@@ -162,7 +162,7 @@ describe('Visite e2e test', () => {
     it('should create an instance of Visite', () => {
       cy.get(`[data-cy="code"]`).type('Dakota Team-oriented SMTP').should('have.value', 'Dakota Team-oriented SMTP');
 
-      cy.get(`[data-cy="date"]`).type('2023-10-24T13:15').blur().should('have.value', '2023-10-24T13:15');
+      cy.get(`[data-cy="date"]`).type('2023-12-21T19:24').blur().should('have.value', '2023-12-21T19:24');
 
       cy.get(entityCreateSaveButtonSelector).click();
 

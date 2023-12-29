@@ -166,7 +166,7 @@ describe('Patient e2e test', () => {
 
       cy.get(`[data-cy="prenom"]`).type('Oro mission-critical').should('have.value', 'Oro mission-critical');
 
-      cy.get(`[data-cy="dateNaissance"]`).type('2023-10-24').blur().should('have.value', '2023-10-24');
+      cy.get(`[data-cy="dateNaissance"]`).type('2023-12-21').blur().should('have.value', '2023-12-21');
 
       cy.get(`[data-cy="adresse"]`).type('deposit cohesive').should('have.value', 'deposit cohesive');
 

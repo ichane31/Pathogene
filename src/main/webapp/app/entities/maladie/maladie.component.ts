@@ -34,6 +34,9 @@ export default class Maladie extends Vue {
   public reverse = false;
   public totalItems = 0;
 
+  public imageNormalize = false;
+  public normalizationValue = 1;
+
   public maladies: IMaladie[] = [];
   public allMaladies: IMaladie[] = [];
   public maladie: IMaladie;
@@ -93,9 +96,10 @@ export default class Maladie extends Vue {
     this.maladieService()
       .findByPatient()
       .then(res => {
-        this.maladies.push(res);
-        this.allMaladies.push(res);
-        this.totalItems = this.maladies.length;
+        this.maladies = res.data;
+        this.allMaladies = res.data;
+        this.totalItems = Number(res.headers['x-total-count']);
+        this.queryCount = this.totalItems;
         this.isFetching = false;
       })
       .catch(error => {
@@ -166,6 +170,8 @@ export default class Maladie extends Vue {
     formData.append('imageWidth', this.imageWidth.toString());
     formData.append('imageHeight', this.imageHeight.toString());
     formData.append('modelFile', (this.$refs.modelInput as HTMLInputElement).files[0]);
+    formData.append('normalizationValue', this.normalizationValue.toString());
+
     // Iterate through classNames and append each class name to formData
     for (const [classNumber, className] of Object.entries(this.classNames)) {
       formData.append(`classNames[${classNumber}]`, className);
@@ -242,6 +248,9 @@ export default class Maladie extends Vue {
 
   public isMedecin(): boolean {
     return this.accountService().userAuthorities.includes('MEDECIN');
+  }
+  public isPatient(): boolean {
+    return this.accountService().userAuthorities.includes('PATIENT');
   }
 
   public isAdmin(): boolean {

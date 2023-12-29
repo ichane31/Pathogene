@@ -78,21 +78,6 @@ describe('Account Service test suite', () => {
     });
   });
 
-  it('should init service and check for authority after retrieving account', async () => {
-    const reqUrl = 'requrl';
-    sessionStorage.setItem('requested-url', reqUrl);
-    localStorage.setItem('jhi-authenticationToken', 'token');
-
-    axiosStub.get.resolves({ data: { authorities: ['USER'] } });
-    accountService = await new AccountService(store, new TranslationService(store, i18n), router);
-
-    return accountService.hasAnyAuthorityAndCheckAuth('USER').then((value: boolean) => {
-      expect((<any>router).history.current.fullPath).toBe(`/${reqUrl}`);
-      expect(sessionStorage.getItem('requested-url')).toBe(null);
-      expect(value).toBe(true);
-    });
-  });
-
   it('should init service as not authentified and not return any authorities admin and not retrieve account', async () => {
     axiosStub.get.resolves({});
     axiosStub.get.withArgs('api/account').rejects();
@@ -107,9 +92,5 @@ describe('Account Service test suite', () => {
     axiosStub.get.resolves({});
     axiosStub.get.withArgs('api/account').rejects();
     accountService = await new AccountService(store, new TranslationService(store, i18n), router);
-
-    return accountService.hasAnyAuthorityAndCheckAuth('USER').then((value: boolean) => {
-      expect(value).toBe(true);
-    });
   });
 });

@@ -1,5 +1,12 @@
 package emsi.iir4.pathogene.web.rest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import emsi.iir4.pathogene.domain.Maladie;
+import emsi.iir4.pathogene.repository.MaladieRepository;
+import emsi.iir4.pathogene.service.dto.MaladieInfoDTO;
+import java.nio.charset.StandardCharsets;
+import org.apache.commons.lang.ArrayUtils;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +25,10 @@ public class MqController {
     @Autowired
     private DirectExchange exchange;
 
+    @Autowired
+    private MaladieRepository maladieRepository;
+
+    /*
     @PostMapping("/analyze")
     public String send(@RequestParam byte[] photo, @RequestParam String name) {
         // BigInteger.valueOf(id).toByteArray()
@@ -49,6 +60,65 @@ public class MqController {
         if (response != null) oracle = new String(response); else oracle = new String(new byte[0]);
         System.out.println("[x]" + oracle);
         return oracle;
+    }
+*/
+
+    @PostMapping("/analyze")
+    public String send(@RequestParam byte[] photo, @RequestParam String maladieName) {
+        // Validation des paramètres
+        if (photo == null || photo.length == 0 || maladieName == null || maladieName.isEmpty()) {
+            return "Invalid parameters";
+        }
+
+        System.out.println(" [x] Requesting classification for disease: " + maladieName);
+
+        // Retrieve information about the disease
+        Maladie maladie = maladieRepository.findByNom(maladieName);
+
+        if (maladie.getModeleFileName() != null && !maladie.getModeleFileName().isEmpty()) {
+            // Create a DTO (Data Transfer Object) to hold information about the disease
+            MaladieInfoDTO maladieInfo = new MaladieInfoDTO();
+            maladieInfo.setHeight(maladie.getHeight());
+            maladieInfo.setWidth(maladie.getWidth());
+            maladieInfo.setNom(maladie.getNom().toLowerCase());
+            maladieInfo.setModeleFileName(maladie.getModeleFileName());
+            maladieInfo.setNormalizationValue(maladie.getNormalizationValue());
+            // Add other relevant information
+            // Convert the DTO to JSON and send it along with the photo
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                String maladieInfoJson = objectMapper.writeValueAsString(maladieInfo);
+                byte[] jsonBytes = maladieInfoJson.getBytes(StandardCharsets.UTF_8);
+
+                // Concatenate JSON bytes and photo bytes
+                byte[] message = ArrayUtils.addAll(jsonBytes, photo);
+
+                byte[] response = (byte[]) template.convertSendAndReceive("", "rpc_" + maladieName.toLowerCase(), message);
+                String oracle = (response != null) ? new String(response, StandardCharsets.UTF_8) : null;
+                System.out.println("[x]" + oracle);
+                // Assuming response is in the format "99.39% Confidence This Is 1"
+                String[] parts = oracle.split("\\s+");
+                if (parts.length >= 6 && "Confidence".equals(parts[1]) && "This".equals(parts[2]) && "Is".equals(parts[3])) {
+                    // Extract the class number from the response
+                    try {
+                        int classNumber = Integer.parseInt(parts[4]);
+                        // Get the corresponding class name from the classNamesMapping
+                        String className = maladie.getClassNamesMapping().get(classNumber);
+                        // Replace the class number with the class name in the response
+                        oracle = oracle.replace(parts[4], className);
+                    } catch (NumberFormatException e) {
+                        // Handle the case where the class number is not a valid integer
+                        e.printStackTrace();
+                    }
+                }
+                return oracle;
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                return "Error processing JSON";
+            }
+        } else {
+            return "Model not available for disease: " + maladieName;
+        }
     }
 
     @PostMapping("/ping")
