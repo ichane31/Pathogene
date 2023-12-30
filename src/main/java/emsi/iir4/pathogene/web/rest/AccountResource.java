@@ -221,10 +221,7 @@ public class AccountResource {
 
     @GetMapping("/detections/patient")
     @PreAuthorize("hasAnyAuthority('" + AuthoritiesConstants.PATIENT + "','" + AuthoritiesConstants.ADMIN + "')")
-    public ResponseEntity<List<Detection>> getAllDetectionsByPatient(
-        @org.springdoc.api.annotations.ParameterObject Pageable pageable,
-        @RequestParam(required = false) String filter
-    ) {
+    public ResponseEntity<List<Detection>> getAllDetectionsByPatient(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
         List<Detection> detections = new ArrayList<>();
         if ((patientRepository.findByUserId(getAccount().getId())).isPresent()) {
             detections = detectionRepository.findAllByPatient_UserId(getAccount().getId());
@@ -237,10 +234,7 @@ public class AccountResource {
 
     @GetMapping("/maladie/patient")
     @PreAuthorize("hasAnyAuthority('" + AuthoritiesConstants.PATIENT + "','" + AuthoritiesConstants.ADMIN + "')")
-    public ResponseEntity<List<Maladie>> getMaladieByPatient(
-        @ParameterObject Pageable pageable,
-        @RequestParam(required = false) String filter
-    ) {
+    public ResponseEntity<List<Maladie>> getMaladieByPatient(@ParameterObject Pageable pageable) {
         Optional<Patient> optionalPatient = patientRepository.findByUserId(getAccount().getId());
         if (optionalPatient.isPresent()) {
             Patient patient = optionalPatient.get();
