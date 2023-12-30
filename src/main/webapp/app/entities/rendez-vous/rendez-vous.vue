@@ -75,10 +75,10 @@
           </button>
           <button
             type="button"
-            class="btn btn-success"
-            id="jhi-confirm-vlaide-rendezVous"
-            data-cy="entityConfirmVaideButton"
-            v-on:click="valideRendezVous()"
+            class="btn btn-info"
+            id="jhi-confirm-reject-rendezVous"
+            data-cy="entityConfirmRejectButton"
+            v-on:click="rejectRendezVous()"
           >
             Reject
           </button>
