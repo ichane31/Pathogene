@@ -36,7 +36,7 @@ export default class VisiteService {
   public retrieveVisitesForPatient(req?: any): Promise<any> {
     return new Promise(resolve => {
       axios
-        .get(`api/visites/patient?${buildPaginationQueryOpts(req)}`)
+        .get(`api/visite/patient?${buildPaginationQueryOpts(req)}`)
         .then(res => {
           resolve(res);
         })

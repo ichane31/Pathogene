@@ -48,7 +48,7 @@
                         <a v-if="image.photo" v-on:click="openFile(image.photoContentType, image.photo)">
                           <img
                             v-bind:src="'data:' + image.photoContentType + ';base64,' + image.photo"
-                            style="max-height: 70px"
+                            style="max-height: 70px; width: 60px"
                             alt="image image"
                           />
                         </a>

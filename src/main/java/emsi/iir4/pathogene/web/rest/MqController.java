@@ -98,7 +98,7 @@ public class MqController {
                 System.out.println("[x]" + oracle);
                 // Assuming response is in the format "99.39% Confidence This Is 1"
                 String[] parts = oracle.split("\\s+");
-                if (parts.length >= 6 && "Confidence".equals(parts[1]) && "This".equals(parts[2]) && "Is".equals(parts[3])) {
+                if (parts.length >= 5 && "Confidence".equals(parts[1]) && "This".equals(parts[2]) && "Is".equals(parts[3])) {
                     // Extract the class number from the response
                     try {
                         int classNumber = Integer.parseInt(parts[4]);

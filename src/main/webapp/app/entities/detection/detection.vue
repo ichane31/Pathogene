@@ -95,6 +95,7 @@
                         <span class="d-none d-md-inline" v-text="$t('entity.action.edit')">Edit</span>
                       </button>
                     </router-link>
+                    <!--
                     <b-button
                       v-on:click="prepareRemove(detection)"
                       variant="danger"
@@ -106,6 +107,7 @@
                       <font-awesome-icon icon="times"></font-awesome-icon>
                       <span class="d-none d-md-inline" v-text="$t('entity.action.delete')">Delete</span>
                     </b-button>
+                    -->
                   </div>
                 </td>
               </tr>

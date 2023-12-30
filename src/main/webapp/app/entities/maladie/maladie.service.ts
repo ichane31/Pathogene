@@ -33,12 +33,12 @@ export default class MaladieService {
     });
   }
 
-  public findByPatient(): Promise<IMaladie> {
+  public findByPatient(paginationQuery?: any): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       axios
-        .get(`api/maladie/patient`)
+        .get(`api/maladie/patient` + `?${buildPaginationQueryOpts(paginationQuery)}`)
         .then(res => {
-          resolve(res.data);
+          resolve(res);
         })
         .catch(err => {
           reject(err);

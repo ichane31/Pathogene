@@ -241,7 +241,7 @@ export default class RendezVouss extends Vue {
   public async valideRendezVous() {
     try {
       this.rendezVous = await this.rendezVousService().find(this.idRdv);
-      this.rendezVous.status = 'passed';
+      this.rendezVous.status = 'accepted';
       await this.rendezVousService().update(this.rendezVous);
       this.closeDialog();
       (this.$root as any).$bvToast.toast('A Rendez-vous is confirmed', {
@@ -256,6 +256,25 @@ export default class RendezVouss extends Vue {
       this.visite.date = this.rendezVous.date;
       const res = await this.visiteService().create(this.visite);
       console.log(res);
+    } catch (e) {
+      console.log(e);
+    }
+    this.retrieveAllRendezVouss();
+  }
+
+  public async rejectRendezVous() {
+    try {
+      this.rendezVous = await this.rendezVousService().find(this.idRdv);
+      this.rendezVous.status = 'refused';
+      await this.rendezVousService().update(this.rendezVous);
+      this.closeDialog();
+      (this.$root as any).$bvToast.toast('A Rendez-vous is rejected', {
+        toaster: 'b-toaster-top-center',
+        title: 'Success',
+        variant: 'success',
+        solid: true,
+        autoHideDelay: 5000,
+      });
     } catch (e) {
       console.log(e);
     }

@@ -34,7 +34,7 @@ public class RendezVous implements Serializable {
     private String status;
 
     @JsonIgnoreProperties(value = { "rendezVous", "detection" }, allowSetters = true)
-    @OneToOne(mappedBy = "rendezVous")
+    @OneToOne(mappedBy = "rendezVous", cascade = { CascadeType.PERSIST })
     private Visite visite;
 
     @ManyToOne

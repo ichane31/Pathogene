@@ -71,7 +71,7 @@
                 <a v-if="secretaire.photo" v-on:click="openFile(secretaire.photoContentType, secretaire.photo)">
                   <img
                     v-bind:src="'data:' + secretaire.photoContentType + ';base64,' + secretaire.photo"
-                    style="width: 90px; max-height: 70px"
+                    style="width: 70px; max-height: 70px"
                     alt="secretaire image"
                   />
                 </a>

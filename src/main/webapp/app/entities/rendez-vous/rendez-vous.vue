@@ -75,12 +75,21 @@
           </button>
           <button
             type="button"
+            class="btn btn-success"
+            id="jhi-confirm-vlaide-rendezVous"
+            data-cy="entityConfirmVaideButton"
+            v-on:click="valideRendezVous()"
+          >
+            Reject
+          </button>
+          <button
+            type="button"
             class="btn btn-primary"
             id="jhi-confirm-delete-rendezVous"
             data-cy="entityConfirmDeleteButton"
             v-on:click="removeRendezVous()"
           >
-            Cancel
+            Delete
           </button>
         </div>
       </b-modal>

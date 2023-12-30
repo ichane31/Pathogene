@@ -46,7 +46,7 @@ public class Detection implements Serializable {
     private String description;
 
     @JsonIgnoreProperties(value = { "rendezVous", "detection" }, allowSetters = true)
-    @OneToOne(mappedBy = "detection")
+    @OneToOne(mappedBy = "detection", cascade = { CascadeType.PERSIST })
     private Visite visite;
 
     @ManyToOne(fetch = FetchType.EAGER)
