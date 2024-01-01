@@ -50,9 +50,9 @@ spring:
 
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://root:gFBH1G1a4bHdb3E4HFdh-4Gece3H3133@viaduct.proxy.rlwy.net:42085/railway?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/pathogene?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: root
-    password: gFBH1G1a4bHdb3E4HFdh-4Gece3H3133
+    password:
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -63,13 +63,12 @@ spring:
         useServerPrepStmts: true
   jpa:
   rabbitmq:
-    host: armadillo.rmq.cloudamqp.com
+    host: localhost
     port: 5672
     ssl:
       enabled: false
-    username: lajqpbgp
-    password: tdPz60XqFxpPxawx20dVRVw_nOHDh2M2
-    virtual-host: lajqpbgp
+    username: guest
+    password: guest
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker
@@ -130,7 +129,7 @@ jhipster:
   # CORS is only enabled by default with the "dev" profile
   cors:
     # Allow Ionic for JHipster by default (* no longer allowed in Spring Boot 2.4+)
-    allowed-origins: 'https://pathogene-production.up.railway.app/'
+    allowed-origins: 'http://localhost:8100,https://localhost:8100,http://localhost:9000,https://localhost:9000,http://localhost:9060,https://localhost:9060'
     # Enable CORS when running in GitHub Codespaces
     allowed-origin-patterns: 'https://*.githubpreview.dev'
     allowed-methods: '*'
@@ -141,7 +140,7 @@ jhipster:
   security:
     authentication:
       jwt:
-        # This token must be encoded using Base64 and be at least 256 bits long (you can type `openssl rand -base64 64` on your command line to generate a 512 bits one)
+        # This token must be encoded using Base64 and be at least 256 bits long (you can type openssl rand -base64 64 on your command line to generate a 512 bits one)
         base64-secret: MjA1Nzk5ZWNkMGRhZjllMmY4OTQzOTg4MDQwZjdjNDdiMjI1M2U3OWI1ZGQyMzI3NjYyYWE0OTljOTU4NTMwNGMwMTJhYmJhNDZiY2M1NDZlYjNjZjYxOTg0Mzg4N2YxMmQ5MWEwMzA2ZWE3NTI2NzQwZGZjNmYzNjBlNWM0ZGQ=
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
