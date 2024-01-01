@@ -52,9 +52,9 @@ spring:
       # it can be set to any label, branch or commit of the configuration source Git repository
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://localhost:3306/pathogene?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+    url: jdbc:mysql://root:gFBH1G1a4bHdb3E4HFdh-4Gece3H3133@viaduct.proxy.rlwy.net:42085/railway?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: root
-    password:
+    password: gFBH1G1a4bHdb3E4HFdh-4Gece3H3133
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -65,14 +65,13 @@ spring:
         useServerPrepStmts: true
   jpa:
   rabbitmq:
-    # host: 0.tcp.eu.ngrok.io
-    # port: 1447
-    host: b-709eef3a-fb78-408f-bf61-c4ce24bb71a5.mq.us-east-1.amazonaws.com
-    port: 5671
+    host: armadillo.rmq.cloudamqp.com
+    port: 5672
     ssl:
-      enabled: true
-    username: kino
-    password: 1593578915935789
+      enabled: false
+    username: lajqpbgp
+    password: tdPz60XqFxpPxawx20dVRVw_nOHDh2M2
+    virtual-host: lajqpbgp
   # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
   liquibase:
     contexts: prod
