@@ -52,9 +52,9 @@ spring:
       # it can be set to any label, branch or commit of the configuration source Git repository
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://root:gFBH1G1a4bHdb3E4HFdh-4Gece3H3133@viaduct.proxy.rlwy.net:42085/railway?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/pathogene?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: root
-    password: gFBH1G1a4bHdb3E4HFdh-4Gece3H3133
+    password:
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -65,13 +65,14 @@ spring:
         useServerPrepStmts: true
   jpa:
   rabbitmq:
-    host: armadillo.rmq.cloudamqp.com
-    port: 5672
+    # host: 0.tcp.eu.ngrok.io
+    # port: 1447
+    host: b-709eef3a-fb78-408f-bf61-c4ce24bb71a5.mq.us-east-1.amazonaws.com
+    port: 5671
     ssl:
-      enabled: false
-    username: lajqpbgp
-    password: tdPz60XqFxpPxawx20dVRVw_nOHDh2M2
-    virtual-host: lajqpbgp
+      enabled: true
+    username: kino
+    password: 1593578915935789
   # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
   liquibase:
     contexts: prod
@@ -141,11 +142,11 @@ jhipster:
   security:
     authentication:
       jwt:
-        # This token must be encoded using Base64 and be at least 256 bits long (you can type `openssl rand -base64 64` on your command line to generate a 512 bits one)
+        # This token must be encoded using Base64 and be at least 256 bits long (you can type openssl rand -base64 64 on your command line to generate a 512 bits one)
         # As this is the PRODUCTION configuration, you MUST change the default key, and store it securely:
         # - In the JHipster Registry (which includes a Spring Cloud Config server)
-        # - In a separate `application-prod.yml` file, in the same folder as your executable JAR file
-        # - In the `JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET` environment variable
+        # - In a separate application-prod.yml file, in the same folder as your executable JAR file
+        # - In the JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET environment variable
         base64-secret: MjA1Nzk5ZWNkMGRhZjllMmY4OTQzOTg4MDQwZjdjNDdiMjI1M2U3OWI1ZGQyMzI3NjYyYWE0OTljOTU4NTMwNGMwMTJhYmJhNDZiY2M1NDZlYjNjZjYxOTg0Mzg4N2YxMmQ5MWEwMzA2ZWE3NTI2NzQwZGZjNmYzNjBlNWM0ZGQ=
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
