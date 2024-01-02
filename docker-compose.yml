@@ -1,4 +1,4 @@
-# This configuration is intended for development purpose, it's *your* responsibility to harden it for production
+# This configuration is intended for development purpose, it's **your** responsibility to harden it for production
 version: '3.8'
 services:
   pathogene-app:
@@ -32,9 +32,20 @@ services:
     command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp
 
   python:
-    image: mabouelkhir/pathogene11:pythonlast
+    image: mabouelkhir/pathogene11:pythonlast2
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=pathogene-mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=
+    ports:
+      - 8081:80
 
 
 networks:
   default:
     driver: bridge
+
