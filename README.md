@@ -82,3 +82,26 @@ cd python-folder
     
     # Run the Python component
     python database.py
+# Default Credentials
+
+The project uses the following default credentials for different roles:
+
+## Administrator
+- **Username:** admin
+- **Password:** admin
+
+## Doctor
+- **Username:** mohamed
+- **Password:** mohamed
+
+## Secretary
+- **Username:** assouma
+- **Password:** assouma
+
+## Patient
+1. **Username:** najia
+   - **Password:** najia
+2. **Username:** tajani
+   - **Password:** tajani
+3. **Username:** saad
+   - **Password:** saad
