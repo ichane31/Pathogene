@@ -89,9 +89,30 @@ Ensure you have the following installed and configured on your development machi
         # Run the Python component
         python database.py
 
-### Railway.app
+# Default Credentials
 
-```properties
+The project uses the following default credentials for different roles:
 
+## Administrator
 
-```
+- **Username:** admin
+- **Password:** admin
+
+## Doctor
+
+- **Username:** mohamed
+- **Password:** mohamed
+
+## Secretary
+
+- **Username:** assouma
+- **Password:** assouma
+
+## Patient
+
+1. **Username:** najia
+   - **Password:** najia
+2. **Username:** tajani
+   - **Password:** tajani
+3. **Username:** saad
+   - **Password:** saad
