@@ -190,7 +190,9 @@ CREATE TABLE `detection` (
   `date` datetime(6),
   `description` varchar(255),
   `maladie_id` bigint DEFAULT NULL,
-  `patient_id` bigint DEFAULT NULL
+  `patient_id` bigint(20) DEFAULT NULL,
+  `medecin_id` bigint(20) DEFAULT NULL
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
@@ -321,7 +323,8 @@ CREATE TABLE `maladie` (
   `modele_content_type` varchar(255),
   `model_file_name` varchar(255),
   `image_width` bigint,
-  `image_height` bigint
+  `image_height` bigint,
+  `normalization_value` double DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --

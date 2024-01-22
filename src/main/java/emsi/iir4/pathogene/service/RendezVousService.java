@@ -93,4 +93,6 @@ public class RendezVousService {
 
         return heuresDisponibles.stream().filter(heure -> !heuresReservees.contains(LocalTime.parse(heure))).collect(Collectors.toList());
     }
+    // Add this new method to check if Medecin is already booked at the specified time
+
 }

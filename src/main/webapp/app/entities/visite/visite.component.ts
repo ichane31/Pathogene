@@ -188,7 +188,6 @@ export default class Visite extends mixins(JhiDataUtils) {
     }
     this.visite.detection = this.detection;
     await this.visiteService().update(this.visite);
-    this.detection = new Detection();
   }
 
   public handleSyncList(): void {

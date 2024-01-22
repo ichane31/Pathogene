@@ -63,12 +63,13 @@ spring:
         useServerPrepStmts: true
   jpa:
   rabbitmq:
-    host: localhost
+    host: armadillo.rmq.cloudamqp.com
     port: 5672
     ssl:
       enabled: false
-    username: guest
-    password: guest
+    username: lajqpbgp
+    password: tdPz60XqFxpPxawx20dVRVw_nOHDh2M2
+    virtual-host: lajqpbgp
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker

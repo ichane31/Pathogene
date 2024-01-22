@@ -30,9 +30,7 @@ public class FirebaseFileService {
 
     public FirebaseFileService() throws IOException {
         this.credentials =
-            GoogleCredentials.fromStream(
-                new FileInputStream("src/main/resources/pathogene-258d1-firebase-adminsdk-8yl0t-1537919e0a_java.json")
-            );
+            GoogleCredentials.fromStream(getClass().getResourceAsStream("/pathogene-258d1-firebase-adminsdk-8yl0t-1537919e0a_java.json"));
         this.storage = StorageOptions.newBuilder().setCredentials(this.credentials).build().getService();
     }
 

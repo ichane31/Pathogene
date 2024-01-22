@@ -32,6 +32,10 @@ management:
       prometheus:
         enabled: false
 
+file:
+  storage:
+    path: C:\\Users\\admin\\Documents\\projet_maladies\\Brain-cancer
+
 spring:
   devtools:
     restart:
@@ -50,11 +54,12 @@ spring:
       profile: prod
       label: main # toggle to switch to a different version of the configuration as stored in git
       # it can be set to any label, branch or commit of the configuration source Git repository
+
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: mysql://root:2FEc1fDg5GEGbeDbD4Hd-HdeGDBBAEEh@monorail.proxy.rlwy.net:27749/railway
+    url: jdbc:mysql://localhost:3306/pathogene?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: root
-    password: 2FEc1fDg5GEGbeDbD4Hd-HdeGDBBAEEh
+    password:
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -65,17 +70,18 @@ spring:
         useServerPrepStmts: true
   jpa:
   rabbitmq:
-    # host: 0.tcp.eu.ngrok.io
-    # port: 1447
-    host: localhost
-    port: 5671
+    host: armadillo.rmq.cloudamqp.com
+    port: 5672
     ssl:
-      enabled: true
-    username: guest
-    password: guest
+      enabled: false
+    username: lajqpbgp
+    password: tdPz60XqFxpPxawx20dVRVw_nOHDh2M2
+    virtual-host: lajqpbgp
   # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
   liquibase:
     contexts: prod
+    enabled: false
+
   mail:
     host: localhost
     port: 25
