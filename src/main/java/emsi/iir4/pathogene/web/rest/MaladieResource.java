@@ -3,6 +3,7 @@ package emsi.iir4.pathogene.web.rest;
 import emsi.iir4.pathogene.domain.Maladie;
 import emsi.iir4.pathogene.repository.MaladieRepository;
 import emsi.iir4.pathogene.service.FileStorageService;
+import emsi.iir4.pathogene.service.FirebaseFileService;
 import emsi.iir4.pathogene.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -41,10 +42,17 @@ public class MaladieResource {
 
     private final FileStorageService fileStorageService;
 
+    private final FirebaseFileService firebaseFileService;
+
     private final MaladieRepository maladieRepository;
 
-    public MaladieResource(FileStorageService fileStorageService, MaladieRepository maladieRepository) {
+    public MaladieResource(
+        FileStorageService fileStorageService,
+        FirebaseFileService firebaseFileService,
+        MaladieRepository maladieRepository
+    ) {
         this.fileStorageService = fileStorageService;
+        this.firebaseFileService = firebaseFileService;
         this.maladieRepository = maladieRepository;
     }
 
@@ -97,11 +105,11 @@ public class MaladieResource {
 
                 // Supprimer l'ancien fichier s'il existe
                 if (oldFileName != null && !oldFileName.isEmpty()) {
-                    this.fileStorageService.deleteModelFile(oldFileName);
+                    this.firebaseFileService.delete(oldFileName);
                 }
 
                 // Logic to save the new model and size
-                String newFileName = this.fileStorageService.uploadModelFile(modelFile, maladie_result.getNom().toLowerCase(), imageWidth);
+                String newFileName = this.firebaseFileService.uploadModelFile(modelFile, maladie_result.getNom().toLowerCase());
 
                 maladie_result.setWidth(imageWidth);
                 maladie_result.setHeight(imageHeight);

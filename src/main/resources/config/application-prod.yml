@@ -52,9 +52,9 @@ spring:
       # it can be set to any label, branch or commit of the configuration source Git repository
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://localhost:3306/pathogene?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+    url: mysql://root:2FEc1fDg5GEGbeDbD4Hd-HdeGDBBAEEh@monorail.proxy.rlwy.net:27749/railway
     username: root
-    password:
+    password: 2FEc1fDg5GEGbeDbD4Hd-HdeGDBBAEEh
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -67,12 +67,12 @@ spring:
   rabbitmq:
     # host: 0.tcp.eu.ngrok.io
     # port: 1447
-    host: b-709eef3a-fb78-408f-bf61-c4ce24bb71a5.mq.us-east-1.amazonaws.com
+    host: localhost
     port: 5671
     ssl:
       enabled: true
-    username: kino
-    password: 1593578915935789
+    username: guest
+    password: guest
   # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
   liquibase:
     contexts: prod
@@ -97,6 +97,12 @@ spring:
     locator:
       discovery:
         enabled: true
+
+  servlet:
+    multipart:
+      max-file-size: 300MB
+      max-request-size: 300MB
+      enabled: true
 
 # ===================================================================
 # To enable TLS in production, generate a certificate using:
@@ -170,3 +176,6 @@ jhipster:
 # ===================================================================
 
 # application:
+fileProd:
+  storage:
+    path: https://www.googleapis.com/storage/v1/b/pathogene-258d1.appspot.com/o/%s?alt=media"

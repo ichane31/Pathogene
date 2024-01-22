@@ -17,7 +17,6 @@ DLDiagnosis is a mobile and web application for diseases classification using De
 - **Dart:** Programming language used for Flutter app development. [Dart Documentation](https://dart.dev/guides)
 - **JavaScript:** High-level, interpreted programming language for web application frontend. [JavaScript Documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide)
 
-
 ### Compilation Requirements and Dependencies
 
 Ensure you have the following installed and configured on your development machine:
@@ -30,22 +29,25 @@ Ensure you have the following installed and configured on your development machi
 
 ### Project Structure
 
-1. *Web Application (Frontend & Backend Integration):*
+1. _Web Application (Frontend & Backend Integration):_
+
    - Developed with JHipster, Vue.js, Spring Boot, and Spring Security.
    - The frontend is built with Vue.js, providing a responsive and user-friendly interface.
    - Spring Boot powers the backend, offering RESTful APIs and seamless integration with the frontend.
-   
+
    - Frontend source code: [web-application/src/main/webapp](web-application/src/main/webapp)
    - Backend source code: [web-application/src/main/java](web-application/src/main/java)
 
-2. *Mobile Application:*
+2. _Mobile Application:_
+
    - Developed with Flutter and Dart.
    - The mobile app provides a cross-platform experience with a single codebase.
    - Dart is used for building the logic, and Flutter's widgets ensure a native look and feel.
 
    - Mobile app source code: [mobile-application/lib][(mobile-application/lib](https://github.com/mabouelkhir/dldiagnostics))
 
-3. *Python Component:*
+3. _Python Component:_
+
    - Used for loading pre-trained models in `.h5` format.
    - TensorFlow is employed to load and run machine learning models.
    - Predictions are published on a RabbitMQ queue and retrieved at the backend.
@@ -54,31 +56,42 @@ Ensure you have the following installed and configured on your development machi
 
 ### Compilation and Execution
 
-1. *Web Application:*
-   ```bash
-   # Navigate to the web application directory
-   cd web-application
+1.  _Web Application:_
 
-   # Install dependencies
-   npm install
+    ```bash
+    # Navigate to the web application directory
+    cd web-application
 
-   # Run the application
-   ./mvnw
+    # Install dependencies
+    npm install
 
-2. *Mobile Application:*
+    # Run the application
+    ./mvnw
+
+    ```
+
+2.  _Mobile Application:_
+
     ```bash
     # Navigate to the mobile application directory
     cd mobile-application
-    
+
     # Install dependencies and run the application
     flutter pub get
     flutter run
 
-3. *Python:*
-cd python-folder
-    ```bash
-    # Install Python dependencies
+    ```
+
+3.  _Python:_
+    cd python-folder
+    ```bash # Install Python dependencies
     pip install -r requirements.txt
-    
-    # Run the Python component
-    python database.py
+        # Run the Python component
+        python database.py
+
+### Railway.app
+
+```properties
+
+
+```

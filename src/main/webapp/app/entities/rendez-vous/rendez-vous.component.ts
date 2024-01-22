@@ -1,4 +1,4 @@
-import { Component, Vue, Inject } from 'vue-property-decorator';
+import { Component, Inject, Vue } from 'vue-property-decorator';
 import Vue2Filters from 'vue2-filters';
 import { IRendezVous, RendezVous } from '@/shared/model/rendez-vous.model';
 import FullCalendar from '@fullcalendar/vue';
@@ -15,6 +15,7 @@ import { IMedecin } from '@/shared/model/medecin.model';
 import AccountService from '@/account/account.service';
 import { IVisite, Visite } from '@/shared/model/visite.model';
 import VisiteService from '@/entities/visite/visite.service';
+import { format } from 'date-fns';
 
 const validations: any = {
   rendezVous: {
@@ -46,6 +47,9 @@ export default class RendezVouss extends Vue {
   private patients: IPatient[] = [];
   private medecins: IMedecin[] = [];
   private idRdv: number;
+  private availableTimes: string[] = [];
+  private date = null;
+  private dateString = null;
 
   public calendarOptions = {
     plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
@@ -214,6 +218,21 @@ export default class RendezVouss extends Vue {
     this.retrieveAllRendezVouss();
   }
 
+  public async retrieveAllAvaillableHoursByMedecin(medecinId, date) {
+    try {
+      const response = await this.rendezVousService().retrieveAllAvaillableHoursByMedecin(date, medecinId);
+      this.availableTimes = response.data;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  public handleMedecinChange() {
+    if (this.idMedecin) {
+      this.retrieveAllAvaillableHoursByMedecin(this.idMedecin, this.dateString);
+    }
+  }
+
   // sauvegarder un rdv
   public async save() {
     try {
@@ -311,8 +330,11 @@ export default class RendezVouss extends Vue {
   public selectDate(selectionInfo): void {
     if (this.validDate(selectionInfo.start)) {
       this.rendezVous.date = selectionInfo.start;
+      this.date = selectionInfo.start;
+      const parsedDate = new Date(this.date);
+      this.dateString = format(parsedDate, 'yyyy-MM-dd');
       (<any>this.$refs.createEntity).show();
-    } else this.alertService().showError(this, 'Date incorrect');
+    } else this.alertService().showError(this, 'Date already passed choose another date\n');
   }
 
   // verification de la validation d'une date choisit

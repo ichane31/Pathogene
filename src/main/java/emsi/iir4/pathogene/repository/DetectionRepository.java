@@ -16,4 +16,6 @@ public interface DetectionRepository extends JpaRepository<Detection, Long> {
     Page<Detection> findAllByPatientId(Long id, Pageable pageable);
 
     List<Detection> findAllByPatient_UserId(Long id);
+
+    List<Detection> findAllByMedecin_UserId(Long id);
 }

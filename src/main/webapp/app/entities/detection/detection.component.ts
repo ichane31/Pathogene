@@ -51,7 +51,7 @@ export default class Detection extends mixins(JhiDataUtils) {
       sort: this.sort(),
     };
     this.detectionService()
-      .retrieve(paginationQuery)
+      .retrieveAllForMedecin(paginationQuery)
       .then(
         res => {
           this.detections = res.data;

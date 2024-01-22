@@ -11,6 +11,8 @@ import emsi.iir4.pathogene.service.dto.PasswordChangeDTO;
 import emsi.iir4.pathogene.web.rest.errors.*;
 import emsi.iir4.pathogene.web.rest.vm.KeyAndPasswordVM;
 import emsi.iir4.pathogene.web.rest.vm.ManagedUserVM;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -27,6 +29,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 
 /**
@@ -60,6 +63,8 @@ public class AccountResource {
 
     public StadeRepository stadeRepository;
 
+    private final MqController mqController;
+
     public AccountResource(
         UserRepository userRepository,
         UserService userService,
@@ -69,7 +74,8 @@ public class AccountResource {
         SecretaireRepository secretaireRepository,
         MedecinRepository medecinRepository,
         DetectionRepository detectionRepository,
-        StadeRepository stadeRepository
+        StadeRepository stadeRepository,
+        MqController mqController
     ) {
         this.userRepository = userRepository;
         this.userService = userService;
@@ -80,6 +86,7 @@ public class AccountResource {
         this.medecinRepository = medecinRepository;
         this.detectionRepository = detectionRepository;
         this.stadeRepository = stadeRepository;
+        this.mqController = mqController;
     }
 
     @PutMapping("/account")
@@ -230,6 +237,43 @@ public class AccountResource {
         Page<Detection> page = new PageImpl<>(new ArrayList<>(detections), pageable, detections.size());
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @GetMapping("/detections/bymedecin")
+    @PreAuthorize("hasAnyAuthority('" + AuthoritiesConstants.PATIENT + "','" + AuthoritiesConstants.ADMIN + "')")
+    public ResponseEntity<List<Detection>> getAllDetectionsByMedecin(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
+        List<Detection> detections = new ArrayList<>();
+        if ((medecinRepository.findByUserId(getAccount().getId())).isPresent()) {
+            detections = detectionRepository.findAllByMedecin_UserId(getAccount().getId());
+            log.debug("REST request to get a page of Detections");
+        }
+        Page<Detection> page = new PageImpl<>(new ArrayList<>(detections), pageable, detections.size());
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @PostMapping("/detections/medecin")
+    public ResponseEntity<Detection> createDetection(@Valid @RequestBody Detection detection) throws URISyntaxException {
+        log.debug("REST request to save Detection : {}", detection);
+        if (detection.getId() != null) {
+            throw new BadRequestAlertException("A new detection cannot already have an ID", "detection", "idexists");
+        }
+
+        String oracle = mqController.send(detection.getPhoto(), detection.getMaladie().getNom());
+        detection.setDescription(oracle);
+        String stade = oracle.split("Confidence This Is ")[1];
+        detection.setStade(stade);
+        detection.setCode("DET-" + UUID.randomUUID().toString());
+        if ((medecinRepository.findByUserId(getAccount().getId())).isPresent()) {
+            detection.setMedecin(medecinRepository.findByUserId(getAccount().getId()).get());
+            log.debug("REST request to get a page of Detections");
+        }
+
+        Detection result = detectionRepository.save(detection);
+        return ResponseEntity
+            .created(new URI("/api/detections/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert("PathogeneApp", true, "detection", result.getId().toString()))
+            .body(result);
     }
 
     @GetMapping("/maladie/patient")

@@ -280,7 +280,7 @@ public class UserResource {
     }
 
     @GetMapping("/users/id/{id}")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
+    @PreAuthorize("hasAnyAuthority('" + AuthoritiesConstants.SECRETAIRE + "','" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<AdminUserDTO> getUserById(@PathVariable Long id) {
         log.debug("REST request to get User : {}", id);
         return ResponseUtil.wrapOrNotFound(userService.getUserWithAuthoritiesById(id).map(AdminUserDTO::new));

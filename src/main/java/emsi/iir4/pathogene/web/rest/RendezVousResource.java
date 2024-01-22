@@ -2,22 +2,25 @@ package emsi.iir4.pathogene.web.rest;
 
 import emsi.iir4.pathogene.domain.RendezVous;
 import emsi.iir4.pathogene.repository.RendezVousRepository;
+import emsi.iir4.pathogene.service.RendezVousService;
 import emsi.iir4.pathogene.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +47,9 @@ public class RendezVousResource {
     private String applicationName;
 
     private final RendezVousRepository rendezVousRepository;
+
+    @Autowired
+    private RendezVousService rendezVousService;
 
     public RendezVousResource(RendezVousRepository rendezVousRepository) {
         this.rendezVousRepository = rendezVousRepository;
@@ -182,6 +188,48 @@ public class RendezVousResource {
         Page<RendezVous> page = rendezVousRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @GetMapping("/rendez-vous/medecindate/{id}")
+    public ResponseEntity<List<RendezVous>> getAllRendezVousByMedecinDate(
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable,
+        @PathVariable Long id,
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
+    ) {
+        List<RendezVous> allByDate;
+        log.debug("REST request to get a page of RendezVous");
+        allByDate = rendezVousService.getRendezVousByMedecinAndDate(id, date);
+
+        Page<RendezVous> page = new PageImpl<>(allByDate, pageable, allByDate.size());
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @GetMapping("/rendez-vous/medecinHeure/{id}")
+    public ResponseEntity<List<LocalTime>> getAllRendezVousByMedecinHeures(
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable,
+        @PathVariable Long id,
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
+    ) {
+        List<LocalTime> allByHours;
+        log.debug("REST request to get a page of RendezVous");
+        allByHours = rendezVousService.getReservedTimesByMedecinAndDate(id, date);
+
+        return ResponseEntity.ok().body(allByHours);
+    }
+
+    @GetMapping("/heures-disponibles/medecin")
+    public ResponseEntity<List<String>> getHeuresDisponiblesPourMedecin(
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+        @RequestParam Long medecinId
+    ) {
+        try {
+            List<String> heuresDisponibles = rendezVousService.getHeuresDisponiblesPourMedecin(date, medecinId);
+            return ResponseEntity.ok(heuresDisponibles);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     /**

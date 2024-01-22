@@ -57,6 +57,10 @@ public class Detection implements Serializable {
     @JsonIgnoreProperties(value = { "user", "rendezVous", "detections", "secretaire", "stade" }, allowSetters = true)
     private Patient patient;
 
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "user", "rendezVous", "detections", "secretaire", "stade" }, allowSetters = true)
+    private Medecin medecin;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -203,8 +207,21 @@ public class Detection implements Serializable {
         this.patient = patient;
     }
 
+    public Medecin getMedecin() {
+        return medecin;
+    }
+
+    public void setMedecin(Medecin medecin) {
+        this.medecin = medecin;
+    }
+
     public Detection patient(Patient patient) {
         this.setPatient(patient);
+        return this;
+    }
+
+    public Detection medecin(Medecin medecin) {
+        this.setMedecin(medecin);
         return this;
     }
 

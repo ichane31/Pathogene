@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 import java.util.UUID;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,10 +19,11 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class FileStorageService {
 
-    private static final String UPLOAD_DIR = "C:\\Users\\admin\\Documents\\projet_maladies\\Brain-cancer";
+    @Value("${file.storage.path}")
+    private String UPLOAD_DIR;
 
-    public String uploadModelFile(MultipartFile file, String maladieName, Long tailleImage) {
-        String fileName = generateFileName(file, maladieName, tailleImage);
+    public String uploadModelFile(MultipartFile file, String maladieName) {
+        String fileName = generateFileName(file, maladieName);
         Path filePath = getPath(fileName);
 
         try {
@@ -32,7 +34,7 @@ public class FileStorageService {
         }
     }
 
-    private String generateFileName(MultipartFile file, String maladieName, Long tailleImage) {
+    private String generateFileName(MultipartFile file, String maladieName) {
         String originalFileName = cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
         String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
 

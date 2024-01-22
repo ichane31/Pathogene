@@ -259,7 +259,7 @@ export default {
       path: 'disease',
       name: 'Maladie',
       component: Maladie,
-      meta: { authorities: [Authority.MEDECIN, Authority.PATIENT, Authority.ADMIN] },
+      meta: { authorities: [Authority.MEDECIN, Authority.ADMIN] },
     },
     {
       path: 'disease/new',

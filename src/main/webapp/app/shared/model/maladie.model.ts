@@ -9,6 +9,7 @@ export interface IMaladie {
   detections?: IDetection[] | null;
   stades?: IStade[] | null;
   unclassifieds?: IUnclassified[] | null;
+  classNamesMapping?: { [key: number]: string } | null;
 }
 
 export class Maladie implements IMaladie {
@@ -18,6 +19,7 @@ export class Maladie implements IMaladie {
     public nom?: string | null,
     public detections?: IDetection[] | null,
     public stades?: IStade[] | null,
-    public unclassifieds?: IUnclassified[] | null
+    public unclassifieds?: IUnclassified[] | null,
+    public classNamesMapping?: { [key: number]: string } | null
   ) {}
 }

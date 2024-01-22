@@ -62,6 +62,13 @@ export default class Maladie extends Vue {
     else this.retrieveAllMaladiesForPatient();
   }
 
+  // Fonction pour initialiser le tableau classNames à partir de maladie.classNamesMapping
+  public initializeClassNames() {
+    if (this.maladie && this.maladie.classNamesMapping) {
+      this.classNames = { ...this.maladie.classNamesMapping };
+    }
+  }
+
   public clear(): void {
     this.page = 1;
     this.retrieveAllMaladies();
@@ -127,6 +134,7 @@ export default class Maladie extends Vue {
   public prepareImportModele(instance: IMaladie): void {
     this.maladie = instance;
     this.importId = instance.id;
+    this.initializeClassNames();
     if (<any>this.$refs.importEntity) {
       (<any>this.$refs.importEntity).show();
     }
@@ -176,9 +184,7 @@ export default class Maladie extends Vue {
     for (const [classNumber, className] of Object.entries(this.classNames)) {
       formData.append(`classNames[${classNumber}]`, className);
     }
-    formData.forEach((value, key) => {
-      console.log(key, value);
-    });
+
     try {
       await this.maladieService().uploadModel(this.importId, formData);
       this.$bvToast.toast('A model is imported', {

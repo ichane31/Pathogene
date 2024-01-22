@@ -46,6 +46,19 @@ export default class DetectionService {
     });
   }
 
+  public retrieveAllForMedecin(paginationQuery?: any): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      axios
+        .get(`api/detections/bymedecin?${buildPaginationQueryOpts(paginationQuery)}`)
+        .then(res => {
+          resolve(res);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
   public retrieveAllForPatientId(patientId, paginationQuery?: any): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       axios
@@ -76,6 +89,19 @@ export default class DetectionService {
     return new Promise<IDetection>((resolve, reject) => {
       axios
         .post(`${baseApiUrl}`, entity)
+        .then(res => {
+          resolve(res.data);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  public createByMedecin(entity: IDetection): Promise<IDetection> {
+    return new Promise<IDetection>((resolve, reject) => {
+      axios
+        .post(`${baseApiUrl}/medecin`, entity)
         .then(res => {
           resolve(res.data);
         })

@@ -29,7 +29,14 @@
           </div>
           <div class="form-group">
             <label class="form-control-label" for="rendez-vous-medecin">Doctor </label>
-            <select class="form-control" id="rendez-vous-medecin" data-cy="medecin" name="medecin" v-model="idMedecin">
+            <select
+              class="form-control"
+              id="rendez-vous-medecin"
+              data-cy="medecin"
+              name="medecin"
+              v-model="idMedecin"
+              @change="handleMedecinChange"
+            >
               <option v-for="medecin in medecins" :key="medecin.id" v-bind:value="medecin.id">
                 {{ medecin.nom }} {{ medecin.prenom }}
               </option>
@@ -97,45 +104,7 @@
     </div>
 
     <datalist id="calltimeslist">
-      <option value="08:30" />
-      <option value="08:45" />
-      <option value="09:00" />
-      <option value="09:15" />
-      <option value="09:30" />
-      <option value="09:45" />
-      <option value="10:00" />
-      <option value="10:15" />
-      <option value="10:30" />
-      <option value="10:45" />
-      <option value="11:00" />
-      <option value="11:15" />
-      <option value="11:30" />
-      <option value="11:45" />
-      <option value="12:00" />
-      <option value="12:15" />
-      <option value="12:30" />
-      <option value="12:45" />
-      <option value="13:00" />
-      <option value="13:15" />
-      <option value="13:30" />
-      <option value="13:45" />
-      <option value="14:00" />
-      <option value="14:15" />
-      <option value="14:30" />
-      <option value="14:45" />
-      <option value="15:00" />
-      <option value="15:15" />
-      <option value="15:30" />
-      <option value="15:45" />
-      <option value="16:00" />
-      <option value="16:15" />
-      <option value="16:30" />
-      <option value="16:45" />
-      <option value="17:00" />
-      <option value="17:15" />
-      <option value="17:30" />
-      <option value="17:45" />
-      <option value="18:00" />
+      <option v-for="time in availableTimes" :key="time" :value="time" />
     </datalist>
   </div>
 </template>

@@ -112,6 +112,7 @@ springfox:
   documentation:
     swagger-ui:
       enabled: true
+
 # ===================================================================
 # JHipster specific properties
 #
@@ -164,3 +165,11 @@ jhipster:
 # ===================================================================
 
 # application:
+
+file:
+  storage:
+    path: C:\\Users\\admin\\Documents\\projet_maladies\\Brain-cancer
+
+fileProd:
+  storage:
+    path: https://console.firebase.google.com/project/pathogene-258d1/storage/pathogene-258d1.appspot.com/files
