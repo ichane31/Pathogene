@@ -240,7 +240,7 @@ public class AccountResource {
     }
 
     @GetMapping("/detections/bymedecin")
-    @PreAuthorize("hasAnyAuthority('" + AuthoritiesConstants.PATIENT + "','" + AuthoritiesConstants.ADMIN + "')")
+    @PreAuthorize("hasAnyAuthority('" + AuthoritiesConstants.MEDECIN + "','" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<List<Detection>> getAllDetectionsByMedecin(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
         List<Detection> detections = new ArrayList<>();
         if ((medecinRepository.findByUserId(getAccount().getId())).isPresent()) {
