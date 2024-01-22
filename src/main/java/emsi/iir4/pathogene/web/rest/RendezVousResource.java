@@ -55,16 +55,6 @@ public class RendezVousResource {
         this.rendezVousRepository = rendezVousRepository;
     }
 
-    private boolean isMedecinAlreadyBooked(RendezVous rendezVous) {
-        List<RendezVous> existingRendezVous = rendezVousRepository.findAllByMedecin_IdAndDate(
-            rendezVous.getMedecin().getId(),
-            rendezVous.getDate()
-        );
-
-        // If there's an existing RendezVous for the Medecin at the specified time, return true
-        return existingRendezVous.stream().anyMatch(existing -> !existing.getId().equals(rendezVous.getId()));
-    }
-
     /**
      * {@code POST  /rendez-vous} : Create a new rendezVous.
      *
@@ -76,9 +66,7 @@ public class RendezVousResource {
     public ResponseEntity<RendezVous> createRendezVous(@Valid @RequestBody RendezVous rendezVous) throws URISyntaxException {
         log.debug("REST request to save RendezVous : {}", rendezVous);
         // Check if the Medecin already has a RendezVous at the specified time
-        if (isMedecinAlreadyBooked(rendezVous)) {
-            throw new BadRequestAlertException("Medecin is already booked at the specified time", ENTITY_NAME, "medecinAlreadyBooked");
-        }
+
         if (rendezVous.getId() != null) {
             throw new BadRequestAlertException("A new rendezVous cannot already have an ID", ENTITY_NAME, "idexists");
         }
