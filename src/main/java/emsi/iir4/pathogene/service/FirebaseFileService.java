@@ -9,8 +9,6 @@ import java.io.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +21,7 @@ public class FirebaseFileService {
     @Value("${fileProd.storage.path}")
     private String DOWNLOAD_URL;
 
-    private String BUCKET_NAME = "pathogene-258d1.appspot.com";
+    private static final String bucketName = "pathogene-258d1.appspot.com";
 
     private final Storage storage;
     private final Credentials credentials;
@@ -37,7 +35,7 @@ public class FirebaseFileService {
     }
 
     private String uploadFile(File file, String fileName) throws IOException {
-        BlobId blobId = BlobId.of(BUCKET_NAME, fileName);
+        BlobId blobId = BlobId.of(bucketName, fileName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
         storage.create(blobInfo, Files.readAllBytes(file.toPath()));
         return String.format(DOWNLOAD_URL, URLEncoder.encode(fileName, StandardCharsets.UTF_8));
@@ -68,7 +66,10 @@ public class FirebaseFileService {
             String fileName = generateFileName(multipartFile, maladieName);
             File file = convertToFile(multipartFile, fileName);
             String URL = uploadFile(file, fileName);
-            file.delete();
+            boolean isDeleted = file.delete();
+            if (isDeleted) {
+                System.out.println("File deleted successfully");
+            }
             return fileName;
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,9 +78,9 @@ public class FirebaseFileService {
     }
 
     public String delete(String fileName) throws IOException {
-        Blob blob = storage.get(BlobId.of(BUCKET_NAME, fileName));
+        Blob blob = storage.get(BlobId.of(bucketName, fileName));
         if (blob != null) {
-            storage.delete(BlobId.of(BUCKET_NAME, fileName));
+            storage.delete(BlobId.of(bucketName, fileName));
             return "Successfully Deleted!";
         } else {
             return "File do not exist!";

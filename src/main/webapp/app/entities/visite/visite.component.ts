@@ -188,7 +188,6 @@ export default class Visite extends mixins(JhiDataUtils) {
     }
     this.visite.detection = this.detection;
     await this.visiteService().update(this.visite);
-    this.detection = new Detection();
   }
 
   public handleSyncList(): void {
@@ -239,7 +238,13 @@ export default class Visite extends mixins(JhiDataUtils) {
   }
 
   public transition(): void {
-    this.retrieveAllVisites();
+    if (this.isSecretaire()) {
+      this.retrieveAllVisites();
+    } else if (this.isPatient()) {
+      this.retrieveAllVisitesForPatient();
+    } else {
+      this.retrieveAllVisitesForMedecin();
+    }
   }
 
   public changeOrder(propOrder): void {

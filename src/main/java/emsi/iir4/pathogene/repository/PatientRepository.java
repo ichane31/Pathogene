@@ -26,6 +26,4 @@ public interface PatientRepository extends PatientRepositoryWithBagRelationships
     Optional<Patient> findByUserId(Long id);
     Optional<Patient> findByUserLogin(String login);
     Set<Patient> findBySecretaireId(Long id);
-    //Set<Patient> findByRendezVousIds();
-
 }

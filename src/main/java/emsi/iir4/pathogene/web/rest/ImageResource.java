@@ -170,7 +170,7 @@ public class ImageResource {
         @org.springdoc.api.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get a page of Images");
-        Page<Image> page = imageRepository.findAllByStade_Id(id, pageable);
+        Page<Image> page = imageRepository.findAllByStadeId(id, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

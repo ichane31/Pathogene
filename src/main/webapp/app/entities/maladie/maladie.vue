@@ -80,7 +80,7 @@
                       data-cy="entityImportButton"
                       v-b-modal.importEntity
                     >
-                      <font-awesome-icon icon="upload"></font-awesome-icon>
+                      <font-awesome-icon icon="fa-upload"></font-awesome-icon>
                       <span class="d-none d-md-inline">Import Model</span>
                     </b-button>
                     <b-button

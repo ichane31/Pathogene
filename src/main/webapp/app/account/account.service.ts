@@ -49,7 +49,7 @@ export default class AccountService {
           resolve(res);
         })
         .catch(err => {
-          resolve(false);
+          reject(err);
         });
     });
   }

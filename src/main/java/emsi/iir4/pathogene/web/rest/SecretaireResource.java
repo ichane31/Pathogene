@@ -3,7 +3,6 @@ package emsi.iir4.pathogene.web.rest;
 import emsi.iir4.pathogene.domain.Patient;
 import emsi.iir4.pathogene.domain.Secretaire;
 import emsi.iir4.pathogene.domain.User;
-import emsi.iir4.pathogene.repository.PatientRepository;
 import emsi.iir4.pathogene.repository.SecretaireRepository;
 import emsi.iir4.pathogene.security.AuthoritiesConstants;
 import emsi.iir4.pathogene.service.UserService;
@@ -50,20 +49,12 @@ public class SecretaireResource {
 
     private final SecretaireRepository secretaireRepository;
 
-    private final PatientRepository patientRepository;
-
     private final AccountResource accountResource;
 
     private final UserService userService;
 
-    public SecretaireResource(
-        SecretaireRepository secretaireRepository,
-        PatientRepository patientRepository,
-        AccountResource accountResource,
-        UserService userService
-    ) {
+    public SecretaireResource(SecretaireRepository secretaireRepository, AccountResource accountResource, UserService userService) {
         this.secretaireRepository = secretaireRepository;
-        this.patientRepository = patientRepository;
         this.accountResource = accountResource;
         this.userService = userService;
     }
@@ -95,12 +86,12 @@ public class SecretaireResource {
     public ResponseEntity<Patient> registerPatient(@Valid @RequestBody PatientUserDTO patientUserDTO) throws URISyntaxException {
         log.debug("REST request to save Patient : {}", patientUserDTO);
         Patient patient = patientUserDTO.getPatient();
-        ManagedUserVM Puser = patientUserDTO.getUser();
+        ManagedUserVM userVM = patientUserDTO.getUser();
         if (patient.getId() != null) {
             throw new BadRequestAlertException("A new patient cannot already have an ID", ENTITY_NAME, "idexists");
         }
         patient.setSecretaire(accountResource.getAccount().getSecretaire());
-        User user = userService.registerUser(Puser, Puser.getPassword());
+        User user = userService.registerUser(userVM, userVM.getPassword());
         patient.setUser(user);
         patient.setCode("PAT-" + UUID.randomUUID().toString());
         return ResponseEntity

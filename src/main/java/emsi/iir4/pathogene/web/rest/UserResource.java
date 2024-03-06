@@ -1,10 +1,7 @@
 package emsi.iir4.pathogene.web.rest;
 
 import emsi.iir4.pathogene.config.Constants;
-import emsi.iir4.pathogene.domain.Medecin;
-import emsi.iir4.pathogene.domain.Patient;
-import emsi.iir4.pathogene.domain.Secretaire;
-import emsi.iir4.pathogene.domain.User;
+import emsi.iir4.pathogene.domain.*;
 import emsi.iir4.pathogene.repository.MedecinRepository;
 import emsi.iir4.pathogene.repository.PatientRepository;
 import emsi.iir4.pathogene.repository.SecretaireRepository;
@@ -23,6 +20,7 @@ import emsi.iir4.pathogene.web.rest.vm.ManagedUserVM;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import org.slf4j.Logger;
@@ -35,7 +33,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -86,6 +83,8 @@ public class UserResource {
         )
     );
 
+    private static final String idExist = "idexists";
+
     private final Logger log = LoggerFactory.getLogger(UserResource.class);
 
     @Value("${jhipster.clientApp.name}")
@@ -131,7 +130,7 @@ public class UserResource {
         ManagedUserVM puser = medecindto.getUser();
 
         if (medecin.getId() != null) {
-            throw new BadRequestAlertException("A new Medecin cannot already have an ID", "Medecin", "idexists");
+            throw new BadRequestAlertException("A new Medecin cannot already have an ID", "Medecin", idExist);
         }
         puser.setAuthorities(new HashSet<>());
         puser.getAuthorities().add(AuthoritiesConstants.MEDECIN);
@@ -149,7 +148,7 @@ public class UserResource {
         Patient patient = patientUserDTO.getPatient();
         ManagedUserVM puser = patientUserDTO.getUser();
         if (patient.getId() != null) {
-            throw new BadRequestAlertException("A new Patient cannot already have an ID", "Patient", "idexists");
+            throw new BadRequestAlertException("A new Patient cannot already have an ID", "Patient", idExist);
         }
         puser.setAuthorities(new HashSet<>());
         puser.getAuthorities().add(AuthoritiesConstants.PATIENT);
@@ -166,7 +165,7 @@ public class UserResource {
         Secretaire secretaire = secretaireUserDTO.getSecretaire();
         ManagedUserVM puser = secretaireUserDTO.getUser();
         if (secretaire.getId() != null) {
-            throw new BadRequestAlertException("A new Secretaire cannot already have an ID", "Secretaire", "idexists");
+            throw new BadRequestAlertException("A new Secretaire cannot already have an ID", "Secretaire", idExist);
         }
         puser.setAuthorities(new HashSet<>());
         puser.getAuthorities().add(AuthoritiesConstants.SECRETAIRE);
@@ -194,7 +193,7 @@ public class UserResource {
         log.debug("REST request to save User : {}", userDTO);
 
         if (userDTO.getId() != null) {
-            throw new BadRequestAlertException("A new user cannot already have an ID", "userManagement", "idexists");
+            throw new BadRequestAlertException("A new user cannot already have an ID", "userManagement", idExist);
             // Lowercase the user login before comparing with database
         } else if (userRepository.findOneByLogin(userDTO.getLogin().toLowerCase()).isPresent()) {
             throw new LoginAlreadyUsedException();
@@ -253,7 +252,7 @@ public class UserResource {
         }
         final Page<AdminUserDTO> page;
         //if current account is a SECRETAIRE, he can only see his patients
-        if (accountResource.getAccount().getAuthorities().contains(new SimpleGrantedAuthority(AuthoritiesConstants.SECRETAIRE))) {
+        if (accountResource.getAccount().getAuthorities().contains(AuthoritiesConstants.SECRETAIRE)) {
             page = userService.getAllSecPatients(pageable, accountResource.getAccount().getId());
         } else {
             page = userService.getAllManagedUsers(pageable);
@@ -295,7 +294,7 @@ public class UserResource {
     @DeleteMapping("/users/{login}")
     @PreAuthorize("hasAnyAuthority('" + AuthoritiesConstants.SECRETAIRE + "','" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<Void> deleteUser(@PathVariable @Pattern(regexp = Constants.LOGIN_REGEX) String login) {
-        if (accountResource.getAccount().getAuthorities().contains(new SimpleGrantedAuthority(AuthoritiesConstants.SECRETAIRE))) {
+        if (accountResource.getAccount().getAuthorities().contains(AuthoritiesConstants.SECRETAIRE)) {
             log.debug("REST request to delete User : {}", login);
 
             Optional<User> optionalUser = userService.getUserWithAuthoritiesByLogin(login);
@@ -303,8 +302,10 @@ public class UserResource {
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
 
+                Set<String> userAuthorities = user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet());
+
                 // Vérifier si l'utilisateur n'est pas un PATIENT avant de le supprimer
-                if (!user.getAuthorities().contains(new SimpleGrantedAuthority(AuthoritiesConstants.PATIENT))) {
+                if (!userAuthorities.contains(AuthoritiesConstants.PATIENT)) {
                     return ResponseEntity.badRequest().build();
                 }
             } else {

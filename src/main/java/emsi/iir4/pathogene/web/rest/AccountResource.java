@@ -8,7 +8,10 @@ import emsi.iir4.pathogene.service.MailService;
 import emsi.iir4.pathogene.service.UserService;
 import emsi.iir4.pathogene.service.dto.AdminUserDTO;
 import emsi.iir4.pathogene.service.dto.PasswordChangeDTO;
-import emsi.iir4.pathogene.web.rest.errors.*;
+import emsi.iir4.pathogene.web.rest.errors.BadRequestAlertException;
+import emsi.iir4.pathogene.web.rest.errors.EmailAlreadyUsedException;
+import emsi.iir4.pathogene.web.rest.errors.InvalidPasswordException;
+import emsi.iir4.pathogene.web.rest.errors.LoginAlreadyUsedException;
 import emsi.iir4.pathogene.web.rest.vm.KeyAndPasswordVM;
 import emsi.iir4.pathogene.web.rest.vm.ManagedUserVM;
 import java.net.URI;
@@ -19,7 +22,6 @@ import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -48,6 +50,9 @@ public class AccountResource {
 
     private final Logger log = LoggerFactory.getLogger(AccountResource.class);
 
+    private static final String userNotFound = "User could not be found";
+    private static final String detectionsRequest = "REST request to get a page of Detections";
+
     private final UserRepository userRepository;
 
     private final UserService userService;
@@ -61,7 +66,7 @@ public class AccountResource {
 
     private final DetectionRepository detectionRepository;
 
-    public StadeRepository stadeRepository;
+    public final StadeRepository stadeRepository;
 
     private final MqController mqController;
 
@@ -91,6 +96,15 @@ public class AccountResource {
 
     @PutMapping("/account")
     public void updateAccount(@RequestBody AdminUserDTO userDTO, @RequestBody PasswordChangeDTO passwordChangeDTO) {
+        userLogin(userDTO);
+        if (isPasswordLengthInvalid(passwordChangeDTO.getNewPassword())) {
+            throw new InvalidPasswordException();
+        }
+        userService.updateUser(userDTO);
+        userService.changePassword(passwordChangeDTO.getCurrentPassword(), passwordChangeDTO.getNewPassword());
+    }
+
+    private void userLogin(@RequestBody AdminUserDTO userDTO) {
         String userLogin = SecurityUtils
             .getCurrentUserLogin()
             .orElseThrow(() -> new AccountResourceException("Current user login not found"));
@@ -100,13 +114,8 @@ public class AccountResource {
         }
         Optional<User> user = userRepository.findOneByLogin(userLogin);
         if (user.isEmpty()) {
-            throw new AccountResourceException("User could not be found");
+            throw new AccountResourceException(userNotFound);
         }
-        if (isPasswordLengthInvalid(passwordChangeDTO.getNewPassword())) {
-            throw new InvalidPasswordException();
-        }
-        userService.updateUser(userDTO);
-        userService.changePassword(passwordChangeDTO.getCurrentPassword(), passwordChangeDTO.getNewPassword());
     }
 
     /**
@@ -162,36 +171,52 @@ public class AccountResource {
      */
     @GetMapping("/account")
     public AdminUserDTO getAccount() {
-        AdminUserDTO userDTO;
-        userDTO =
-            userService
-                .getUserWithAuthorities()
-                .map(AdminUserDTO::new)
-                .orElseThrow(() -> new AccountResourceException("User could not be found"));
-        if (
-            userDTO.getAuthorities().contains(AuthoritiesConstants.MEDECIN) && medecinRepository.findByUserId(userDTO.getId()).isPresent()
-        ) {
-            if (Objects.equals(userDTO.getId(), medecinRepository.findByUserId(userDTO.getId()).get().getUser().getId())) {
-                userDTO.setMedecin(medecinRepository.findByUserId(userDTO.getId()).get());
-            }
-        }
-        if (
-            userDTO.getAuthorities().contains(AuthoritiesConstants.SECRETAIRE) &&
-            secretaireRepository.findByUserId(userDTO.getId()).isPresent()
-        ) {
-            if (Objects.equals(userDTO.getId(), secretaireRepository.findByUserId(userDTO.getId()).get().getUser().getId())) {
-                userDTO.setSecretaire(secretaireRepository.findByUserId(userDTO.getId()).get());
-            }
-        }
-        if (
-            userDTO.getAuthorities().contains(AuthoritiesConstants.PATIENT) && patientRepository.findByUserId(userDTO.getId()).isPresent()
-        ) {
-            if (Objects.equals(userDTO.getId(), patientRepository.findByUserId(userDTO.getId()).get().getUser().getId())) {
-                userDTO.setPatient(patientRepository.findByUserId(userDTO.getId()).get());
-            }
-        }
+        AdminUserDTO userDTO = userService
+            .getUserWithAuthorities()
+            .map(AdminUserDTO::new)
+            .orElseThrow(() -> new AccountResourceException(userNotFound));
+
+        setUserMedecin(userDTO);
+        setUserSecretaire(userDTO);
+        setUserPatient(userDTO);
 
         return userDTO;
+    }
+
+    private void setUserMedecin(AdminUserDTO userDTO) {
+        if (userDTO.getAuthorities().contains(AuthoritiesConstants.MEDECIN)) {
+            Optional<Medecin> medecinOptional = medecinRepository.findByUserId(userDTO.getId());
+
+            medecinOptional.ifPresent(medecin -> {
+                if (Objects.equals(userDTO.getId(), medecin.getUser().getId())) {
+                    userDTO.setMedecin(medecin);
+                }
+            });
+        }
+    }
+
+    private void setUserSecretaire(AdminUserDTO userDTO) {
+        if (userDTO.getAuthorities().contains(AuthoritiesConstants.SECRETAIRE)) {
+            Optional<Secretaire> secretaireOptional = secretaireRepository.findByUserId(userDTO.getId());
+
+            secretaireOptional.ifPresent(secretaire -> {
+                if (Objects.equals(userDTO.getId(), secretaire.getUser().getId())) {
+                    userDTO.setSecretaire(secretaire);
+                }
+            });
+        }
+    }
+
+    private void setUserPatient(AdminUserDTO userDTO) {
+        if (userDTO.getAuthorities().contains(AuthoritiesConstants.PATIENT)) {
+            Optional<Patient> patientOptional = patientRepository.findByUserId(userDTO.getId());
+
+            patientOptional.ifPresent(patient -> {
+                if (Objects.equals(userDTO.getId(), patient.getUser().getId())) {
+                    userDTO.setPatient(patient);
+                }
+            });
+        }
     }
 
     @GetMapping("/medecin/patients")
@@ -199,7 +224,7 @@ public class AccountResource {
     public ResponseEntity<List<Patient>> getPatientsByMedecinId(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
         Set<RendezVous> rendezVous = new HashSet<>();
         if ((medecinRepository.findByUserId(getAccount().getId())).isPresent()) {
-            rendezVous = rendezVousRepository.findByMedecin_UserId(getAccount().getId());
+            rendezVous = rendezVousRepository.findByMedecinUserId(getAccount().getId());
         }
         Set<Patient> patients = new HashSet<>();
         for (RendezVous rdv : rendezVous) {
@@ -214,8 +239,10 @@ public class AccountResource {
     @PreAuthorize("hasAnyAuthority('" + AuthoritiesConstants.PATIENT + "','" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<List<Medecin>> getMedecins(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
         Set<RendezVous> rendezVous = new HashSet<>();
-        if ((patientRepository.findByUserId(getAccount().getId())).isPresent()) {
-            rendezVous = rendezVousRepository.findByPatient_UserId(getAccount().getId());
+        Optional<Patient> patientOptional = patientRepository.findByUserId(getAccount().getId());
+
+        if (patientOptional.isPresent()) {
+            rendezVous = rendezVousRepository.findByPatientUserId(getAccount().getId());
         }
         Set<Medecin> medecins = new HashSet<>();
         for (RendezVous rdv : rendezVous) {
@@ -230,9 +257,11 @@ public class AccountResource {
     @PreAuthorize("hasAnyAuthority('" + AuthoritiesConstants.PATIENT + "','" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<List<Detection>> getAllDetectionsByPatient(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
         List<Detection> detections = new ArrayList<>();
-        if ((patientRepository.findByUserId(getAccount().getId())).isPresent()) {
-            detections = detectionRepository.findAllByPatient_UserId(getAccount().getId());
-            log.debug("REST request to get a page of Detections");
+        Optional<Patient> patientOptional = patientRepository.findByUserId(getAccount().getId());
+
+        if (patientOptional.isPresent()) {
+            detections = detectionRepository.findAllByPatientUserId(getAccount().getId());
+            log.debug(detectionsRequest);
         }
         Page<Detection> page = new PageImpl<>(new ArrayList<>(detections), pageable, detections.size());
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
@@ -244,8 +273,8 @@ public class AccountResource {
     public ResponseEntity<List<Detection>> getAllDetectionsByMedecin(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
         List<Detection> detections = new ArrayList<>();
         if ((medecinRepository.findByUserId(getAccount().getId())).isPresent()) {
-            detections = detectionRepository.findAllByMedecin_UserId(getAccount().getId());
-            log.debug("REST request to get a page of Detections");
+            detections = detectionRepository.findAllByMedecinUserId(getAccount().getId());
+            log.debug(detectionsRequest);
         }
         Page<Detection> page = new PageImpl<>(new ArrayList<>(detections), pageable, detections.size());
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
@@ -263,10 +292,12 @@ public class AccountResource {
         detection.setDescription(oracle);
         String stade = oracle.split("Confidence This Is ")[1];
         detection.setStade(stade);
-        detection.setCode("DET-" + UUID.randomUUID().toString());
-        if ((medecinRepository.findByUserId(getAccount().getId())).isPresent()) {
-            detection.setMedecin(medecinRepository.findByUserId(getAccount().getId()).get());
-            log.debug("REST request to get a page of Detections");
+        detection.setCode("DET-" + UUID.randomUUID());
+        Optional<Medecin> medecinOptional = medecinRepository.findByUserId(getAccount().getId());
+
+        if (medecinOptional.isPresent()) {
+            detection.setMedecin(medecinOptional.get());
+            log.debug(detectionsRequest);
         }
 
         Detection result = detectionRepository.save(detection);
@@ -278,7 +309,7 @@ public class AccountResource {
 
     @GetMapping("/maladie/patient")
     @PreAuthorize("hasAnyAuthority('" + AuthoritiesConstants.PATIENT + "','" + AuthoritiesConstants.ADMIN + "')")
-    public ResponseEntity<List<Maladie>> getMaladieByPatient(@ParameterObject Pageable pageable) {
+    public ResponseEntity<List<Maladie>> getMaladieByPatient() {
         Optional<Patient> optionalPatient = patientRepository.findByUserId(getAccount().getId());
         if (optionalPatient.isPresent()) {
             Patient patient = optionalPatient.get();
@@ -306,7 +337,7 @@ public class AccountResource {
     public ResponseEntity<List<Visite>> getVisitesByMedecin(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
         List<RendezVous> rendezVous = new ArrayList<>();
         if ((medecinRepository.findByUserId(getAccount().getId())).isPresent()) {
-            rendezVous = rendezVousRepository.findAllByMedecin_UserId(getAccount().getId());
+            rendezVous = rendezVousRepository.findAllByMedecinUserId(getAccount().getId());
         }
         Set<Visite> visites = new HashSet<>();
         for (RendezVous rdv : rendezVous) {
@@ -327,7 +358,7 @@ public class AccountResource {
     public ResponseEntity<List<Visite>> getVisitesByPatient(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
         List<RendezVous> rendezVous = new ArrayList<>();
         if ((patientRepository.findByUserId(getAccount().getId())).isPresent()) {
-            rendezVous = rendezVousRepository.findAllByPatient_UserId(getAccount().getId());
+            rendezVous = rendezVousRepository.findAllByPatientUserId(getAccount().getId());
         }
         Set<Visite> visites = new HashSet<>();
         for (RendezVous rdv : rendezVous) {
@@ -347,7 +378,7 @@ public class AccountResource {
     public ResponseEntity<List<RendezVous>> getRendezVousByMedecin() {
         List<RendezVous> rendezVous = new ArrayList<>();
         if ((medecinRepository.findByUserId(getAccount().getId())).isPresent()) {
-            rendezVous = rendezVousRepository.findAllByMedecin_UserId(getAccount().getId());
+            rendezVous = rendezVousRepository.findAllByMedecinUserId(getAccount().getId());
         }
 
         return ResponseEntity.ok().body(rendezVous);
@@ -356,17 +387,14 @@ public class AccountResource {
     @GetMapping("/rendez-vous/secretaire")
     @PreAuthorize("hasAnyAuthority('" + AuthoritiesConstants.SECRETAIRE + "','" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<List<RendezVous>> getRendezVousBySecretaire() {
-        List<RendezVous> rendezVous = new ArrayList<>();
+        List<RendezVous> rendezVous;
         List<RendezVous> rendezVousSecretaire = new ArrayList<>();
-        if ((secretaireRepository.findByUserId(getAccount().getId())).isPresent()) {
+        Optional<Secretaire> secretaireOptional = secretaireRepository.findByUserId(getAccount().getId());
+
+        if (secretaireOptional.isPresent()) {
             rendezVous = rendezVousRepository.findAll();
             for (RendezVous rdv : rendezVous) {
-                if (
-                    Objects.equals(
-                        rdv.getMedecin().getSecretaire().getId(),
-                        secretaireRepository.findByUserId(getAccount().getId()).get().getId()
-                    )
-                ) {
+                if (Objects.equals(rdv.getMedecin().getSecretaire().getId(), secretaireOptional.get().getId())) {
                     rendezVousSecretaire.add(rdv);
                 }
             }
@@ -379,7 +407,7 @@ public class AccountResource {
     public ResponseEntity<List<RendezVous>> getRendezVousByPatient() {
         List<RendezVous> rendezVous = new ArrayList<>();
         if ((patientRepository.findByUserId(getAccount().getId())).isPresent()) {
-            rendezVous = rendezVousRepository.findAllByPatient_UserId(getAccount().getId());
+            rendezVous = rendezVousRepository.findAllByPatientUserId(getAccount().getId());
         }
 
         return ResponseEntity.ok().body(rendezVous);
@@ -394,17 +422,7 @@ public class AccountResource {
      */
     @PostMapping("/account")
     public void saveAccount(@Valid @RequestBody AdminUserDTO userDTO) {
-        String userLogin = SecurityUtils
-            .getCurrentUserLogin()
-            .orElseThrow(() -> new AccountResourceException("Current user login not found"));
-        Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
-        if (existingUser.isPresent() && (!existingUser.get().getLogin().equalsIgnoreCase(userLogin))) {
-            throw new EmailAlreadyUsedException();
-        }
-        Optional<User> user = userRepository.findOneByLogin(userLogin);
-        if (user.isEmpty()) {
-            throw new AccountResourceException("User could not be found");
-        }
+        userLogin(userDTO);
         userService.updateUser(
             userDTO.getFirstName(),
             userDTO.getLastName(),

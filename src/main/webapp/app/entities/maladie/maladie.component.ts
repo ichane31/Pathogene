@@ -186,7 +186,7 @@ export default class Maladie extends Vue {
     }
 
     try {
-      await this.maladieService().uploadModel(this.importId, formData);
+      const response = await this.maladieService().uploadModel(this.importId, formData);
       this.$bvToast.toast('A model is imported', {
         toaster: 'b-toaster-top-center',
         title: 'Sucess',

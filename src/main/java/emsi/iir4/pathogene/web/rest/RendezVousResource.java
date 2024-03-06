@@ -10,7 +10,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -42,6 +41,7 @@ public class RendezVousResource {
     private final Logger log = LoggerFactory.getLogger(RendezVousResource.class);
 
     private static final String ENTITY_NAME = "rendezVous";
+    private static final String requestRendezvous = "REST request to get a page of RendezVous";
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
@@ -177,14 +177,11 @@ public class RendezVousResource {
         if ("visite-is-null".equals(filter)) {
             log.debug("REST request to get all RendezVouss where visite is null");
             return new ResponseEntity<>(
-                StreamSupport
-                    .stream(rendezVousRepository.findAll().spliterator(), false)
-                    .filter(rendezVous -> rendezVous.getVisite() == null)
-                    .collect(Collectors.toList()),
+                rendezVousRepository.findAll().stream().filter(rendezVous -> rendezVous.getVisite() == null).collect(Collectors.toList()),
                 HttpStatus.OK
             );
         }
-        log.debug("REST request to get a page of RendezVous");
+        log.debug(requestRendezvous);
         Page<RendezVous> page = rendezVousRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
@@ -197,7 +194,7 @@ public class RendezVousResource {
         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
     ) {
         List<RendezVous> allByDate;
-        log.debug("REST request to get a page of RendezVous");
+        log.debug(requestRendezvous);
         allByDate = rendezVousService.getRendezVousByMedecinAndDate(id, date);
 
         Page<RendezVous> page = new PageImpl<>(allByDate, pageable, allByDate.size());
@@ -208,12 +205,11 @@ public class RendezVousResource {
 
     @GetMapping("/rendez-vous/medecinHeure/{id}")
     public ResponseEntity<List<LocalTime>> getAllRendezVousByMedecinHeures(
-        @org.springdoc.api.annotations.ParameterObject Pageable pageable,
         @PathVariable Long id,
         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
     ) {
         List<LocalTime> allByHours;
-        log.debug("REST request to get a page of RendezVous");
+        log.debug(requestRendezvous);
         allByHours = rendezVousService.getReservedTimesByMedecinAndDate(id, date);
 
         return ResponseEntity.ok().body(allByHours);

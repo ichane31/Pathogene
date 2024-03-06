@@ -2,7 +2,6 @@ package emsi.iir4.pathogene.web.rest;
 
 import emsi.iir4.pathogene.domain.Maladie;
 import emsi.iir4.pathogene.repository.MaladieRepository;
-import emsi.iir4.pathogene.service.FileStorageService;
 import emsi.iir4.pathogene.service.FirebaseFileService;
 import emsi.iir4.pathogene.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -40,18 +39,11 @@ public class MaladieResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final FileStorageService fileStorageService;
-
     private final FirebaseFileService firebaseFileService;
 
     private final MaladieRepository maladieRepository;
 
-    public MaladieResource(
-        FileStorageService fileStorageService,
-        FirebaseFileService firebaseFileService,
-        MaladieRepository maladieRepository
-    ) {
-        this.fileStorageService = fileStorageService;
+    public MaladieResource(FirebaseFileService firebaseFileService, MaladieRepository maladieRepository) {
         this.firebaseFileService = firebaseFileService;
         this.maladieRepository = maladieRepository;
     }
@@ -88,7 +80,7 @@ public class MaladieResource {
         @RequestParam Map<String, String> classNames
     ) {
         try {
-            Maladie maladie_result = maladieRepository.findById(id).orElse(null);
+            Maladie maladieResult = maladieRepository.findById(id).orElse(null);
 
             Map<Integer, String> classNamesMapping = new HashMap<>();
             for (Map.Entry<String, String> entry : classNames.entrySet()) {
@@ -99,9 +91,9 @@ public class MaladieResource {
                 }
             }
 
-            if (maladie_result != null) {
+            if (maladieResult != null) {
                 // Récupérer le nom de l'ancien fichier
-                String oldFileName = maladie_result.getModeleFileName();
+                String oldFileName = maladieResult.getModeleFileName();
 
                 // Supprimer l'ancien fichier s'il existe
                 if (oldFileName != null && !oldFileName.isEmpty()) {
@@ -109,20 +101,20 @@ public class MaladieResource {
                 }
 
                 // Logic to save the new model and size
-                String newFileName = this.firebaseFileService.uploadModelFile(modelFile, maladie_result.getNom().toLowerCase());
+                String newFileName = this.firebaseFileService.uploadModelFile(modelFile, maladieResult.getNom().toLowerCase());
 
-                maladie_result.setWidth(imageWidth);
-                maladie_result.setHeight(imageHeight);
-                maladie_result.setModeleFileName(newFileName);
-                maladie_result.setModeleContentType(modelFile.getContentType());
-                maladie_result.setNormalizationValue(normalizationValue);
+                maladieResult.setWidth(imageWidth);
+                maladieResult.setHeight(imageHeight);
+                maladieResult.setModeleFileName(newFileName);
+                maladieResult.setModeleContentType(modelFile.getContentType());
+                maladieResult.setNormalizationValue(normalizationValue);
 
                 // Set the updated class names
                 // Save class names
-                maladie_result.setClassNamesMapping(classNamesMapping);
+                maladieResult.setClassNamesMapping(classNamesMapping);
 
                 // Save the updated Maladie object
-                maladieRepository.save(maladie_result);
+                maladieRepository.save(maladieResult);
             }
 
             return ResponseEntity.ok("Model uploaded successfully");

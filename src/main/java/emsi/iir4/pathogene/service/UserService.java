@@ -46,6 +46,7 @@ public class UserService {
     private final AuthorityRepository authorityRepository;
 
     private final CacheManager cacheManager;
+    private static final String userCreated = "Created Information for User: {}";
 
     public UserService(
         UserRepository userRepository,
@@ -143,7 +144,7 @@ public class UserService {
         newUser.setAuthorities(authorities);
         userRepository.save(newUser);
         this.clearUserCaches(newUser);
-        log.debug("Created Information for User: {}", newUser);
+        log.debug(userCreated, newUser);
         return newUser;
     }
 
@@ -159,20 +160,14 @@ public class UserService {
 
     public User createUser(ManagedUserVM userDTO) {
         User user = new User();
-        user.setLogin(userDTO.getLogin().toLowerCase());
-        user.setFirstName(userDTO.getFirstName());
-        user.setLastName(userDTO.getLastName());
-        if (userDTO.getEmail() != null) {
-            user.setEmail(userDTO.getEmail().toLowerCase());
-        }
-        user.setImageUrl(userDTO.getImageUrl());
+        mapUserDtoToUser(userDTO, user);
         if (userDTO.getLangKey() == null) {
             user.setLangKey(Constants.DEFAULT_LANGUAGE); // default language
         } else {
             user.setLangKey(userDTO.getLangKey());
         }
         String encryptedPassword;
-        if (userDTO.getPassword() != null && !userDTO.getPassword().isEmpty() && !userDTO.getPassword().equals("")) {
+        if (userDTO.getPassword() != null && !userDTO.getPassword().isEmpty() && !userDTO.getPassword().isEmpty()) {
             encryptedPassword = passwordEncoder.encode(userDTO.getPassword());
         } else {
             encryptedPassword = passwordEncoder.encode(RandomUtil.generatePassword());
@@ -193,19 +188,13 @@ public class UserService {
         }
         userRepository.save(user);
         this.clearUserCaches(user);
-        log.debug("Created Information for User: {}", user);
+        log.debug(userCreated, user);
         return user;
     }
 
     public User createAdministeredUser(ManagedUserVM userDTO) {
         User user = new User();
-        user.setLogin(userDTO.getLogin().toLowerCase());
-        user.setFirstName(userDTO.getFirstName());
-        user.setLastName(userDTO.getLastName());
-        if (userDTO.getEmail() != null) {
-            user.setEmail(userDTO.getEmail().toLowerCase());
-        }
-        user.setImageUrl(userDTO.getImageUrl());
+        mapUserDtoToUser(userDTO, user);
         if (userDTO.getLangKey() == null) {
             user.setLangKey(Constants.DEFAULT_LANGUAGE); // default language
         } else {
@@ -217,7 +206,7 @@ public class UserService {
         */
         String encryptedPassword;
 
-        if (userDTO.getPassword() != null && !userDTO.getPassword().isEmpty() && !userDTO.getPassword().equals("")) {
+        if (userDTO.getPassword() != null && !userDTO.getPassword().isEmpty() && !userDTO.getPassword().isEmpty()) {
             encryptedPassword = passwordEncoder.encode(userDTO.getPassword());
         } else {
             encryptedPassword = passwordEncoder.encode(RandomUtil.generatePassword());
@@ -237,7 +226,7 @@ public class UserService {
             user.setAuthorities(authorities);
         }
         userRepository.save(user);
-        log.debug("Created Information for User: {}", user);
+        log.debug(userCreated, user);
         return user;
     }
 
@@ -247,18 +236,22 @@ public class UserService {
         userDTO
             .getAuthorities()
             .forEach(authority -> {
-                if (authority.equals(AuthoritiesConstants.MEDECIN)) {
-                    Medecin medecin = new Medecin();
-                    medecin.user(user);
-                    medecinRepository.save(medecin);
-                } else if (authority.equals(AuthoritiesConstants.SECRETAIRE)) {
-                    Secretaire secretaire = new Secretaire();
-                    secretaire.user(user);
-                    secretaireRepository.save(secretaire);
-                } else if (authority.equals(AuthoritiesConstants.PATIENT)) {
-                    Patient patient = new Patient();
-                    patient.user(user);
-                    patientRepository.save(patient);
+                switch (authority) {
+                    case AuthoritiesConstants.MEDECIN:
+                        Medecin medecin = new Medecin();
+                        medecin.user(user);
+                        medecinRepository.save(medecin);
+                        break;
+                    case AuthoritiesConstants.SECRETAIRE:
+                        Secretaire secretaire = new Secretaire();
+                        secretaire.user(user);
+                        secretaireRepository.save(secretaire);
+                        break;
+                    case AuthoritiesConstants.PATIENT:
+                        Patient patient = new Patient();
+                        patient.user(user);
+                        patientRepository.save(patient);
+                        break;
                 }
             });
     }
@@ -275,13 +268,7 @@ public class UserService {
             .filter(Optional::isPresent)
             .map(Optional::get)
             .map(user -> {
-                user.setLogin(userDTO.getLogin().toLowerCase());
-                user.setFirstName(userDTO.getFirstName());
-                user.setLastName(userDTO.getLastName());
-                if (userDTO.getEmail() != null) {
-                    user.setEmail(userDTO.getEmail().toLowerCase());
-                }
-                user.setImageUrl(userDTO.getImageUrl());
+                mapUserDtoToUser(userDTO, user);
                 user.setActivated(userDTO.isActivated());
                 user.setLangKey(userDTO.getLangKey());
                 Set<Authority> managedAuthorities = user.getAuthorities();
@@ -299,26 +286,31 @@ public class UserService {
             .map(AdminUserDTO::new);
     }
 
+    private void mapUserDtoToUser(AdminUserDTO userDTO, User user) {
+        user.setLogin(userDTO.getLogin().toLowerCase());
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        if (userDTO.getEmail() != null) {
+            user.setEmail(userDTO.getEmail().toLowerCase());
+        }
+        user.setImageUrl(userDTO.getImageUrl());
+    }
+
     public void deleteUser(String login) {
-        //BuisnessLogic.deleteUser(login);
-
-        //I detach the Profiles related to the user to avoid the cascade delete of the user
-        //PS : I got overwhelemed and I didn't read the docs for CASCADE.DETACH
-        //I'm not sure if it's the best way to do it.
-        //Wink wink
-
-        Optional<Medecin> medecin;
-        Optional<Patient> patient;
-        Optional<Secretaire> secretaire;
-        if ((medecin = medecinRepository.findByUserLogin(login)).isPresent()) {
+        Optional<Medecin> medecin = medecinRepository.findByUserLogin(login);
+        if (medecin.isPresent()) {
             medecin.get().setUser(null);
             medecinRepository.save(medecin.get());
         }
-        if ((patient = patientRepository.findByUserLogin(login)).isPresent()) {
+
+        Optional<Patient> patient = patientRepository.findByUserLogin(login);
+        if (patient.isPresent()) {
             patient.get().setUser(null);
             patientRepository.save(patient.get());
         }
-        if ((secretaire = secretaireRepository.findByUserLogin(login)).isPresent()) {
+
+        Optional<Secretaire> secretaire = secretaireRepository.findByUserLogin(login);
+        if (secretaire.isPresent()) {
             secretaire.get().setUser(null);
             secretaireRepository.save(secretaire.get());
         }
@@ -386,7 +378,7 @@ public class UserService {
         Set<User> users = new HashSet<>();
         patients.forEach(patient -> users.add(patient.getUser()));
         // transform users to PAGE using pageable
-        return new PageImpl<AdminUserDTO>(users.stream().map(AdminUserDTO::new).collect(Collectors.toList()), pageable, users.size());
+        return new PageImpl<>(users.stream().map(AdminUserDTO::new).collect(Collectors.toList()), pageable, users.size());
     }
 
     @Transactional(readOnly = true)

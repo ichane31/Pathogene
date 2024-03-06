@@ -65,7 +65,7 @@ public class MqController {
                 byte[] response = (byte[]) template.convertSendAndReceive("", "rpc_" + maladieName.toLowerCase(), message);
                 String oracle = (response != null) ? new String(response, StandardCharsets.UTF_8) : null;
                 System.out.println("[x]" + oracle);
-                String[] parts = oracle.split("\\s+");
+                String[] parts = oracle != null ? oracle.split("\\s+") : null;
                 if (parts.length >= 5 && "Confidence".equals(parts[1]) && "This".equals(parts[2]) && "Is".equals(parts[3])) {
                     // Extract the class number from the response
                     try {
@@ -73,7 +73,7 @@ public class MqController {
                         // Get the corresponding class name from the classNamesMapping
                         String className = maladie.getClassNamesMapping().get(classNumber);
                         // Replace the class number with the class name in the response
-                        oracle = oracle.replace(parts[4], className);
+                        oracle = oracle != null ? oracle.replace(parts[4], className) : null;
                     } catch (NumberFormatException e) {
                         // Handle the case where the class number is not a valid integer
                         log.error(e.getMessage());

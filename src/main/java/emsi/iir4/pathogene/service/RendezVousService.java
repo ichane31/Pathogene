@@ -1,6 +1,5 @@
 package emsi.iir4.pathogene.service;
 
-import emsi.iir4.pathogene.domain.Medecin;
 import emsi.iir4.pathogene.domain.RendezVous;
 import emsi.iir4.pathogene.repository.RendezVousRepository;
 import java.time.*;
@@ -19,7 +18,7 @@ public class RendezVousService {
 
     public List<RendezVous> getRendezVousByMedecinAndDate(Long medecinId, LocalDate date) {
         List<RendezVous> allByDate = new ArrayList<>();
-        List<RendezVous> rendezVous = rendezVousRepository.findAllByMedecin_Id(medecinId);
+        List<RendezVous> rendezVous = rendezVousRepository.findAllByMedecinId(medecinId);
 
         for (RendezVous r : rendezVous) {
             if (r.getDate().toLocalDate().equals(date)) {
@@ -32,7 +31,7 @@ public class RendezVousService {
 
     public List<LocalTime> getReservedTimesByMedecinAndDate(Long medecinId, LocalDate date) {
         List<LocalTime> reservedTimes = new ArrayList<>();
-        List<RendezVous> rendezVous = rendezVousRepository.findAllByMedecin_Id(medecinId);
+        List<RendezVous> rendezVous = rendezVousRepository.findAllByMedecinId(medecinId);
 
         for (RendezVous r : rendezVous) {
             if (r.getDate().toLocalDate().equals(date)) {

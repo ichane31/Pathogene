@@ -67,12 +67,13 @@ spring:
   rabbitmq:
     # host: 0.tcp.eu.ngrok.io
     # port: 1447
-    host: localhost
-    port: 5671
+    host: armadillo.rmq.cloudamqp.com
+    port: 5672
     ssl:
-      enabled: true
-    username: guest
-    password: guest
+      enabled: false
+    username: lajqpbgp
+    password: tdPz60XqFxpPxawx20dVRVw_nOHDh2M2
+    virtual-host: lajqpbgp
   # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
   liquibase:
     contexts: prod

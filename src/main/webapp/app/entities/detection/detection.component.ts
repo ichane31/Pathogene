@@ -139,7 +139,8 @@ export default class Detection extends mixins(JhiDataUtils) {
   }
 
   public transition(): void {
-    this.retrieveAllDetections();
+    if (this.isMedecin()) this.retrieveAllDetections();
+    else this.retrievePatientDetections();
   }
 
   public changeOrder(propOrder): void {

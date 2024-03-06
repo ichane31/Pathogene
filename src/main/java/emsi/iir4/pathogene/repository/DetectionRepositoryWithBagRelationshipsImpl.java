@@ -7,26 +7,14 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.hibernate.annotations.QueryHints;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 
 /**
- * Utility repository to load bag relationships based on https://vladmihalcea.com/hibernate-multiplebagfetchexception/
+ * Utility repository to load bag relationships based on <a href="https://vladmihalcea.com/hibernate-multiplebagfetchexception/">...</a>
  */
 public class DetectionRepositoryWithBagRelationshipsImpl implements DetectionRepositoryWithBagRelationships {
 
     @PersistenceContext
     private EntityManager entityManager;
-
-    @Override
-    public Optional<Detection> fetchBagRelationships(Optional<Detection> detection) {
-        return detection.map(this::fetchMaladies);
-    }
-
-    @Override
-    public Page<Detection> fetchBagRelationships(Page<Detection> detections) {
-        return new PageImpl<>(fetchBagRelationships(detections.getContent()), detections.getPageable(), detections.getTotalElements());
-    }
 
     @Override
     public List<Detection> fetchBagRelationships(List<Detection> detections) {
