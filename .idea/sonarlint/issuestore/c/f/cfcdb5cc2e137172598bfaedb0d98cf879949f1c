@@ -1,0 +1,11 @@
+
+`
+java:S1192‡"IDefine a constant instead of duplicating this literal "idexists" 4 times.( ªÉï
+s
+java:S3655¯"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(Á‚ŠÍøÿÿÿÿ8ÌªˆÀÇ1
+V
+java:S2175":A "Set<String>" cannot contain a "SimpleGrantedAuthority".(Ñù„­üÿÿÿÿ
+V
+java:S2175«":A "Set<String>" cannot contain a "SimpleGrantedAuthority".(Ñù„­üÿÿÿÿ
+Y
+java:S2175³"=A "Set<Authority>" cannot contain a "SimpleGrantedAuthority".(¸‰á¹ùÿÿÿÿ

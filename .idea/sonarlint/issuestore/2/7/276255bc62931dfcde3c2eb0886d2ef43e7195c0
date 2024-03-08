@@ -1,0 +1,38 @@
+
+s
+java:S1192_"XDefine a constant instead of duplicating this literal "User could not be found" 3 times.(ÿ³”ÿÿÿÿÿ
+F
+java:S1066¦"/Merge this if statement with the enclosing one.(ÿåÿò
+K
+java:S1066®"/Merge this if statement with the enclosing one.(ææÍ†üÿÿÿÿ
+F
+java:S1066µ"/Merge this if statement with the enclosing one.(­†íá
+v
+java:S1104<"[Make stadeRepository a static final constant or non-public and provide accessors if needed.(ˆµ¶½øÿÿÿÿ
+g
+java:S3655÷"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(ìò‰´
+g
+java:S3655§"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(·Í‹¢
+g
+java:S3655¯"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(Š
+g
+java:S3655ô"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(„øÖ³
+l
+java:S3655®"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(ææÍ†üÿÿÿÿ
+g
+java:S3655¶"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(ììõ
+g
+java:S3655µ"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(­†íá
+g
+java:S3655¦"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(ÿåÿò
+l
+java:S3655Æ"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(øÂ†‚ıÿÿÿÿ
+V	java:S107>"AConstructor has 9 parameters, which is greater than 7 authorized.(üÌ²÷
+R
+java:S1854";Remove this useless assignment to local variable "userDTO".(Õ²‚ô
+X
+java:S1854ı"<Remove this useless assignment to local variable "maladies".(ÀÛ£Ÿıÿÿÿÿ
+I
+java:S1481ı"-Remove this unused "maladies" local variable.(ÀÛ£Ÿıÿÿÿÿ
+U
+java:S1854¾">Remove this useless assignment to local variable "rendezVous".(¾úİÙ
